@@ -1,0 +1,50 @@
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+  width: 21cm;
+  height: 29.7cm;
+  font-family: Tahoma !important;
+  direction: rtl !important;
+}
+
+.title-underline {
+  text-decoration: 2px underline;
+}
+
+@media (min-width: 600px) {
+  .mr-20 {
+    margin-right: 20px !important;
+  }
+}
+.fancy_list li {
+  margin-top: 10px;
+  line-height: 1.8em !important;
+  height: auto !important;
+}
+
+.pl-5 {
+  padding-left: 5% !important;
+}
+
+.print-pdf-btn {
+  font-family: Tahoma !important;
+  font-size: large !important;
+  border: 1px solid black !important;
+  background: #1976d2 !important;
+  color: white !important;
+  margin-right: 2% !important;
+  box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5) !important;
+  max-width: 200px !important;
+}
+
+.clear-canvsa-btn {
+  font-family: Tahoma !important;
+  font-size: medium !important;
+  background: #1976d2c2 !important;
+  color: white !important;
+  box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5) !important;
+  max-width: 200px !important;
+}

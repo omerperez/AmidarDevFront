@@ -1,0 +1,168 @@
+.chip-style {
+  background: #bfd7f0 !important;
+  color: black !important;
+  font-family: Tahoma !important;
+  font-weight: 600 !important;
+}
+
+.padding-form {
+  padding: 0px 3% 0px 5% !important;
+}
+
+.label-title {
+  font-size: 14px !important;
+  margin: 0px 0px 5px 0px !important;
+}
+
+.actions-bg {
+  background: #bfd7f0 !important;
+  color: black !important;
+}
+
+.menu-active-broder {
+  border-top: solid 3px white !important;
+  border-bottom: solid 3px white !important;
+}
+
+.form-layout {
+  padding: 0 0 0 2%;
+  font-size: 14px;
+  direction: rtl !important;
+}
+
+.form-border {
+  border: solid 1px black !important;
+}
+
+.margin-logo {
+  margin: 15px 20px 10px 0;
+}
+
+.title-underline {
+  text-decoration: 2px underline;
+}
+
+.divider-style {
+  margin: 0 5px 0 5px !important;
+  border-color: black !important;
+}
+
+.select-style {
+  border: solid 1px red;
+  border-radius: 50%;
+  padding: 2px;
+  color: red;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.p-7 {
+  padding: 7px !important;
+}
+
+.p-5 {
+  padding: 5% !important;
+}
+
+.h-100 {
+  height: 100% !important;
+}
+
+.input-width-default {
+  width: 220px !important;
+}
+
+.area-input-req {
+  border: 1px solid red !important;
+}
+
+.select-required {
+  border: 1px solid red !important;
+  height: 100% !important;
+}
+
+.title-required {
+  color: red !important;
+  margin-bottom: 10px !important;
+  font-family: Tahoma !important;
+  font-weight: 700 !important;
+}
+.m-auto {
+  margin: auto !important;
+}
+
+.toggle-red {
+  color: black !important;
+  background: rgb(231, 136, 136) !important;
+}
+
+.toggle-green {
+  color: black !important;
+  background: rgb(160, 230, 160) !important;
+}
+
+.input-area-title {
+  margin-bottom: 10px !important;
+  margin-top: 5px !important;
+}
+
+@media (max-width: 600px) {
+  .input-area-title {
+    font-size: medium;
+  }
+}
+
+.finish-visit-btn {
+  background: rgb(75 134 197) !important;
+  font-family: Tahoma !important;
+  font-size: large !important;
+  position: fixed !important;
+  left: 50px !important;
+  top: 88% !important;
+  width: 200px !important;
+  height: 60px !important;
+  z-index: 10000000 !important;
+}
+
+.pl-5 {
+  padding-left: 10% !important;
+}
+
+.mb-none {
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 600px) {
+  .mr-20 {
+    margin-right: 20px !important;
+  }
+}
+
+@media (max-width: 600px){
+  .qr-title{
+    font-size: 18px !important;
+  }
+}
+
+.pl-pr-15{
+  padding: 0 15px 0 15px !important;
+}
+
+.grid-end{
+  display: flex !important;
+  justify-content: flex-end !important;
+}
