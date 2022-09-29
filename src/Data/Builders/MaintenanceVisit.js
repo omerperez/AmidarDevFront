@@ -21,59 +21,59 @@ class MaintenanceVisitClass {
     this.securityRoom = values.securityRoom;
     this.flooring = new Defect(
       values.flooring,
-      descriptionsOfDefect.current[0].current.value
+      descriptionsOfDefect.current[0].current?.value ?? null
     );
     this.enteryDoor = new Defect(
       values.enteryDoor,
-      descriptionsOfDefect.current[1].current.value
+      descriptionsOfDefect.current[1].current?.value ?? null
     );
     this.caulking = new Defect(
       values.caulking,
-      descriptionsOfDefect.current[2].current.value
+      descriptionsOfDefect.current[2].current?.value ?? null
     );
     this.barsAndRailings = new Defect(
       values.barsAndRailings,
-      descriptionsOfDefect.current[3].current.value
+      descriptionsOfDefect.current[3].current?.value ?? null
     );
     this.electricalSystem = new Defect(
       values.electricalSystem,
-      descriptionsOfDefect.current[4].current.value
+      descriptionsOfDefect.current[4].current?.value ?? null
     );
     this.pipingLeaks = new Defect(
       values.pipingLeaks,
-      descriptionsOfDefect.current[5].current.value
+      descriptionsOfDefect.current[5].current?.value ?? null
     );
     this.insidesDoors = new Defect(
       values.insidesDoors,
-      descriptionsOfDefect.current[6].current.value
+      descriptionsOfDefect.current[6].current?.value ?? null
     );
     this.bathroomDoors = new Defect(
       values.bathroomDoors,
-      descriptionsOfDefect.current[7].current.value
+      descriptionsOfDefect.current[7].current?.value ?? null
     );
     this.windows = new Defect(
       values.windows,
-      descriptionsOfDefect.current[8].current.value
+      descriptionsOfDefect.current[8].current?.value ?? null
     );
     this.blinds = new Defect(
       values.blinds,
-      descriptionsOfDefect.current[9].current.value
+      descriptionsOfDefect.current[9].current?.value ?? null
     );
     this.kitchen = new Defect(
       values.kitchen,
-      descriptionsOfDefect.current[10].current.value
+      descriptionsOfDefect.current[10].current?.value ?? null
     );
     this.toilet = new Defect(
       values.toilet,
-      descriptionsOfDefect.current[11].current.value
+      descriptionsOfDefect.current[11].current?.value ?? null
     );
     this.shower = new Defect(
       values.shower,
-      descriptionsOfDefect.current[12].current.value
+      descriptionsOfDefect.current[12].current?.value ?? null
     );
     this.generalApartmentCondition = new Defect(
       values.generalApartmentCondition,
-      descriptionsOfDefect.current[13].current.value
+      descriptionsOfDefect.current[13].current?.value ?? null
     );
   }
 

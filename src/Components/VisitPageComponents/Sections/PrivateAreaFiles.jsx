@@ -3,7 +3,7 @@ import SectionTitle from "../VisitPageLayout/SectionTitle";
 
 export default function PrivateAreaFiles() {
   return (
-    <div className="global-font mr-2p">
+    <div className="section-general">
       <SectionTitle title={"מסמך לאיזור אישי"} />
     </div>
   );

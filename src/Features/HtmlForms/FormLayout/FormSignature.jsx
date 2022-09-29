@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas } from "../../../Features/Drawer/Canvas";
+import Canvas from "../../../Features/Drawer/Canvas";
 import { ClearCanvasButton } from "../../../Features/Drawer/ClearCanvasButton";
 import { getDateFormat } from "../../../Utils/getDateFormat";
 import { Divider, Grid } from "@mui/material";

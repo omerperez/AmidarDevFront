@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Grid } from "@mui/material";
-import RadioInput from "../../FieldsTypes/RadioInput";
-import { itemsStatusOptions } from "./MaintenanceVisitAssets";
-import TextAreaInput from "../../FieldsTypes/TextAreaInput";
-import ToggleButtonOptions from "../../FieldsTypes/ToggleButtonOptions";
-import ThemeStyleRTL from "../../../HomePageComponents/Style/ThemeStyleRTL";
-import { useResponsiveLayout } from "../../../../Layouts/useResponsiveLayout";
+import {
+  ToggleButtonOptions,
+  TextAreaInput,
+} from "../../../GlobalComponents/ProjectFieldsTypes";
+import ThemeStyleRTL from "../../../../Assets/Style/ThemeStyleRTL";
 
 export default function ItemsStatus({
   title,
@@ -20,21 +19,15 @@ export default function ItemsStatus({
   const handleChangeValue = (event) => {
     setValueOfItemStatus(event.target.value);
   };
-  
-  const itsTabletWidth = useResponsiveLayout(600);
-  
+
+  // const itsTabletWidth = useResponsiveLayout(600);
+
   return (
     <div className="rtl">
       <h3 className="input-area-title">{title}</h3>
       <ThemeStyleRTL>
         <Grid container spacing={0}>
-          <Grid
-            item
-            xs={12}
-            sm={4}
-            md={3}
-            className="mr-20"
-          >
+          <Grid item xs={12} sm={4} md={3} className="mr-20">
             <ToggleButtonOptions
               valueOfItemStatus={valueOfItemStatus}
               handleChangeValue={handleChangeValue}

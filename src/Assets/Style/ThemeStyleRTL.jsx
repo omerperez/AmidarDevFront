@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider } from "@emotion/react";
-import { theme, cacheRtl } from "../../HomePageComponents/Style/SearchStyleRTL";
+import { theme, cacheRtl } from "./SearchStyleRTL";
 
 export default function ThemeStyleRTL({ children }) {
   return (

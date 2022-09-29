@@ -18,7 +18,12 @@ function valueLabelFormat(value) {
   return qualityRating.findIndex((mark) => mark.value === value) + 1;
 }
 
-export default function DiscreteSlider({ name, value, onChangeFunction, diffrentWidth }) {
+export default function DiscreteSlider({
+  name,
+  value,
+  onChangeFunction,
+  diffrentWidth,
+}) {
   const [val, setVal] = useState(value ?? 20);
 
   useEffect(() => {
@@ -27,6 +32,7 @@ export default function DiscreteSlider({ name, value, onChangeFunction, diffrent
       const event = { target: { name: name, value: 100 } };
       onChangeFunction(event);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const handleChange = (e) => {

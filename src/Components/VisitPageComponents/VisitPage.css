@@ -1,3 +1,19 @@
+.section-general {
+  font-family: Tahoma !important;
+  margin-right: 2% !important;
+}
+
+.tenants-info {
+  width: 100%;
+  padding: 10px 0 0 10px;
+}
+.section-content {
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+  margin-left: 30px;
+}
+
 .chip-style {
   background: #bfd7f0 !important;
   color: black !important;
@@ -20,8 +36,8 @@
 }
 
 .menu-active-broder {
-  border-top: solid 3px white !important;
-  border-bottom: solid 3px white !important;
+  border-top: solid 1px white !important;
+  border-bottom: solid 1px white !important;
 }
 
 .form-layout {
@@ -126,13 +142,72 @@
   }
 }
 
+.general-properties-edit-btn {
+  background: rgb(75 134 197) !important;
+  color: white !important;
+  font-size: medium !important;
+  font-family: Tahoma !important;
+}
+
+.general-properties-btn-save-changes {
+  background: rgb(52, 160, 88) !important;
+  margin-left: 5px !important;
+  color: white !important;
+  font-size: medium !important;
+  font-family: Tahoma !important;
+}
+
+.general-properties-btn-cancel-changes {
+  background: rgb(160, 52, 57) !important;
+  color: white !important;
+  font-size: medium !important;
+  font-family: Tahoma !important;
+}
+
+.take-image-btn {
+  background: rgb(52, 160, 88) !important;
+  border: solid black 2px !important;
+  margin: 5px !important;
+  width: 150px !important;
+  height: auto !important;
+  color: white !important;
+  font-size: large !important;
+  font-family: Tahoma !important;
+}
+
+.retake-image-btn {
+  background: rgb(160, 52, 57) !important;
+  border: solid black 2px !important;
+  margin: 5px !important;
+  width: 150px !important;
+  height: auto !important;
+  color: white !important;
+  font-size: large !important;
+  font-family: Tahoma !important;
+}
+
+.camera-btn {
+  background: rgb(75 134 197) !important;
+  font-size: 50px !important;
+  position: fixed !important;
+  left: 20px !important;
+  top: 10% !important;
+  width: 80px !important;
+  height: 80px !important;
+  z-index: 10000000 !important;
+}
+
+.camera-icon {
+  color: white !important;
+}
+
 .finish-visit-btn {
   background: rgb(75 134 197) !important;
   font-family: Tahoma !important;
   font-size: large !important;
   position: fixed !important;
-  left: 50px !important;
-  top: 88% !important;
+  left: 20px !important;
+  top: 90% !important;
   width: 200px !important;
   height: 60px !important;
   z-index: 10000000 !important;
@@ -152,17 +227,30 @@
   }
 }
 
-@media (max-width: 600px){
-  .qr-title{
+@media (max-width: 600px) {
+  .qr-title {
     font-size: 18px !important;
   }
 }
 
-.pl-pr-15{
+.pl-pr-15 {
   padding: 0 15px 0 15px !important;
 }
 
-.grid-end{
+.grid-end {
   display: flex !important;
   justify-content: flex-end !important;
+}
+
+.edit-btn-identifying-information {
+  margin: 0 5px 5px 0 !important;
+}
+
+.black-border-top {
+  border-top: black solid 1px;
+}
+
+.black-border-top-bottom {
+  border-top: black solid 1px;
+  border-bottom: black solid 1px;
 }

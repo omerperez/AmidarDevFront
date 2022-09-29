@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowSize from "../Hooks/useWindowSize";
 
 const useResponsiveLayout = (minWidth) => {
-    const windowSize = useWindowSize();
-    const [mediaQuery, setMediaQuery] = useState(windowSize.width > minWidth);
+  const windowSize = useWindowSize();
+  const [mediaQuery, setMediaQuery] = useState(windowSize.width > minWidth);
 
-    useEffect(() => {
-        setMediaQuery(windowSize.width > minWidth);
-    }, [windowSize])
+  useEffect(() => {
+    setMediaQuery(windowSize.width > minWidth);
+  }, [minWidth, windowSize]);
 
-    return mediaQuery;
-}
+  return mediaQuery;
+};
 
-export {
-    useResponsiveLayout
-}
+export { useResponsiveLayout };

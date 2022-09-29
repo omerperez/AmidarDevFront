@@ -1,33 +1,44 @@
-import React from "react";
-import useLocalStorage from "../../../Hooks/useLocalStorage";
-import {
-  Toolbar,
-  Drawer,
-  Box,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
-  ListItem,
-  List,
-} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useLocalStorage } from "../../../Hooks/CustomizedHooks";
+import { useResponsiveLayout } from "../../../Layouts/useResponsiveLayout";
+import PrinterWrapper from "../../../Features/PDF/PrinterWrapper";
+import OptionMobileMenu from "./OptionMobileMenu";
+import { htmlForms } from "../../../Features/HtmlForms/ExportHtmlForms";
+import VideoClass from "../../../Features/Video/VideoClass";
 import {
   sidebarDrawerStyle,
   diaryVisitMenu,
   actionsOptions,
+  formsOptions,
 } from "../VisitPageAssets";
-import { htmlForms } from "../../../Features/HtmlForms/ExportHtmlForms";
-import PrinterWrapper from "../../../Features/PDF/PrinterWrapper";
-import { useResponsiveLayout } from "../../../Layouts/useResponsiveLayout";
-import OptionMobileMenu from "./OptionMobileMenu";
+import { Toolbar, Drawer, Box, List } from "@mui/material";
+import MoreActionsButton from "./MoreActionsButton";
+import SidebarListOptions from "./SidebarListOptions";
 
 export default function Sidebar({ children }) {
   const [activeSection, setActiveSection] = useLocalStorage(0);
-  const countOfSectionsUntilActions = 4;
-  const totalCountOfSections = 8;
+  const generalOptionsMenu = 3;
+  const countOfActionsOptions = 4;
+  const totalCountOfActions = generalOptionsMenu + countOfActionsOptions;
 
-  const onSelectFunction = (sectionIndex) =>{
+  const [isOpenActions, setIsOpenActions] = useState(false);
+  const [isOpenForms, setIsOpenForms] = useState(false);
+
+  const handleClickOnActionsMoreOptions = () => {
+    setIsOpenActions(!isOpenActions);
+  };
+
+  const handleClickOnFormsMoreOptions = () => {
+    setIsOpenForms(!isOpenForms);
+  };
+
+  const onSelectFunction = (sectionIndex) => {
     setActiveSection(sectionIndex);
-  }
+  };
+
+  const handleChangeSection = (value) => {
+    setActiveSection(value);
+  };
 
   return (
     <>
@@ -37,65 +48,53 @@ export default function Sidebar({ children }) {
             <Toolbar />
             <Box className="auto-overflow mt-20">
               <List className="d-rtl">
-                {diaryVisitMenu.map((item, index) => (
-                  <ListItem
-                    key={`sideBar-ListItem-${item.title}+${index}`}
-                    disablePadding
-                    onClick={() => setActiveSection(index)}
-                    className={
-                      activeSection === index
-                        ? "blue-bg menu-active-broder"
-                        : ""
-                    }
-                  >
-                    <ListItemButton
-                      key={`sideBar-ListItemButton-${item.title}+${index}`}
-                      className="text-start m-2"
-                    >
-                      <ListItemText
-                        key={`sideBar-ListItemText-${item.title}+${index}`}
-                        primary={item.title}
-                      />
-                      <ListItemIcon
-                        key={`sideBar-ListItemIcon-${item.title}+${index}`}
-                        className={activeSection === index ? "color-white" : ""}
-                      >
-                        {item.icon}
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
+                <SidebarListOptions
+                  activeSection={activeSection}
+                  changeActiveSection={handleChangeSection}
+                  addDefaultValueToChangeSection={0}
+                  itemsList={diaryVisitMenu}
+                  isHide={false}
+                  activeClassName={"blue-bg menu-active-broder"}
+                  notActiveClassName={null}
+                />
 
-                {activeSection >= 3 &&
-                  actionsOptions.map((action, index) => (
-                    <ListItem
-                      key={`sideBar-actionsOptions-${action.title}+${index}`}
-                      className={
-                        activeSection === index + countOfSectionsUntilActions
-                          ? "blue-bg menu-active-broder"
-                          : "actions-bg pr-5"
-                      }
-                      disablePadding
-                      onClick={() =>
-                        setActiveSection(countOfSectionsUntilActions + index)
-                      }
-                    >
-                      <ListItemButton
-                        className="text-start"
-                        key={`sideBar-ListItemButton-actionsOptions-${action.title}+${index}`}
-                      >
-                        <ListItemText
-                          key={`sideBar-ListItemText-actionsOptions-${action.title}+${index}`}
-                          primary={action.title}
-                        />
-                        <ListItemIcon
-                          key={`sideBar-ListItemIcon-actionsOptions-${action.title}+${index}`}
-                        >
-                          {action.icon}
-                        </ListItemIcon>
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
+                <MoreActionsButton
+                  title={"פעלות נוספות"}
+                  isOpen={isOpenActions}
+                  onClickFunction={handleClickOnActionsMoreOptions}
+                  className={
+                    isOpenForms && isOpenActions
+                      ? "black-border-top"
+                      : "black-border-top-bottom"
+                  }
+                />
+
+                <SidebarListOptions
+                  activeSection={activeSection}
+                  changeActiveSection={handleChangeSection}
+                  addDefaultValueToChangeSection={generalOptionsMenu}
+                  itemsList={actionsOptions}
+                  isHide={isOpenActions}
+                  activeClassName={"blue-bg menu-active-broder"}
+                  notActiveClassName={"actions-bg pr-5"}
+                />
+
+                <MoreActionsButton
+                  title={"הצג טפסים"}
+                  isOpen={isOpenForms}
+                  onClickFunction={handleClickOnFormsMoreOptions}
+                  className={"black-border-top-bottom"}
+                />
+
+                <SidebarListOptions
+                  activeSection={activeSection}
+                  changeActiveSection={handleChangeSection}
+                  addDefaultValueToChangeSection={totalCountOfActions}
+                  itemsList={formsOptions}
+                  isHide={isOpenForms}
+                  activeClassName={"blue-bg menu-active-broder"}
+                  notActiveClassName={"actions-bg pr-5"}
+                />
               </List>
             </Box>
           </Drawer>
@@ -104,16 +103,19 @@ export default function Sidebar({ children }) {
             <OptionMobileMenu onSelectFunction={onSelectFunction} />
           </div>
         )}
-
-        <Box component="main" sx={{ flexGrow: 1, padding: 0 }}>
-          {activeSection < totalCountOfSections ? (
-            children[activeSection]
-          ) : (
-            <PrinterWrapper
-              children={htmlForms[activeSection - totalCountOfSections]}
-            />
-          )}
-        </Box>
+        {activeSection === 14 ? (
+          <VideoClass />
+        ) : (
+          <Box component="main" sx={{ flexGrow: 1, padding: 0 }}>
+            {activeSection < totalCountOfActions ? (
+              children[activeSection]
+            ) : (
+              <PrinterWrapper
+                children={htmlForms[activeSection - totalCountOfActions]}
+              />
+            )}
+          </Box>
+        )}
       </Box>
     </>
   );

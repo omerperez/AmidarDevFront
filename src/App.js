@@ -1,17 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Actions from "./Components/VisitPageComponents/Sections/Actions";
 import HomeProvider from "./Contexts/HomeContext";
 import VisitProvider from "./Contexts/VisitContext";
 import AppMenu from "./Layouts/TopNavigation/AppMenu";
 import Main from "./Pages/HomePage";
 import VisitPage from "./Pages/VisitPage";
-// import PrinterWrapper from './PDF/PrinterWrapper';
-// import VideoClass from './Video/VideoClass';
-// import { Canvas } from './Drawer/Canvas'
-// import { ClearCanvasButton } from './Drawer/ClearCanvasButton';
+// import MicrosoftLogin from "react-microsoft-login";
+
+// https://ecom.gov.il/voucherspa/input/316?clear=true
 
 function App() {
+  // const authHandler = (err, data) => {
+  //   console.log(err, data);
+  // };
+  {
+    /* <MicrosoftLogin clientId={} authCallback={authHandler} /> */
+  }
+
   return (
     <BrowserRouter>
       <HomeProvider>
@@ -47,25 +52,9 @@ function App() {
               }
             />
           </Routes>
-          <Routes>
-            <Route path="/form" element={<Actions />}></Route>
-          </Routes>
         </VisitProvider>
       </HomeProvider>
     </BrowserRouter>
-    // <>
-    // <HomeProvider>
-    //   <AppMenu />
-    //   {/* <PrinterWrapper children={
-    //   <>
-    //     <ClearCanvasButton/>
-    //     <Canvas/>
-    //   </>
-    //   }/> */}
-    //   {/* <VideoClass /> */}
-    //   <Main />
-    // </HomeProvider>
-    // </>
   );
 }
 

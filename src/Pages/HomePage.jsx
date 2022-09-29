@@ -5,17 +5,20 @@ import Box from "@mui/material/Box";
 import MainTableSearch from "../Components/HomePageComponents/MainTableSearch";
 import Loading from "../Layouts/Loading";
 import { getDiaryVisitData } from "../Components/HomePageComponents/HomePageService";
-import AdvanceSearch from "../Components/HomePageComponents/AdvanceSearch/AdvanceSearch";
+import AdvanceSearch from "../Components/HomePageComponents/AdvanceSearch";
 import { HomeContext } from "../Contexts/HomeContext";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { TableColumns } from "../Data/Builders/MainTable";
 
 export default function Main() {
   const tableProperties = new TableColumns().columns;
-  const { state, changeTableData, getEmployeeOriginalTableData } =
-    useContext(HomeContext);
+  const {
+    state,
+    changeTableData,
+    getEmployeeOriginalTableData,
+    changeLoadingStatus,
+  } = useContext(HomeContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [countOfPages, setCountOfPages] = useState(1);
 
   useEffect(() => {
@@ -24,16 +27,16 @@ export default function Main() {
       changeTableData(diaryVisitData);
       getEmployeeOriginalTableData(diaryVisitData);
       setCountOfPages(
-        diaryVisitData && diaryVisitData.length > 0
-          ? diaryVisitData.length / 100
-          : 1
+        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1
       );
-      setLoading(false);
+      changeLoadingStatus(false);
     };
     fetchData();
-  }, [changeTableData, getEmployeeOriginalTableData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleClickOnApartment = (row) => {
+  const handleClickOnApartment = (event) => {
+    const row = event.row;
     navigate({
       pathname: "/apartments",
       search: createSearchParams({
@@ -46,33 +49,33 @@ export default function Main() {
     });
   };
 
-  if (loading) {
+  if (state.loading) {
     return <Loading />;
   }
 
+  const tableGetRowId = (row) => {
+    return `${row.V_YOMAN_BIKUR_MIS_ZIHUY_0} ${row.V_YOMAN_BIKUR_DIRA_0}`;
+  };
+
+  const getRowStyle = (event) => {
+    const row = event.row;
+    return row.GREEN === "1" ? "bg-green" : row.PINK === "1" ? "bg-red" : null;
+  };
   return (
     <>
       {state.showAdvanceSearch ? <AdvanceSearch /> : null}
       <div className="mb-50">
-        <div className="d-flex jc-start mr-2p ml-2p mb-20">
+        <div className="table-search">
           <MainTableSearch />
         </div>
         <Box sx={boxStyle}>
           <DataGrid
             rows={state.tableData}
-            getRowId={(row) =>
-              row.V_YOMAN_BIKUR_MIS_ZIHUY_0 + row.V_YOMAN_BIKUR_DIRA_0
-            }
-            onRowClick={(e) => handleClickOnApartment(e.row)}
+            getRowId={tableGetRowId}
+            onRowClick={handleClickOnApartment}
             columns={tableProperties}
             pageSize={100}
-            getCellClassName={(e) => {
-              return e.row.GREEN === "1"
-                ? "bg-green"
-                : e.row.PINK === "1"
-                ? "bg-red"
-                : null;
-            }}
+            getCellClassName={getRowStyle}
             rowsPerPageOptions={[countOfPages]}
           />
         </Box>

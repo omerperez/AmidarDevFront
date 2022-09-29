@@ -2,7 +2,6 @@ import {
   Badge,
   CreditCard,
   AttachFile,
-  FastRewind,
   Engineering,
   PeopleAlt,
   WhereToVote,
@@ -16,8 +15,13 @@ import {
   Business,
   PhotoCamera,
 } from "@mui/icons-material";
-import { Chip, Divider } from "@mui/material";
 import "./VisitPage.css";
+
+const drawerWidth = 220;
+
+const ITEM_HEIGHT = 48;
+
+const ITEM_PADDING_TOP = 8;
 
 const advanceSearchGridSpacing = { xs: 2, md: 3 };
 
@@ -36,219 +40,6 @@ const dividerStyle = {
     fontSize: 16,
   },
 };
-
-// eslint-disable-next-line no-sparse-arrays
-const advanceSearchInputsProperties = [
-  {
-    lable: "divider",
-    name: (
-      <Divider sx={dividerStyle} textAlign="left">
-        <Chip label="פרטים אישיים" className="chip-style" />
-      </Divider>
-    ),
-    sm: 12,
-    md: 12,
-  },
-  {
-    lable: "שם משפחה",
-    name: "lastName",
-    sm: 4,
-    md: 4,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "שם פרטי",
-    name: "firstName",
-    sm: 4,
-    md: 4,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "תעודת זיהוי",
-    name: "tenantId",
-    sm: 4,
-    md: 4,
-    variant: "filled",
-    readOnly: true,
-  },
-
-  // {
-  //   lable: 'דירה',
-  //   name: 'area'
-  // },{
-  //   lable: 'כניסה',
-  //   name: 'area'
-  // },{
-  //   lable: 'מבנה',
-  //   name: 'area'
-  // },{
-  //   lable: 'שיכון',
-  //   name: 'area'
-  // },
-  {
-    lable: "divider",
-    name: (
-      <Divider sx={dividerStyle} textAlign="center">
-        <Chip label="פרטי מיקום" className="chip-style" />
-      </Divider>
-    ),
-    sm: 12,
-    md: 12,
-  },
-  ,
-  {
-    lable: "רחוב",
-    name: "street",
-    sm: 4,
-    md: 4,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "בית",
-    name: "number",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "יישוב",
-    name: "city",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "מיקוד",
-    name: "passcode",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "סטטוס חוזה",
-    name: "tenantId",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "divider",
-    name: (
-      <Divider sx={dividerStyle} textAlign="center">
-        <Chip label="אכלוס" className="chip-style" />
-      </Divider>
-    ),
-    sm: 12,
-    md: 12,
-  },
-  {
-    lable: "מצב אכלוס",
-    name: "statusDescription",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "תאריך מצב אכלוס",
-    name: "tenancyStartDate",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "שטח",
-    name: "area",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "מספר נפשות",
-    name: "countOfTenants",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "ילדים עד גיל 21",
-    name: "countOfKidsUnder21",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "ביקור אחרון",
-    name: "coordinationDate",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "divider",
-    name: (
-      <Divider sx={dividerStyle} textAlign="right">
-        <Chip label="פרטי דירה" className="chip-style" />
-      </Divider>
-    ),
-    sm: 12,
-    md: 12,
-  },
-  {
-    lable: "שימוש בפועל",
-    name: "usedCode",
-    sm: 2,
-    md: 3,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "מספר חדרים [1-9]",
-    name: "totalRoomsNumber",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "חצאי חדרים [1-3]",
-    name: "halfRoomsNumber",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "קומה [0-99]",
-    name: "floor",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
-  {
-    lable: "מספר מדרגות לדירה [0-120]",
-    name: "countOfStairs",
-    sm: 2,
-    md: 3,
-    variant: "filled",
-    readOnly: true,
-  },
-];
-
-const drawerWidth = 220;
 
 const sidebarDrawerStyle = {
   width: drawerWidth,
@@ -275,10 +66,10 @@ const diaryVisitMenu = [
     title: "מסמך לאיזור אישי",
     icon: <AttachFile />,
   },
-  {
-    title: "פעולות",
-    icon: <FastRewind />,
-  },
+  // {
+  //   title: "פעולות",
+  //   icon: <FastRewind />,
+  // },
 ];
 
 const actionsOptions = [
@@ -298,6 +89,9 @@ const actionsOptions = [
     title: "פלישה",
     icon: <WhereToVote />,
   },
+];
+
+const formsOptions = [
   {
     title: "גר בגפו",
     icon: <Home />,
@@ -352,8 +146,6 @@ const dateInputStyle = {
   },
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 const MultipleSelectMenuProps = {
   PaperProps: {
     style: {
@@ -405,16 +197,17 @@ const accountStatusProperties = [
     value: "",
   },
 ];
+
 export {
   textFieldGeneralPropertiesFormStyle,
   sidebarDrawerStyle,
   diaryVisitMenu,
   advanceSearchGridSpacing,
   advanceSearchGridColumns,
-  advanceSearchInputsProperties,
   actionsOptions,
   dateInputStyle,
   MultipleSelectMenuProps,
   dividerStyle,
   accountStatusProperties,
+  formsOptions,
 };

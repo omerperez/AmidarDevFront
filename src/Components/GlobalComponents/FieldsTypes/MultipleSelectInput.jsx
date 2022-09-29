@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { MultipleSelectMenuProps } from "../VisitPageAssets";
+import React from "react";
+import { MultipleSelectMenuProps } from "../../VisitPageComponents/VisitPageAssets";
 import {
   Select,
   Checkbox,

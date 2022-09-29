@@ -1,9 +1,11 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import GenericInputForm from "../FieldsTypes/GenericInputForm";
-import SelectInput from "../FieldsTypes/SelectInput";
-import RadioInput from "../FieldsTypes/RadioInput";
-import TextAreaInput from "../FieldsTypes/TextAreaInput";
+import {
+  GenericInputForm,
+  SelectInput,
+  RadioInput,
+  TextAreaInput,
+} from "../../GlobalComponents/ProjectFieldsTypes";
 import {
   sexOptionsList,
   invasionCodeSelectItemsList,
@@ -11,77 +13,87 @@ import {
 } from "./ActionsAssets";
 import useForm from "../../../Hooks/useForm";
 import SectionTitle from "../VisitPageLayout/SectionTitle";
-import ThemeStyleRTL from "../../HomePageComponents/Style/ThemeStyleRTL";
+import ThemeStyleRTL from "../../../Assets/Style/ThemeStyleRTL";
+import { validationService } from "../../../Services/ValidationsService/ValidationService";
 
 export default function Invasion() {
   const [values, handleChange] = useForm();
 
+  // {tenantDetails.map((item, index) => (
+  //   <Grid item xs={6} md={4} xl={2}>
+  //     <GenericInputForm
+  //       name={item.name}
+  //       onChangeFunction={handleChange}
+  //       title={item.title}
+  //       inputType={item.inputType}
+  //       value={values[item.name]}
+  //     />
+  //   </Grid>
+  // ))}
+
   return (
-    <div className="global-font mr-2p">
+    <div className="section-general">
       <SectionTitle title={"פלישה"} />
-      <div className="d-flex jc-center ml-2p mr-2p">
-        <div className="d-flex jc-center form-layout">
+      <div className="section-general">
+        <div className="form-layout">
           <ThemeStyleRTL>
             <Grid container spacing={0}>
-              <Grid item md={4} xl={3}>
+              <Grid item md={4.5} xl={2.55}>
                 <GenericInputForm
                   name={"invasionDate"}
                   onChangeFunction={handleChange}
                   title={"תאריך פלישה"}
                   inputType={"date"}
-                  inputWidth={300}
                   value={"2017-05-24"}
                 />
               </Grid>
-              <Grid item md={4} xl={3}>
+              <Grid item md={4.5} xl={2.55}>
                 <SelectInput
                   title={"קוד עדכון פלישה"}
                   onChangeFunction={handleChange}
                   value={values.invasionCode}
                   name={"invasionCode"}
-                  inputWidth={300}
                   defaultValue={"פלישה"}
                   selectList={invasionCodeSelectItemsList}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12} className="mt-20">
                 <Grid container spacing={0}>
-                  <Grid item md={4} xl={3}>
+                  <Grid item xs={6} md={3} xl={1.7}>
                     <GenericInputForm
                       name={"idNumber"}
                       onChangeFunction={handleChange}
                       title={"מספר זהות"}
                       inputType={"number"}
-                      inputWidth={300}
                       value={values.idNumber}
                     />
                   </Grid>
-                  <Grid item md={4} xl={3}>
+                  <Grid item xs={6} md={3} xl={1.7}>
                     <GenericInputForm
                       name={"lastName"}
                       onChangeFunction={handleChange}
                       title={"שם משפחה"}
                       inputType={"text"}
-                      inputWidth={300}
                       value={values.lastName}
+                      validation={validationService.hebrewLettersOnly}
                     />
                   </Grid>
-                  <Grid item md={4} xl={3}>
+                  <Grid item xs={6} md={3} xl={1.7}>
                     <GenericInputForm
                       name={"firstName"}
                       onChangeFunction={handleChange}
                       title={"שם פרטי"}
                       inputType={"text"}
-                      inputWidth={300}
                       value={values.firstName}
+                      validation={validationService.hebrewLettersOnly}
                     />
                   </Grid>
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} sm={12} md={12} className="mt-20">
+              <Grid item xs={12} className="mt-20">
                 <Grid container spacing={0}>
-                  <Grid item sm={6} md={4}>
+                  <Grid item sm={6} md={3} xl={1.7}>
                     <RadioInput
                       row={true}
                       title={"מין"}
@@ -91,29 +103,27 @@ export default function Invasion() {
                       radioItemsList={sexOptionsList}
                     />
                   </Grid>
-                  <Grid item md={4} xl={3}>
+                  <Grid item md={4} xl={1.7}>
                     <GenericInputForm
                       onChangeFunction={handleChange}
                       name={"birthdayDate"}
                       title={"תאריך לידה"}
                       inputType={"date"}
-                      inputWidth={300}
                       value={values.birthdayDate}
                     />
                   </Grid>
 
-                  <Grid item md={3} xl={1.8}>
+                  <Grid item md={3} xl={1.5}>
                     <GenericInputForm
                       onChangeFunction={handleChange}
                       name={"mobileNumber"}
                       title={"נייד מוביל"}
                       cancelLabel={true}
                       inputType={"tel"}
-                      inputWidth={210}
                       value={values.mobileNumber}
                     />
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2} md={1.5} xl={0.7}>
                     <SelectInput
                       title={"בחירה"}
                       onChangeFunction={handleChange}
@@ -126,7 +136,7 @@ export default function Invasion() {
                 </Grid>
               </Grid>
 
-              <Grid item md={12} xl={9} className="mt-20">
+              <Grid item md={12} xl={5.1} className="mt-20">
                 <TextAreaInput
                   title={"הערות"}
                   minRow={5}

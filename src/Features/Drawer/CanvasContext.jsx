@@ -1,20 +1,35 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 
-const CanvasContext = React.createContext();
+const CanvasContext = createContext();
 
 export const CanvasProvider = ({ children }) => {
-  const [isDrawing, setIsDrawing] = useState(false)
+  const [isDrawing, setIsDrawing] = useState(false);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
 
+  const prepareCanvasForVideo = () => {
+    const canvas = canvasRef.current;
+    canvas.width = 600 * 2;
+    canvas.height = 400 * 2;
+    canvas.style.width = `${600}px`;
+    canvas.style.height = `${400}px`;
+
+    const context = canvas.getContext("2d");
+    context.scale(2, 2);
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 5;
+    contextRef.current = context;
+  };
+
   const prepareCanvas = () => {
-    const canvas = canvasRef.current
+    const canvas = canvasRef.current;
     canvas.width = 200 * 2;
     canvas.height = 200 * 2;
     canvas.style.width = `${200}px`;
     canvas.style.height = `${200}px`;
 
-    const context = canvas.getContext("2d")
+    const context = canvas.getContext("2d");
     context.scale(2, 2);
     context.lineCap = "round";
     context.strokeStyle = "black";
@@ -45,10 +60,10 @@ export const CanvasProvider = ({ children }) => {
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext("2d")
-    context.fillStyle = "white"
-    context.fillRect(0, 0, canvas.width, canvas.height)
-  }
+    const context = canvas.getContext("2d");
+    context.fillStyle = "white";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+  };
 
   return (
     <CanvasContext.Provider
@@ -57,6 +72,7 @@ export const CanvasProvider = ({ children }) => {
         contextRef,
         prepareCanvas,
         startDrawing,
+        prepareCanvasForVideo,
         finishDrawing,
         clearCanvas,
         draw,

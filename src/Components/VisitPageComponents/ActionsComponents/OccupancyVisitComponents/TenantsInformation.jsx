@@ -1,22 +1,39 @@
 import { useState } from "react";
 import { Grid, Button } from "@mui/material";
-import GenericInputForm from "../../FieldsTypes/GenericInputForm";
+import { GenericInputForm } from "../../../GlobalComponents/ProjectFieldsTypes";
 
 export default function TenantsInformation({ tenantsInfo, isFirstTenant }) {
   const [edit, setEdit] = useState(false);
-  
+
   return (
     <Grid container>
-      <Grid
-        item
-        xs={1}
-        className="d-flex jc-center m-auto mb-20"
-      >
-        <Button onClick={() => setEdit(!edit)} variant="contained">
-          עדכון
-        </Button>
+      <Grid item xs={1.5} className="d-flex jc-center m-auto mb-20">
+        {edit ? (
+          <>
+            <Button
+              onClick={() => setEdit(!edit)}
+              variant="contained"
+              color="primary"
+              className="m-2"
+            >
+              שמור
+            </Button>
+            <Button
+              onClick={() => setEdit(!edit)}
+              variant="contained"
+              color="error"
+              className="m-2"
+            >
+              בטל
+            </Button>
+          </>
+        ) : (
+          <Button onClick={() => setEdit(!edit)} variant="contained">
+            עדכון
+          </Button>
+        )}
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={2.25}>
         <GenericInputForm
           cancelLabel={true}
           title={isFirstTenant ? "תעודת זהות" : null}
@@ -25,7 +42,7 @@ export default function TenantsInformation({ tenantsInfo, isFirstTenant }) {
           value={"209543214"}
         />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={2.25}>
         <GenericInputForm
           cancelLabel={true}
           title={isFirstTenant ? "שם מלא" : null}

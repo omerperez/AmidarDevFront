@@ -1,11 +1,12 @@
 import axios from "axios";
 import { User } from "../../Data/Builders/User";
+import { sendPostRequest } from "../../Services/HttpRequests/HttpRequest";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const visitCalenderApi = process.env.REACT_APP_VISIT_DIARY_API;
 const advanceSearchApi = process.env.REACT_APP_VISIT_DIARY_SEARCH_API;
 const apartmentDetailsApi = process.env.REACT_APP_IDENTIFY_INFORMATION;
-const mobileNumberApi = process.env.REACT_APP_GET_PHONE_NUMBER;
+// const mobileNumberApi = process.env.REACT_APP_GET_PHONE_NUMBER;
 
 const jsonContentType = { "Content-Type": "application/json" };
 const systemUser = new User("Y8271", {
@@ -36,6 +37,8 @@ const getAdvanceSearchData = async (values) => {
     ...systemUser,
     ...values,
   };
+  // const url = baseUrl + advanceSearchApi;
+  // let response = sendPostRequest(url, allPostData, null);
   let response = await axios.post(
     baseUrl + advanceSearchApi,
     allPostData,
@@ -43,6 +46,8 @@ const getAdvanceSearchData = async (values) => {
   );
   const diaryVisitArray =
     response.data.Response.bm_Yoman_Bikurim_searchTableArray;
+
+  console.log(diaryVisitArray.bm_Yoman_Bikurim_searchArrayItem);
   return diaryVisitArray.bm_Yoman_Bikurim_searchArrayItem;
 };
 

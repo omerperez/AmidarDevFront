@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Stack, TextField, Button } from "@mui/material";
-import ThemeStyleRTL from "./Style/ThemeStyleRTL";
+import ThemeStyleRTL from "../../Assets/Style/ThemeStyleRTL";
 import { HomeContext } from "../../Contexts/HomeContext";
 
 export default function MainTableSearch() {
@@ -18,6 +18,7 @@ export default function MainTableSearch() {
           : [];
       changeTableData(filteredData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const initSearch = () => {
@@ -38,7 +39,7 @@ export default function MainTableSearch() {
             ariant="outlined"
           />
           <Button
-            className="m-5 underline global-font"
+            className="search-init-btn"
             variant="text"
             onClick={initSearch}
           >

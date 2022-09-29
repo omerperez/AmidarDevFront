@@ -1,10 +1,10 @@
 import React, { forwardRef, useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import TextAreaInput from "../../FieldsTypes/TextAreaInput";
-import MultipleSelectInput from "../../FieldsTypes/MultipleSelectInput";
-import DiscreteSlider from "../../FieldsTypes/DiscreteSlider";
-import { qualityRating } from "./MaintenanceVisitAssets";
-import RadioInput from "../../FieldsTypes/RadioInput";
+import {
+  TextAreaInput,
+  MultipleSelectInput,
+  DiscreteSlider,
+} from "../../../GlobalComponents/ProjectFieldsTypes";
 
 function QualityRating(
   {

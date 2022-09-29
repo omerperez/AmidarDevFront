@@ -1,8 +1,13 @@
 import React from "react";
 import { FormControlLabel, Checkbox } from "@mui/material";
-import ThemeStyleRTL from "../../HomePageComponents/Style/ThemeStyleRTL";
+import ThemeStyleRTL from "../../../Assets/Style/ThemeStyleRTL";
 
-export default function CheckBoxConfirm({ text, name, onChangeFunction, className }) {
+export default function CheckBoxConfirm({
+  text,
+  name,
+  onChangeFunction,
+  className,
+}) {
   const fontStyle = {
     "& .muirtl-ahj2mt-MuiTypography-root": {
       fontFamily: "Tahoma",

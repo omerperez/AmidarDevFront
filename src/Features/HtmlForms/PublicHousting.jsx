@@ -5,7 +5,7 @@ import TenantPersonalDetails from "./FormLayout/TenantPersonalDetails";
 import FormSignature from "./FormLayout/FormSignature";
 import "./HtmlForms.css";
 
-export default function LiveAlone() {
+export default function PublicHousting() {
   return (
     <page size="A4">
       <Grid container spacing={0}>

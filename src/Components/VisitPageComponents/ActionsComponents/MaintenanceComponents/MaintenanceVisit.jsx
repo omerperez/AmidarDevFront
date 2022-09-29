@@ -1,29 +1,34 @@
-import React, { useRef, createRef, useState } from "react";
-import { Button, Grid } from "@mui/material";
-import SelectInput from "../../FieldsTypes/SelectInput";
+import React, { useRef, createRef, useState, useContext } from "react";
 import useForm from "../../../../Hooks/useForm";
+import QualityRating from "./QualityRating";
+import ItemsStatus from "./ItemsStatus";
+import SectionTitle from "../../VisitPageLayout/SectionTitle";
+import FormAlert from "../../VisitPageLayout/FormAlert";
+import { MaintenanceVisitClass } from "../../../../Data/Builders/MaintenanceVisit";
+import { getCurrentDate } from "../../../../Utils/getDateFormat";
+import { Button, Grid } from "@mui/material";
+import {
+  SelectInput,
+  GenericInputForm,
+} from "../../../GlobalComponents/ProjectFieldsTypes";
+import {
+  getIncompleteFields,
+  isFormDescriptionsFieldsFilled,
+} from "./CheckMaintenanceForm";
 import {
   waterHeating,
   securityRoom,
   maintenanceQualityList,
   otherIssuesList,
 } from "./MaintenanceVisitAssets";
-import QualityRating from "./QualityRating";
-import ItemsStatus from "./ItemsStatus";
-import { getCurrentDate } from "../../../../Utils/getDateFormat";
-import GenericInputForm from "../../FieldsTypes/GenericInputForm";
-import SectionTitle from "../../VisitPageLayout/SectionTitle";
-import { MaintenanceVisitClass } from "../../../../Data/Builders/MaintenanceVisit";
-import {
-  getIncompleteFields,
-  isFormDescriptionsFieldsFilled,
-} from "./CheckMaintenanceForm";
-import FormAlert from "../../VisitPageLayout/FormAlert";
+import { VisitContext } from "../../../../Contexts/VisitContext";
+import { useEffect } from "react";
 
 export default function MaintenanceVisit() {
   const [values, handleChange] = useForm();
   const [error, setError] = useState("");
   const [allDefectsAreNormal, setAllDefectsAreNormal] = useState(false);
+  const { visitContextFunction } = useContext(VisitContext);
 
   const elementsRef = useRef(maintenanceQualityList.map(() => createRef()));
 
@@ -51,11 +56,11 @@ export default function MaintenanceVisit() {
       return setError("בבקשה מלא הערות בליקויים שאינם תקינים");
     }
     const visitFinished = new MaintenanceVisitClass(values, elementsRef);
-    console.log(visitFinished);
+    visitContextFunction.setMaintenanceVisits(visitFinished);
   };
 
   return (
-    <div className="global-font mr-2p">
+    <div className="section-general">
       <SectionTitle title={"ביקור אחזקה"} />
       {error && <FormAlert title={"שגיאה"} text={error} severity={"error"} />}
       <Button onClick={updateMaintenanceQuality} variant="contained">
@@ -68,7 +73,7 @@ export default function MaintenanceVisit() {
       >
         סיים ביקור
       </Button>
-      <div className="d-flex jc-center pl-5">
+      <div className="section-content">
         <Grid container spacing={1}>
           <Grid item xs={12} md={4}>
             <GenericInputForm
@@ -102,7 +107,7 @@ export default function MaintenanceVisit() {
           {maintenanceQualityList &&
             maintenanceQualityList.map((item, index) => {
               return (
-                <Grid item xs={12} md={4} >
+                <Grid item xs={12} md={4}>
                   <QualityRating
                     changeStatusOfAllDefects={updateMaintenanceQuality}
                     allDefectsAreNormal={allDefectsAreNormal}
