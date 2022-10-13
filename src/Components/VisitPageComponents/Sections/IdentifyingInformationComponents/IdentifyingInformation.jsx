@@ -28,14 +28,15 @@ export default function IdentifyingInformation({ apartmentId }) {
     }
   };
 
-  useEffect(() => {
-    Object.keys(apartmentId).forEach(function (key) {
-      values[key] = apartmentId[key];
-    });
-    setChanges(values);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  /*
+    useEffect(() => {
+      Object.keys(apartmentId).forEach(function (key) {
+        values[key] = apartmentId[key];
+      });
+      setChanges(values);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+  */
   const handleClickCancelChanges = () => {
     Object.keys(changes).forEach(function (key) {
       values[key] = changes[key];

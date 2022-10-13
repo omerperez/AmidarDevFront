@@ -28,7 +28,8 @@ function App() {
               <Route
                 path="/homepage"
                 element={
-                  <PrivateRoute
+                  <PublicRoute
+                    // PrivateRoute
                     children={
                       <>
                         <AppMenu />

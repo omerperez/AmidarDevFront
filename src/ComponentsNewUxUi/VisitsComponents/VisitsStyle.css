@@ -1,0 +1,42 @@
+.sections-main {
+    margin: 0 2% 0 2%;
+}
+
+.mb-20{
+    margin-bottom: 20px !important;
+}
+
+.active-panel-bg{
+    background: #c0c0c0 !important;
+}
+
+.panel-icon{
+    margin: auto;
+    margin-left: 20px;
+}
+
+.panel-title{
+    margin: auto !important;
+    font-family: Tahoma !important;
+    font-weight: lighter !important;
+    font-size: 30px !important;
+}
+
+.panel-subtitle {
+    font-size: 18px !important;
+    margin-right: 10px;
+    color: rgb(133, 133, 133) !important;
+}
+
+.icon-pad{
+    padding: 15px !important;
+}
+
+.left-side-pannel{
+    margin: auto auto auto 50px !important;
+    text-align: center;
+}
+
+.height-auto{
+    height: auto !important;
+}
