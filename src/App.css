@@ -2,14 +2,12 @@
   text-align: center;
 }
 
-
-
 .blue-area,
 .green-area {
-  display: inline-block !important; 
+  display: inline-block !important;
   line-height: 30px !important;
   height: 30px !important;
-} 
+}
 
 .blue-area {
   padding: 0 0 0 8px !important;
@@ -18,7 +16,7 @@
 }
 
 .blue-area:after {
-  content: '' !important;
+  content: "" !important;
   position: absolute !important;
   left: 100% !important;
   top: 0 !important;

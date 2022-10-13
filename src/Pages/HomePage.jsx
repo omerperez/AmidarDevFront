@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { boxStyle } from "../Components/HomePageComponents/HomePageAssets";
-import Box from "@mui/material/Box";
-import MainTableSearch from "../Components/HomePageComponents/MainTableSearch";
+import BasicSearch from "../Components/HomePageComponents/BasicSearch";
 import Loading from "../Layouts/Loading";
 import { getDiaryVisitData } from "../Components/HomePageComponents/HomePageService";
 import AdvanceSearch from "../Components/HomePageComponents/AdvanceSearch";
 import { HomeContext } from "../Contexts/HomeContext";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { TableColumns } from "../Data/Builders/MainTable";
+import { AuthContext } from "../Contexts/AuthContext";
+import WelcomeTitle from "../Components/HomePageComponents/WelcomeTitle";
+import TodayIcon from "@mui/icons-material/Today";
+import Box from "@mui/material/Box";
 
 export default function Main() {
   const tableProperties = new TableColumns().columns;
@@ -18,6 +21,8 @@ export default function Main() {
     getEmployeeOriginalTableData,
     changeLoadingStatus,
   } = useContext(HomeContext);
+  const { authState } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [countOfPages, setCountOfPages] = useState(1);
 
@@ -61,12 +66,22 @@ export default function Main() {
     const row = event.row;
     return row.GREEN === "1" ? "bg-green" : row.PINK === "1" ? "bg-red" : null;
   };
+
+  console.log(state.tableData);
   return (
     <>
-      {state.showAdvanceSearch ? <AdvanceSearch /> : null}
+      {state.showAdvanceSearch ? (
+        <AdvanceSearch />
+      ) : (
+        <WelcomeTitle
+          firstName={authState.firstName}
+          lastName={authState.lastName}
+        />
+      )}
+
       <div className="mb-50">
         <div className="table-search">
-          <MainTableSearch />
+          <BasicSearch />
         </div>
         <Box sx={boxStyle}>
           <DataGrid
@@ -79,6 +94,7 @@ export default function Main() {
             rowsPerPageOptions={[countOfPages]}
           />
         </Box>
+        <TodayIcon />
       </div>
     </>
   );

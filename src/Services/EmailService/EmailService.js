@@ -1,15 +1,15 @@
 import axios from "axios";
-import { User } from "../../Data/Builders/User";
+// import { User } from "../../Data/Builders/User";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
-const emailToTenantApi = "bm_emailToCustomer";
+// const baseUrl = process.env.REACT_APP_BASE_URL;
+// const emailToTenantApi = "bm_emailToCustomer";
 
 const jsonContentType = { "Content-Type": "application/json" };
-const systemUser = new User("Y8271", {
-  password: "VCOG01",
-  employeeNumber: "8271",
-  countOfRows: "numOfRowsInTable",
-});
+// const systemUser = new User("Y8271", {
+//   password: "VCOG01",
+//   employeeNumber: "8271",
+//   countOfRows: "numOfRowsInTable",
+// });
 
 const userProperties = {
   //   username: "Y8271",
@@ -33,7 +33,6 @@ const sendEmailToTenant = async ({ emailDetails }) => {
     data,
     jsonContentType
   );
-  console.log(response);
   const diaryVisitArray = response.data.Response.bm_Yoman_BikurimTableArray;
   return diaryVisitArray.bm_Yoman_BikurimArrayItem;
 };

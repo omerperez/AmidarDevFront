@@ -1,21 +1,13 @@
 import React, { useRef } from "react";
 import "../HtmlForms/HtmlForms.css";
-import { Button } from "@mui/material";
-import { saveFile } from "../../Services/Files/downloadFiles";
+import { Button, Grid } from "@mui/material";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 // import ReactToPrint from "react-to-print";
+import DownloadIcon from "@mui/icons-material/Download";
 
 export default function PrinterWrapper({ children }) {
-  // const linkToPrint = () => {
-  //   return (
-  //     <Button fullWidth className="print-pdf-btn">
-  //       ייצא ל-PDF
-  //     </Button>
-  //   );
-  // };
   const componentRef = useRef();
-
   const takeImage = () => {
     const input = componentRef.current;
     html2canvas(input).then((canvas) => {
@@ -30,10 +22,17 @@ export default function PrinterWrapper({ children }) {
 
   return (
     <>
-      <Button variant="contained" onClick={takeImage}>
-        הורד מסמך
+      <Button
+        variant="contained"
+        className="dowload-file-btn"
+        onClick={takeImage}
+      >
+        <div className="d-flex jc-center">
+          <span className="text-dowload-file-btn">הורד מסמך</span>
+          <DownloadIcon className="icon-dowload-file-btn" />
+        </div>
       </Button>
-      <page id="divToPrint" size="A4" ref={componentRef}>
+      <page id="divToPrint" size="A4" dir="rtl" ref={componentRef}>
         {children}
       </page>
     </>

@@ -7,7 +7,7 @@ export const ClearCanvasButton = () => {
 
   return (
     <Button fullWidth className="clear-canvsa-btn" onClick={clearCanvas}>
-      נקה ציור
+      נקה חתימה
     </Button>
   );
 };

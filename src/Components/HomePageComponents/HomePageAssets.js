@@ -49,6 +49,7 @@ const boxStyle = {
   boxShadow: "rgba(0, 0, 0, 0.35) 10px 15px 40px",
   height: 1200,
   width: "97%",
+  // margin: "0 2% 0 auto",
   margin: "auto",
   textAlign: "center",
   "& .super-app-theme--header": {

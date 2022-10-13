@@ -254,3 +254,7 @@
   border-top: black solid 1px;
   border-bottom: black solid 1px;
 }
+
+.bg-section-red {
+  background: rgb(221, 112, 130) !important;
+}

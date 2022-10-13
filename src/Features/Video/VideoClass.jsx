@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as markerjs2 from "markerjs2";
 import { Button, Grid } from "@mui/material";
-import { saveFile } from "../../Services/Files/downloadFiles";
+import { saveFile } from "../../Services/Files/FileService";
 
 export default function VideoClass() {
   let videoRef = useRef();

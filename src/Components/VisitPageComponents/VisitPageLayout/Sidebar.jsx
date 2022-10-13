@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocalStorage } from "../../../Hooks/CustomizedHooks";
 import { useResponsiveLayout } from "../../../Layouts/useResponsiveLayout";
 import PrinterWrapper from "../../../Features/PDF/PrinterWrapper";

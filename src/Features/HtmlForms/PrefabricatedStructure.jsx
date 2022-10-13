@@ -7,7 +7,7 @@ import "./HtmlForms.css";
 
 export default function PrefabricatedStructure() {
   return (
-    <page size="A4">
+    <page size="A4" className="page-layout">
       <Grid container spacing={0}>
         <FormTitle title={"הצהרה - מבנה טרומי"} />
         <TenantPersonalDetails

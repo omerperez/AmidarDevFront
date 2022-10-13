@@ -1,4 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
+import { HomeContext } from "../../Contexts/HomeContext";
+import usePath from "../../Hooks/usePath";
+import { amidarLogo } from "../../Assets/projectImages";
+import { useNavigate } from "react-router-dom";
+import { useResponsiveLayout } from "../useResponsiveLayout";
+import "../Layout.css";
 import {
   AppBar,
   Main,
@@ -7,9 +13,6 @@ import {
   titleStyle,
   navigationProperties,
 } from "./NavigationStyle";
-import { HomeContext } from "../../Contexts/HomeContext";
-import usePath from "../../Hooks/usePath";
-import { amidarLogo } from "../../Assets/projectImages";
 import {
   Box,
   Toolbar,
@@ -19,9 +22,8 @@ import {
   IconButton,
   Grid,
 } from "@mui/material";
-import "../Layout.css";
-import { useNavigate } from "react-router-dom";
-import {useResponsiveLayout} from "../useResponsiveLayout";
+import { applicationCookie } from "../../Services/CookieService/CookieService";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 export default function AppMenu() {
   const navigate = useNavigate();
@@ -29,13 +31,20 @@ export default function AppMenu() {
   const [navigationButtons, setNavigationButtons] = useState([]);
   const { handleClickAdvanceSearch } = useContext(HomeContext);
   const locationPath = usePath();
+  const { logout } = useContext(AuthContext);
 
   const handleClickHomePage = () => {
-    return navigate("/visits");
+    return navigate(`/homepage`);
+  };
+
+  const handleClickLogout = () => {
+    applicationCookie.removeProperties("userId");
+    logout();
+    return navigate(`/login`);
   };
 
   useEffect(() => {
-    if (locationPath.indexOf("visits") === -1) {
+    if (locationPath.indexOf("homepage") === -1) {
       setNavigationButtons(
         navigationProperties.filter((prop) => {
           return prop.title !== "חיפוש מתקדם";
@@ -83,7 +92,7 @@ export default function AppMenu() {
                             ? handleClickAdvanceSearch
                             : menuProp.title === "יומן ביקורים"
                             ? handleClickHomePage
-                            : undefined
+                            : handleClickLogout
                         }
                       >
                         {menuProp.icon}

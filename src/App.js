@@ -1,57 +1,60 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import AuthPovider from "./Contexts/AuthContext";
 import HomeProvider from "./Contexts/HomeContext";
 import VisitProvider from "./Contexts/VisitContext";
 import AppMenu from "./Layouts/TopNavigation/AppMenu";
 import Main from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
 import VisitPage from "./Pages/VisitPage";
-// import MicrosoftLogin from "react-microsoft-login";
-
-// https://ecom.gov.il/voucherspa/input/316?clear=true
+import PrivateRoute from "./Services/ApplicationRoutesService/PrivateRoute";
+import PublicRoute from "./Services/ApplicationRoutesService/PublicRoute";
 
 function App() {
-  // const authHandler = (err, data) => {
-  //   console.log(err, data);
-  // };
-  {
-    /* <MicrosoftLogin clientId={} authCallback={authHandler} /> */
-  }
-
   return (
     <BrowserRouter>
       <HomeProvider>
         <VisitProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <AppMenu />
-                  <Main />
-                </>
-              }
-            ></Route>
-            <Route
-              path="/visits"
-              element={
-                <>
-                  <AppMenu />
-                  <Main />
-                </>
-              }
-            ></Route>
-          </Routes>
-          <Routes>
-            <Route
-              path="/apartments"
-              element={
-                <>
-                  <AppMenu />
-                  <VisitPage />
-                </>
-              }
-            />
-          </Routes>
+          <AuthPovider>
+            <Routes>
+              <Route
+                path="/"
+                element={<PublicRoute children={<LoginPage />} />}
+              ></Route>
+              <Route
+                path="/login"
+                element={<PublicRoute children={<LoginPage />} />}
+              ></Route>
+              <Route
+                path="/homepage"
+                element={
+                  <PrivateRoute
+                    children={
+                      <>
+                        <AppMenu />
+                        <Main />
+                      </>
+                    }
+                  />
+                }
+              ></Route>
+            </Routes>
+            <Routes>
+              <Route
+                path="/apartments"
+                element={
+                  // <PrivateRoute
+                  // children={
+                  <>
+                    <AppMenu />
+                    <VisitPage />
+                  </>
+                  //   }
+                  // />
+                }
+              />
+            </Routes>
+          </AuthPovider>
         </VisitProvider>
       </HomeProvider>
     </BrowserRouter>

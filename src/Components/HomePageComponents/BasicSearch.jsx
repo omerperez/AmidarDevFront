@@ -3,7 +3,7 @@ import { Stack, TextField, Button } from "@mui/material";
 import ThemeStyleRTL from "../../Assets/Style/ThemeStyleRTL";
 import { HomeContext } from "../../Contexts/HomeContext";
 
-export default function MainTableSearch() {
+export default function BasicSearch() {
   const [search, setSearch] = useState("");
   const { state, changeTableData } = useContext(HomeContext);
 

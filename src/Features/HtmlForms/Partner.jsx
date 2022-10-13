@@ -7,7 +7,7 @@ import "./HtmlForms.css";
 
 export default function Partner() {
   return (
-    <page size="A4">
+    <page size="A4" className="page-layout">
       <Grid container spacing={0}>
         <FormTitle title={"הצהרה - בן/בת הזוג"} />
         <TenantPersonalDetails

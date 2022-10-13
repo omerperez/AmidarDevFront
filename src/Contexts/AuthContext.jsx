@@ -1,4 +1,6 @@
-import React, { useReducer, createContext } from "react";
+import React, { useReducer, createContext, useEffect } from "react";
+import { getEmployeeProperties } from "../Components/HomePageComponents/HomePageService";
+import { applicationCookie } from "../Services/CookieService/CookieService";
 
 const initialState = {
   id: "",
@@ -12,22 +14,65 @@ const initialState = {
 
 export const AuthContext = createContext(initialState);
 
-const reducer = (visitState, action) => {
+const reducer = (authState, action) => {
   switch (action.type) {
     case "login":
-      return (visitState.currentUser = action.currentUser);
+      return (authState = {
+        ...authState,
+        id: action.currentUserId,
+      });
+    case "changeUserProperties":
+      return (authState = {
+        ...authState,
+        firstName: action.firstName,
+        lastName: action.lastName,
+        phoneNumber: action.mobileNumber,
+      });
     case "logout":
-      return (visitState.logout = null);
+      applicationCookie.removeUserObj();
+      return (authState = {
+        ...authState,
+        id: "",
+      });
     default:
-      return visitState;
+      return authState;
   }
 };
 
-export default function VisitProvider({ children }) {
-  const [visitState, dispatch] = useReducer(reducer, initialState);
+export default function AuthPovider({ children }) {
+  const [authState, dispatch] = useReducer(reducer, initialState);
 
-  function login(currentUser) {
-    dispatch({ type: "login", currentUser: currentUser });
+  useEffect(() => {
+    async function fetchData(employeeNumber) {
+      const currentUser = await getEmployeeProperties(employeeNumber);
+      login(currentUser.employeeNumber);
+      changeUserProperties(
+        currentUser.firstName,
+        currentUser.lastName,
+        currentUser.mobileNumber
+      );
+    }
+
+    const userId = applicationCookie.getUserId();
+    if (userId !== undefined) {
+      fetchData(userId);
+    }
+  }, []);
+
+  function login(currentUserId) {
+    dispatch({
+      type: "login",
+      currentUserId: currentUserId,
+    });
+  }
+
+  function changeUserProperties(firstName, lastName, mobileNumber) {
+    dispatch({
+      type: "changeUserProperties",
+      firstName: firstName,
+      lastName: lastName,
+      mobileNumber: mobileNumber,
+    });
   }
 
   function logout() {
@@ -35,10 +80,11 @@ export default function VisitProvider({ children }) {
   }
 
   const value = {
-    visitState,
+    authState,
     initialState,
     login,
     logout,
+    changeUserProperties,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

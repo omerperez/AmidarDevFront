@@ -31,6 +31,20 @@ function isEmailAddressProper(email) {
   return email.match(validRegex);
 }
 
+function employeeNumberValidation(employeeNumber) {
+  if (employeeNumber === undefined) {
+    return false;
+  }
+  return employeeNumber?.length === 4;
+}
+
+function employeeMobileValidation(employeeMobile) {
+  if (employeeMobile === undefined) {
+    return false;
+  }
+  return employeeMobile?.length === 10;
+}
+
 const validationService = {
   isHebrewLettersOnly: {
     function: hebrewLettersOnly,
@@ -51,6 +65,14 @@ const validationService = {
   isEmailAddressProper: {
     function: isEmailAddressProper,
     errorComment: "אנא הזמן כתובת מייל חוקית",
+  },
+  isEmployeeNumberProper: {
+    function: employeeNumberValidation,
+    errorComment: "מספר עובד לא חוקי, אנא הזן בשנית",
+  },
+  isEmployeeMobileProper: {
+    function: employeeMobileValidation,
+    errorComment: "מספר נייד לא חוקי, אנא הזן בשנית",
   },
 };
 export { validationService };

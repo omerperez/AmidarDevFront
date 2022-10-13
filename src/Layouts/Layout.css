@@ -1,38 +1,44 @@
-.bg-app-bar{
-    background: linear-gradient(120deg, rgb(75 134 197) 30%, #5899E2 50%, #5899E2 82%, white  90%) !important;
+.bg-app-bar {
+  background: linear-gradient(
+    120deg,
+    rgb(75 134 197) 30%,
+    #5899e2 50%,
+    #5899e2 82%,
+    white 90%
+  ) !important;
 }
 
-.h-75{
-    height: 75px !important;
+.h-75 {
+  height: 75px !important;
 }
 
-.p-18{
-    padding: 18px;
+.p-18 {
+  padding: 18px;
 }
 
-.version-title{
-    margin-right: 10px;
-    font-size: 14px;
-    font-family: Tahoma;
+.version-title {
+  margin-right: 10px;
+  font-size: 14px;
+  font-family: Tahoma;
 }
 
-.color-white{
-    background: '#FFFFFF' !important;
+.color-white {
+  background: "#FFFFFF" !important;
 }
 
-.mt-10p{
-    margin-top: 10%;
+.mt-10p {
+  margin-top: 10%;
 }
 
-.loading-text{
-    display: flex !important;
-    justify-content: center !important;
-    margin-top: 15px !important;
-    font-family: Tahoma !important;
+.loading-text {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 15px !important;
+  font-family: Tahoma !important;
 }
 
-.loading-style{
-    display: flex !important;
-    justify-content: center !important;
-    margin-top: 20px !important;
+.loading-style {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 20px !important;
 }

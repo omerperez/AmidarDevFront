@@ -3,24 +3,11 @@ import SectionTitle from "../VisitPageLayout/SectionTitle";
 import { Button, Grid } from "@mui/material";
 import { GenericInputForm } from "../../GlobalComponents/ProjectFieldsTypes";
 import { accountStatusProperties } from "../VisitPageAssets";
-import { EmailService } from "../../../Services/EmailService/EmailService";
-import { WhatsAppService } from "../../../Services/WhatsAppService/WhatsAppService";
 
 export default function AccountStatus() {
   const openAmidarPaymentForm = () => {
-    console.log(process.env.REACT_APP_AMIDAR_PAYMENT_API);
-    // https://ecom.gov.il/voucherspa/input/316?clear=true
     window.open(process.env.REACT_APP_AMIDAR_PAYMENT_API);
   };
-
-  // const data = {
-  //   sender: "support@amidar.co.il",
-  //   recipients: "u8193@gmail.com",
-  //   subject: "Omer Perez",
-  //   data: "blablabla",
-  //   file_pdf: "",
-  // };
-  // EmailService.sendEmailToTenant(data);
 
   return (
     <div className="section-general">

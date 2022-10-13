@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ListItem,
   ListItemIcon,
   ListItemText,
   ListItemButton,
 } from "@mui/material";
+import { VisitContext } from "../../../Contexts/VisitContext";
 
 export default function SidebarListOptions({
   activeSection,
@@ -15,6 +16,8 @@ export default function SidebarListOptions({
   activeClassName,
   notActiveClassName,
 }) {
+  const { visitState } = useContext(VisitContext);
+
   if (itemsList.length === 0 || isHide) {
     return;
   }
@@ -27,7 +30,10 @@ export default function SidebarListOptions({
             <ListItem
               key={`sideBar-actionsOptions-${action.title}+${index}`}
               className={
-                activeSection === index + addDefaultValueToChangeSection
+                visitState.formsFiles[action.statusName] !== null &&
+                visitState.formsFiles[action.statusName] === true
+                  ? "bg-section-red"
+                  : activeSection === index + addDefaultValueToChangeSection
                   ? activeClassName
                   : notActiveClassName
               }

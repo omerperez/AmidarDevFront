@@ -22,7 +22,6 @@ import {
   otherIssuesList,
 } from "./MaintenanceVisitAssets";
 import { VisitContext } from "../../../../Contexts/VisitContext";
-import { useEffect } from "react";
 
 export default function MaintenanceVisit() {
   const [values, handleChange] = useForm();
