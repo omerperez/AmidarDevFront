@@ -21,10 +21,6 @@ export default function PrivateRoute({ children }) {
       {children}
     </div>
   ) : (
-    <div className="visit-page-layout">
-      <AppMenu />
-      {children}
-    </div>
-    // <Navigate to="/login" />
+    <Navigate to="/login" />
   );
 }

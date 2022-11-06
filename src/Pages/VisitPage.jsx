@@ -32,28 +32,27 @@ export default function VisitPage() {
 
   useEffect(() => {
     if (activeStep === 0) {
-      // const fetchData = async () => {
-      //   const currentApartment = Object.fromEntries([...searchParams]);
-      //   const response = await getApartment(currentApartment);
-      //   const formStatusRequestData = await formStatusRequest(currentApartment);
+      const fetchData = async () => {
+        const currentApartment = Object.fromEntries([...searchParams]);
+        const response = await getApartment(currentApartment);
+        const formStatusRequestData = await formStatusRequest(currentApartment);
 
-      //   const [element] = await response;
-      //   if (element) {
-      //     setApartment(new apartmentVisitId(element));
-      //   } else {
-      //     setApartment({});
-      //   }
-      //   if (formStatusRequestData) {
-      //     visitContextFunction.setFormsFiles(formStatusRequestData);
-      //   }
-      setLoading(false);
-      // };
-      // fetchData();
+        const [element] = await response;
+        if (element) {
+          setApartment(new apartmentVisitId(element));
+        } else {
+          setApartment({});
+        }
+        if (formStatusRequestData) {
+          visitContextFunction.setFormsFiles(formStatusRequestData);
+        }
+        setLoading(false);
+      };
+      fetchData();
     }
     if (activeStep === 5) {
       setShow(false);
       const timeId = setTimeout(() => {
-        // After 3 seconds set the show value to false
         setShow(true);
       }, 3000);
 

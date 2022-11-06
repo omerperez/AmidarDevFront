@@ -24,9 +24,8 @@ export default function OccupancyDetails({ apartment }) {
                       </b>
                     </div>
                     <b className="card-body-text-value">
-                      {/* {apartment[occupancyItem.name]} */}
-                      Omer
-                      {/* {occupancyItem.name === "area" && <span> מ"ר</span>} */}
+                      {apartment[occupancyItem.name]}
+                      {occupancyItem.name === "area" && <span> מ"ר</span>}
                     </b>
                   </Grid>
                 ),

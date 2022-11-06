@@ -45,11 +45,9 @@ export default function TenantCard({ apartment }) {
                       <b className="card-body-text-label">{item.label}</b>
                     </div>
                     <b className="card-body-text-value">
-                      {/* {apartment[item.name]} */}
                       {item.name === "fullName"
-                        ? "חיים כהן"
-                        : //  `${apartment?.firstName} ${apartment?.lastName}`
-                          "Omer"}
+                        ? `${apartment?.firstName} ${apartment?.lastName}`
+                        : apartment[item.name]}
                     </b>
                   </Grid>
                   {index === 1 && (
