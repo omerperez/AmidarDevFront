@@ -65,10 +65,16 @@ const boxStyle = {
     cursor: "pointer",
   },
   "& .bg-green": {
+    fontSize: 18,
     backgroundColor: "#daf8db",
   },
   "& .bg-red": {
+    fontSize: 18,
     backgroundColor: "#FFEBEE",
+  },
+  "& .bg-white": {
+    fontSize: 18,
+    backgroundColor: "white",
   },
   "& .MuiDataGrid-cellContent": {
     width: "100%",
@@ -78,9 +84,17 @@ const boxStyle = {
   },
 };
 
+const TextFieldStyle = {
+  "& .MuiFormLabel-root": {
+    fontWeight: "bolder",
+    fontFamily: "Tahoma",
+  },
+};
+
 export {
   boxStyle,
   advanceSearchGridSpacing,
   advanceSearchGridColumns,
   advanceSearchInputsProperties,
+  TextFieldStyle,
 };

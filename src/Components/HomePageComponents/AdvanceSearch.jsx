@@ -9,6 +9,7 @@ import {
   advanceSearchInputsProperties,
   advanceSearchGridSpacing,
   advanceSearchGridColumns,
+  TextFieldStyle,
 } from "./HomePageAssets";
 import ThemeStyleRTL from "../../Assets/Style/ThemeStyleRTL";
 import "./Style/HomePage.css";
@@ -47,11 +48,11 @@ export default function AdvanceSearch() {
                   <Grid
                     item
                     xs={2}
-                    sm={2}
                     md={input.lable === "רחוב" ? 6 : 3}
                     key={`advanceSearch-Grid-${index}`}
                   >
                     <TextField
+                      sx={TextFieldStyle}
                       fullWidth
                       key={`advanceSearch-TextField-${index}`}
                       id={inputsId}

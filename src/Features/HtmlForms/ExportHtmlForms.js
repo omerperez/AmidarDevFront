@@ -6,8 +6,8 @@ import PrefabricatedStructure from "./PrefabricatedStructure";
 import TransitionalRent from "./TransitionalRent";
 
 const htmlForms = [
-  <LiveAlone />,
   <MainTenants />,
+  <LiveAlone />,
   <AccountDebit />,
   <DebtSettlement />,
   <TransitionalRent />,

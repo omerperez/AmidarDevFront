@@ -1,29 +1,31 @@
-import { Grid } from '@mui/material';
-import React, { useState } from "react";
+import React, { useState, useRef, createRef } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
-import { ExpandMore, Height } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import { VisitsPagePanels } from "./VisitAssets";
 import "./VisitsStyle.css";
 
-export default function Panels() {
+export default function Panels({ currentApartment }) {
   const [expanded, setExpanded] = useState(false);
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const d = {
-    // "& .MuiCollapse-root": { height: 500 },
+  const elementsRef = useRef(VisitsPagePanels.map(() => createRef()));
+
+  const PanelsStyle = {
     "& .MuiCollapse-vertical": { marginBottom: "30px" },
   };
+
   return (
     <div className="sections-main">
       {VisitsPagePanels.map((panel, index) => {
         return (
           <Accordion
-          sx={d}
+            ref={elementsRef.current[index]}
+            sx={PanelsStyle}
             className="mb-20"
             expanded={expanded === `panel${index}`}
             onChange={handleChange(`panel${index}`)}
@@ -35,18 +37,22 @@ export default function Panels() {
               id={`panel${index}bh-header`}
               key={`panel${index}bh-key`}
             >
-              {/* <Typography sx={{ width: "20%", flexShrink: 0 }}> */}
               <div className="d-flex">
-                <div className="panel-icon">{panel.icon}</div>
+                <div className="panel-icon">
+                  {panel.icon(expanded === `panel${index}`)}
+                </div>
                 <span className="panel-title">
                   {panel.title}
                   <span className="panel-subtitle">{panel.subTitle ?? ""}</span>
                 </span>
               </div>
               <div className="left-side-pannel">{panel.leftText ?? ""}</div>
-              {/* </Typography> */}
             </AccordionSummary>
-            <AccordionDetails sx={d}>{panel.page}</AccordionDetails>
+            <AccordionDetails sx={PanelsStyle}>
+              {panel.title === "פרטי זיהוי"
+                ? panel.page(currentApartment)
+                : panel.page}
+            </AccordionDetails>
           </Accordion>
         );
       })}

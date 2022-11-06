@@ -3,10 +3,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@mui/material";
 import "./Layout.css";
 
-export default function Loading() {
+export default function Loading({ loadingTitle }) {
   return (
-    <div className="mt-10p">
-      <Typography className="loading-text">Loading...</Typography>
+    <div className="loading-position">
+      <Typography className="loading-text">
+        {loadingTitle ?? "טוען נתונים..."}
+      </Typography>
       <div className="loading-style">
         <CircularProgress size={80} />
       </div>

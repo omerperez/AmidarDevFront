@@ -1,42 +1,80 @@
 .sections-main {
-    margin: 0 2% 0 2%;
+  margin: 0 2% 0 2%;
 }
 
-.mb-20{
-    margin-bottom: 20px !important;
+.mb-20 {
+  margin-bottom: 20px !important;
 }
 
-.active-panel-bg{
-    background: #c0c0c0 !important;
+.active-panel-bg {
+  background: #e6f3fa !important;
 }
 
-.panel-icon{
-    margin: auto;
-    margin-left: 20px;
+.panel-icon {
+  margin: auto;
+  margin-left: 20px;
 }
 
-.panel-title{
-    margin: auto !important;
-    font-family: Tahoma !important;
-    font-weight: lighter !important;
-    font-size: 30px !important;
+.panel-title {
+  margin: auto !important;
+  font-family: Tahoma !important;
+  font-weight: lighter !important;
+  font-size: 30px !important;
 }
 
 .panel-subtitle {
-    font-size: 18px !important;
-    margin-right: 10px;
-    color: rgb(133, 133, 133) !important;
+  font-size: 18px !important;
+  margin-right: 10px;
+  color: rgb(133, 133, 133) !important;
 }
 
-.icon-pad{
-    padding: 15px !important;
+.icon-pad {
+  padding: 15px !important;
 }
 
-.left-side-pannel{
-    margin: auto auto auto 50px !important;
-    text-align: center;
+.left-side-pannel {
+  margin: auto auto auto 50px !important;
+  text-align: center;
 }
 
-.height-auto{
-    height: auto !important;
+.height-auto {
+  height: auto !important;
+}
+
+.w-50 {
+  width: 50% !important;
+}
+
+.tenants-card-right {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.tenants-card-left {
+  display: flex !important;
+  justify-content: end !important;
+}
+
+.qr-layout {
+  margin-bottom: 5px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.maintenance-layout {
+  margin: 0 30px 20px 50px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.maintenance-start-section {
+  background-color: white;
+  padding: 10px 20px;
+  margin-top: 10px !important;
+  border-radius: 10px;
+}
+
+.ml-30 {
+  margin-left: 1.5% !important;
 }

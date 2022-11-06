@@ -9,12 +9,12 @@ const displayFlex = { display: "flex" };
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: -drawerWidth,
+    // marginRight: -drawerWidth,
     ...(open && {
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
@@ -45,12 +45,12 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: theme.spacing(0, 1),
+  // padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
-  justifyContent: "flex-start",
+  // justifyContent: "flex-start",
 }));
 
-const titleStyle = { flexGrow: 1, marginRight: "5%", fontFamily: "Tahoma" };
+const titleStyle = { flexGrow: 1, marginRight: "8%", fontFamily: "Tahoma" };
 
 const whiteColor = { color: "white" };
 

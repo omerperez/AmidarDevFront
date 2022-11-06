@@ -1,0 +1,97 @@
+.form-label {
+  margin-bottom: 10px !important;
+  font-size: 16px !important;
+  font-family: Tahoma !important;
+  font-weight: bolder !important;
+  color: black !important;
+}
+
+.circle-border {
+  border: 1.5px solid #ededed !important;
+}
+
+.avatar-design {
+  background: #f7f7f7 !important;
+  color: rgb(27, 44, 63) !important;
+  font-family: Tahoma !important;
+  font-size: 16px !important;
+  font-weight: bolder !important;
+}
+
+.text-label-white {
+  direction: rtl !important;
+  color: white !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-family: Tahoma !important;
+  font-weight: bold !important;
+  text-align: start !important;
+}
+
+.text-label-black {
+  direction: rtl !important;
+  color: rgb(27, 44, 63) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-family: Tahoma !important;
+  font-weight: bold !important;
+  text-align: start !important;
+}
+
+.label-grid {
+  margin: auto !important;
+  color: rgb(27, 44, 63) !important;
+}
+
+.btn-rating {
+  text-align: start !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: #e3cbff !important;
+  font-family: Tahoma !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.non-active-rating-bg {
+  background: #b4d0e2 !important;
+  color: black !important;
+}
+
+.active-rating-bg-1 {
+  background: #ff0000 !important;
+  color: white !important;
+}
+
+.active-rating-bg-2 {
+  background: #fa8213 !important;
+  color: white !important;
+}
+
+.active-rating-bg-3 {
+  background: #fee97c !important;
+  color: black !important;
+}
+
+.active-rating-bg-4 {
+  background: #cbfa7e !important;
+  color: black !important;
+}
+
+.active-rating-bg-5 {
+  background: #4fd343 !important;
+  color: white !important;
+}
+
+.rating-layout {
+  width: 100% !important;
+  border: #bac5cf solid 1px !important;
+  border-radius: 5px !important;
+}
+
+.rating-item-layout {
+  display: flex !important;
+  justify-content: center !important;
+  height: 85px !important;
+}

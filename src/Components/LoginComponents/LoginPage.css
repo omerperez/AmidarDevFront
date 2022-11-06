@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(
     to left bottom,
     #ffffff,
@@ -97,4 +97,25 @@
 
 .visibility-cur {
   cursor: pointer !important;
+}
+
+.login-title {
+  font-weight: bolder !important;
+  margin-bottom: 10px !important;
+  font-family: Tahoma !important;
+  color: black !important;
+  font-size: 18px !important;
+}
+
+.error-font {
+  font-weight: bolder !important;
+  margin-bottom: 10px !important;
+  font-family: Tahoma !important;
+  color: black !important;
+  font-size: 18px !important;
+  margin: auto !important;
+}
+
+.mtb-10 {
+  margin: 10px 0px !important;
 }

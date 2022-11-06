@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { amidarLogo } from "../Assets/projectImages";
 import ThemeStyleRTL from "../Assets/Style/ThemeStyleRTL";
-import "../Components/LoginComponents/LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../Components/GlobalComponents/FieldsTypes/PasswordInput";
 import {
@@ -15,6 +14,8 @@ import { applicationCookie } from "../Services/CookieService/CookieService";
 import { validationService } from "../Services/ValidationsService/ValidationService";
 import { AuthContext } from "../Contexts/AuthContext";
 import { getEmployeeProperties } from "../Components/HomePageComponents/HomePageService";
+import { errorIconStyle } from "../Components/LoginComponents/Assets";
+import "../Components/LoginComponents/LoginPage.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -56,7 +57,6 @@ export default function LoginPage() {
         currentUser.lastName,
         currentUser.mobileNumber
       );
-
       return navigate("/homepage");
     }
   };
@@ -75,14 +75,14 @@ export default function LoginPage() {
         </div>
         <ThemeStyleRTL>
           {error && (
-            <Alert className="global-font" severity="error">
+            <Alert sx={errorIconStyle} className="error-font" severity="error">
               {error}
             </Alert>
           )}
           <FormControl className="w-100">
-            <div className="mt-10 mb-10">
+            <div className="mtb-10">
               <FormLabel
-                className="mb-10 global-font"
+                className="login-title"
                 id={"form-title-label-employee-number"}
               >
                 מספר עובד
@@ -90,7 +90,7 @@ export default function LoginPage() {
               <TextField
                 fullWidth
                 disabled={handleClickLogin}
-                className="mt-10 mb-10"
+                className="mtb-10"
                 required
                 variant={handleClickLogin ? "filled" : "outlined"}
                 id="employee-number"
@@ -102,14 +102,14 @@ export default function LoginPage() {
             </div>
             <div className="mt-10 mb-10">
               <FormLabel
-                className="mb-10 global-font"
+                className="login-title"
                 id={"form-title-label-employee-mobile"}
               >
                 מספר פלאפון
               </FormLabel>
               <TextField
                 disabled={handleClickLogin}
-                className="mt-10 mb-10"
+                className="mtb-10"
                 fullWidth
                 required
                 variant={handleClickLogin ? "filled" : "outlined"}
@@ -125,8 +125,8 @@ export default function LoginPage() {
               <div className="mt-10 mb-10">
                 <PasswordInput
                   title={"קוד הזדהות"}
-                  formLabelStyle={"mb-10 global-font"}
-                  textFieldStyle={"mt-10 mb-10"}
+                  formLabelStyle={"login-title"}
+                  textFieldStyle={"mtb-10"}
                   showPassword={showPassword}
                   value={verificationCode}
                   onKeyPress={handlePressEnter}

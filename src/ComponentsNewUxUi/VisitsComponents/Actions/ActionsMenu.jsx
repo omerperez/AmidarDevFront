@@ -1,21 +1,18 @@
-import React, {useState} from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { actionsMenuBtns, bottomNavigationStyle } from "../VisitAssets";
-export default function Menu() {
-  const [value, setValue] = useState(0);
-
-  
+export default function Menu({ activeLabel, changeActiveLabel }) {
   return (
     <div>
       <Box>
         <BottomNavigation
           showLabels
           sx={bottomNavigationStyle}
-          value={value}
+          value={activeLabel}
           onChange={(event, newValue) => {
-            setValue(newValue);
+            changeActiveLabel(newValue);
           }}
         >
           {actionsMenuBtns.map((btn, index) => (

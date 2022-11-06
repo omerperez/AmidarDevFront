@@ -21,6 +21,7 @@ import {
   Tooltip,
   IconButton,
   Grid,
+  Button,
 } from "@mui/material";
 import { applicationCookie } from "../../Services/CookieService/CookieService";
 import { AuthContext } from "../../Contexts/AuthContext";
@@ -60,24 +61,30 @@ export default function AppMenu() {
   }, [locationPath]);
 
   return (
-    <Box sx={displayFlex}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar className="nav-bg bg-app-bar h-75">
+    <Box>
+      <AppBar position="static" className="nav-bg bg-app-bar h-75">
+        <Toolbar>
           <div className="d-flex jc-center p-18">
             <img src={amidarLogo} width={100} alt="logo" />
           </div>
-          {useResponsiveLayout(600) && (
-            <Typography variant="h4" sx={titleStyle} noWrap component="div">
-              ביקורי מעגל
-              <span className="version-title">גרסא 1.6</span>
-            </Typography>
-          )}
-          <div style={{ marginRight: "auto" }}>
-            <Grid container justifyContent="center">
+
+          {/* <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton> */}
+
+          <Typography variant="h4" component="div" noWrap sx={titleStyle}>
+            ביקורי מעגל
+            <span className="version-title">גרסא 1.6</span>
+          </Typography>
+
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <Grid container>
               {navigationButtons.map((menuProp, key) => {
                 return (
                   <Grid item key={`AppMenu-Grid-${key}`}>
@@ -105,9 +112,58 @@ export default function AppMenu() {
           </div>
         </Toolbar>
       </AppBar>
-      <Main>
-        <DrawerHeader />
-      </Main>
     </Box>
   );
 }
+
+// <Box sx={displayFlex}>
+//   <CssBaseline />
+//   <AppBar
+//     // position="fixed"
+//     sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+//   >
+//     <Toolbar className="nav-bg bg-app-bar h-75">
+//       <div className="d-flex jc-center p-18">
+//         <img src={amidarLogo} width={100} alt="logo" />
+//       </div>
+//       {useResponsiveLayout(600) && (
+//         <Typography variant="h4" sx={titleStyle} noWrap component="div">
+//           ביקורי מעגל
+//           <span className="version-title">גרסא 1.6</span>
+//         </Typography>
+//       )}
+//       <div style={{ marginRight: "auto" }}>
+//         <Grid container>
+//           {navigationButtons.map((menuProp, key) => {
+//             return (
+//               <Grid item key={`AppMenu-Grid-${key}`}>
+//                 <Tooltip
+//                   title={menuProp.title}
+//                   key={`AppMenu-Tooltip-${menuProp.title}`}
+//                 >
+//                   <IconButton
+//                     key={`AppMenu-IconButton-${menuProp.title}`}
+//                     onClick={
+//                       menuProp.title === "חיפוש מתקדם"
+//                         ? handleClickAdvanceSearch
+//                         : menuProp.title === "יומן ביקורים"
+//                         ? handleClickHomePage
+//                         : handleClickLogout
+//                     }
+//                   >
+//                     {menuProp.icon}
+//                   </IconButton>
+//                 </Tooltip>
+//               </Grid>
+//             );
+//           })}
+//         </Grid>
+//       </div>
+//     </Toolbar>
+//   </AppBar>
+//   <Main>
+//     <DrawerHeader />
+//   </Main>
+// </Box>
+//   );
+// }

@@ -19,7 +19,7 @@ export default function MultipleSelect({
   handleChange,
 }) {
   return (
-    <FormControl className="w-100 p-7">
+    <FormControl className="w-100">
       <FormLabel
         className={
           required && value.length === 0
@@ -28,7 +28,7 @@ export default function MultipleSelect({
         }
         id={`form-title-label-${title}`}
       >
-        {title}
+        <b>{title}</b>
       </FormLabel>
       <Select
         labelId={`select-label-${title}`}

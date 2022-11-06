@@ -31,14 +31,20 @@
 }
 
 .loading-text {
-  display: flex !important;
-  justify-content: center !important;
-  margin-top: 15px !important;
+  color: rgb(27, 44, 63) !important;
+  font-size: 22px !important;
   font-family: Tahoma !important;
 }
 
 .loading-style {
-  display: flex !important;
-  justify-content: center !important;
-  margin-top: 20px !important;
+  margin-top: 30px !important;
+}
+
+.loading-position {
+  padding: 250px 0;
+  text-align: center;
+}
+
+.col-white {
+  color: white !important;
 }

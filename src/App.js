@@ -1,14 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import AuthPovider from "./Contexts/AuthContext";
 import HomeProvider from "./Contexts/HomeContext";
 import VisitProvider from "./Contexts/VisitContext";
-import AppMenu from "./Layouts/TopNavigation/AppMenu";
 import Main from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import VisitPage from "./Pages/VisitPage";
 import PrivateRoute from "./Services/ApplicationRoutesService/PrivateRoute";
 import PublicRoute from "./Services/ApplicationRoutesService/PublicRoute";
+import "./App.css";
 
 function App() {
   return (
@@ -27,32 +26,13 @@ function App() {
               ></Route>
               <Route
                 path="/homepage"
-                element={
-                  <PublicRoute
-                    // PrivateRoute
-                    children={
-                      <>
-                        <AppMenu />
-                        <Main />
-                      </>
-                    }
-                  />
-                }
+                element={<PrivateRoute children={<Main />} />}
               ></Route>
             </Routes>
             <Routes>
               <Route
                 path="/apartments"
-                element={
-                  // <PrivateRoute
-                  // children={
-                  <>
-                    <AppMenu />
-                    <VisitPage />
-                  </>
-                  //   }
-                  // />
-                }
+                element={<PrivateRoute children={<VisitPage />} />}
               />
             </Routes>
           </AuthPovider>

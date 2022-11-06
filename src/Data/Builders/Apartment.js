@@ -28,6 +28,10 @@ class apartmentVisitId {
     this.coordinationDate = getDateFormat(apartmentIdObj.TAR_BIKUR_ACHARON);
     this.countOfStairs = apartmentIdObj.DIRAT_AMID_MIS_MADREGOT_0;
   }
+
+  getFullAddress() {
+    return `${this.street} ${this.number}, ${this.city}`;
+  }
 }
 
 class Apartment {

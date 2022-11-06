@@ -90,16 +90,6 @@ function QualityRating(
             onChangeFunction={handleChangeValue}
           />
         </Grid>
-        {/* <Grid item xs={6} md={4.5}>
-          <RadioInput
-            row={false}
-            title={""}
-            name={item.name}
-            onChangeFunction={handleChangeValue}
-            value={flag ? 5 : values[item.name]}
-            radioItemsList={qualityRating}
-          />
-        </Grid> */}
         {values[item.name] < 75 && !values[item.areaName] ? (
           <Grid item xs={12} md={10}>
             <MultipleSelectInput
@@ -125,15 +115,6 @@ function QualityRating(
             />
           </Grid>
         ) : null}
-        {/* <Grid item xs={6} sm={4} md={4}>
-          <TextAreaInput
-            title={"הערות / פעולות שנעשו"}
-            name={item.areaName}
-            onChageFunction={onChangeFunction }
-            value={values[item.areaName]}
-            minRow={7}
-          />
-        </Grid> */}
       </Grid>
     </div>
   );

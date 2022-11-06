@@ -58,6 +58,10 @@
   font-size: 20px !important;
 }
 
+.fs-32 {
+  font-size: 32px !important;
+}
+
 .fw-100 {
   font-weight: 100;
 }
@@ -144,21 +148,53 @@
 }
 
 .dowload-file-btn {
-  border: black solid 2px !important;
-  margin: 0 2% 0 0 !important;
-  height: 60px !important;
-  width: 200px !important;
+  background: rgb(75 134 197) !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  width: 125px !important;
 }
 
 .text-dowload-file-btn {
   font-family: Tahoma !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 100 !important;
-  text-align: center !important;
+  margin: 0 35% 0 35% !important;
 }
 
 .icon-dowload-file-btn {
-  margin-right: 10px !important;
-  font-size: 35px !important;
-  text-align: center !important;
+  margin: 25% 0 10% 35% !important;
+  font-size: 30px !important;
+}
+
+.m-auto {
+  margin: auto !important;
+}
+
+.visit-page-layout {
+  background: rgb(235, 245, 255) !important;
+  /* padding: 40px 20px !important; */
+  /* width: 100%; */
+  min-height: 100vh !important;
+}
+
+.bold {
+  font-weight: bolder !important;
+}
+
+.section-title-pos {
+  display: flex;
+  justify-content: start;
+}
+
+.section-title {
+  font-size: 32px;
+  margin: 0 0 20px 10px;
+  color: rgb(27, 44, 63);
+}
+
+.section-title-22 {
+  font-size: 22px;
+  margin: 0 0 10px 10px;
+  color: rgb(27, 44, 63);
 }

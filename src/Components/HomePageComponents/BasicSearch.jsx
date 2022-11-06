@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Stack, TextField, Button } from "@mui/material";
 import ThemeStyleRTL from "../../Assets/Style/ThemeStyleRTL";
 import { HomeContext } from "../../Contexts/HomeContext";
+import { TextFieldStyle } from "./HomePageAssets";
 
 export default function BasicSearch() {
   const [search, setSearch] = useState("");
@@ -31,6 +32,7 @@ export default function BasicSearch() {
       <ThemeStyleRTL>
         <Stack direction="row">
           <TextField
+            sx={TextFieldStyle}
             id="outlined-basic"
             value={search ?? ""}
             onChange={(e) => setSearch(e.target.value)}

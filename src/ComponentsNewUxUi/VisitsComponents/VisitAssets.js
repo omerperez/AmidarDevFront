@@ -9,18 +9,47 @@ import "./VisitsStyle.css";
 import Badge from "@mui/material/Badge";
 import Menu from "./Actions/ActionsMenu";
 import { ReportProblem, Build, Home, ExitToApp } from "@mui/icons-material";
+import IdentifyingInformation from "../../Components/VisitPageComponents/Sections/IdentifyingInformationComponents/IdentifyingInformation";
+import AccountStatus from "../../Components/VisitPageComponents/Sections/AccountStatus";
+import Docs from "../../Pages/SubPages/Docs";
+import Actions from "../../Pages/SubPages/Actions";
 
 const panelsIconStyle = {
   fontSize: 70,
-  background: "#d5d3d3",
+  color: "#EB1911",
+  border: "solid 2px #EB1911",
   borderRadius: "50%",
+};
+
+const panelsIconActiveStyle = {
+  fontSize: 70,
+  background: "#EB1911",
+  color: "white",
+  border: "solid 2px #EB1911",
+  borderRadius: "50%",
+};
+
+const getApartmentDetails = (apartmentId) => {
+  return (
+    <IdentifyingInformation
+      key="VisitPage-GeneralProperties"
+      apartmentId={apartmentId}
+    />
+  );
 };
 
 const VisitsPagePanels = [
   {
-    icon: <Person sx={panelsIconStyle} className="icon-pad" />,
+    icon: (isActive) => {
+      return (
+        <Person
+          sx={isActive ? panelsIconActiveStyle : panelsIconStyle}
+          className="icon-pad"
+        />
+      );
+    },
     title: "פרטי זיהוי",
-    page: "עומר פרץ",
+    page: getApartmentDetails,
     leftText: (
       <div>
         <div>עומר פרץ</div>
@@ -29,9 +58,16 @@ const VisitsPagePanels = [
     ),
   },
   {
-    icon: <ReportGmailerrorred sx={panelsIconStyle} className="icon-pad" />,
+    icon: (isActive) => {
+      return (
+        <ReportGmailerrorred
+          sx={isActive ? panelsIconActiveStyle : panelsIconStyle}
+          className="icon-pad"
+        />
+      );
+    },
     title: "מצב חשבון",
-    page: "עומר פרץ",
+    page: <AccountStatus key="VisitPage-AccountStatus" />,
     leftText: (
       <div>
         <div>סה״כ חוב</div>
@@ -40,10 +76,17 @@ const VisitsPagePanels = [
     ),
   },
   {
-    icon: <TextSnippetSharp sx={panelsIconStyle} className="icon-pad" />,
+    icon: (isActive) => {
+      return (
+        <TextSnippetSharp
+          sx={isActive ? panelsIconActiveStyle : panelsIconStyle}
+          className="icon-pad"
+        />
+      );
+    },
     title: "מסמכים",
     subTitle: "(ללקוח זה כבר נוצר מסמך לאיזור האישי)",
-    page: "עומר פרץ",
+    page: <Docs />,
     leftText: (
       <Badge badgeContent={4} color="primary">
         <Article color="action" />
@@ -51,9 +94,16 @@ const VisitsPagePanels = [
     ),
   },
   {
-    icon: <ManageHistorySharp sx={panelsIconStyle} className="icon-pad" />,
+    icon: (isActive) => {
+      return (
+        <ManageHistorySharp
+          sx={isActive ? panelsIconActiveStyle : panelsIconStyle}
+          className="icon-pad"
+        />
+      );
+    },
     title: "פעולות",
-    page: <Menu />,
+    page: <Actions />,
   },
 ];
 
@@ -61,9 +111,12 @@ const bottomNavigationStyle = {
   "& .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root": {
     maxWidth: "25%",
     height: "70px",
-
     border: "solid 1px black",
   },
+  "& .css-7uwnjw-MuiBottomNavigation-root .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected":
+    {
+      fontFamily: "Tahoma",
+    },
   "& .MuiBottomNavigationAction-label": {
     fontSize: 18,
     fontFamily: "Tahoma",
@@ -75,24 +128,27 @@ const bottomNavigationStyle = {
   "& .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected":
     {
       color: "white",
-      background: "black",
+      background: "#0087C7",
     },
 };
 
 const actionsMenuBtns = [
-    {
-        label: "ביקור אחזקה",
-        icon: <Build />
-    },{
-        label: "ביקור אכלוס",
-        icon: <Home />
-    },{
-        label: "נטישה",
-        icon: <ExitToApp />
-    },{
-        label: "פלישה",
-        icon: <ReportProblem />
-    },
-]
+  {
+    label: "ביקור אחזקה",
+    icon: <Build />,
+  },
+  {
+    label: "ביקור אכלוס",
+    icon: <Home />,
+  },
+  {
+    label: "נטישה",
+    icon: <ExitToApp />,
+  },
+  {
+    label: "פלישה",
+    icon: <ReportProblem />,
+  },
+];
 
 export { VisitsPagePanels, bottomNavigationStyle, actionsMenuBtns };

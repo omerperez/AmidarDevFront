@@ -163,46 +163,87 @@ const MultipleSelectMenuProps = {
   },
 };
 
+const apartmentDetails = [
+  {
+    label: "שימוש בפועל",
+    value: "2055546845",
+  },
+  {
+    label: "מספר חדרים [1-9]",
+    value: "2055546845",
+  },
+  {
+    label: "חצאי חדרים [1-3]",
+    value: "2055546845",
+  },
+  {
+    label: "קומה [1-3]",
+    value: "2055546845",
+  },
+  {
+    label: "מספר מדרגות לדירה [1-3]",
+    value: "2055546845",
+  },
+];
+
 const accountStatusProperties = [
   {
     label: "מספר חשבון",
     value: "2055546845",
+    flag: false,
+  },
+  {
+    label: "שם הלקוח",
+    value: "חיים כהן",
+    flag: false,
   },
   {
     label: "שכ״ד נטו",
     value: "133.485",
+    flag: true,
+    gridExtra: 6,
   },
   {
     label: "ברוטו",
     value: "780.23",
-  },
-  {
-    label: "סוג הנחה ראשי",
-    value: "מדרוג",
-  },
-  {
-    label: "תאריך סיום",
-    value: "30/11/2022",
-  },
-  {
-    label: "אמצעי גביה",
-    value: "שובר",
-  },
-  {
-    label: "סה״כ חוב",
-    value: "61.252",
-  },
-  {
-    label: "יתרת חוב בהסדר",
-    value: "0.00",
+    flag: false,
   },
   {
     label: "סוג שכ״ד",
     value: "מסובסד",
+    flag: false,
+  },
+  {
+    label: "סוג הנחה ראשי",
+    value: "מדרוג",
+    flag: true,
+    gridExtra: 3,
+  },
+  {
+    label: "תאריך סיום",
+    value: "30/11/2022",
+    flag: false,
+  },
+  {
+    label: "אמצעי גביה",
+    value: "שובר",
+    flag: false,
+  },
+  {
+    label: "סה״כ חוב",
+    value: "61.252",
+    flag: true,
+    gridExtra: 3,
+  },
+  {
+    label: "יתרת חוב בהסדר",
+    value: "0.00",
+    flag: false,
   },
   {
     label: "חוב בתביעה",
-    value: "",
+    value: "0.00-",
+    flag: false,
   },
 ];
 
@@ -218,4 +259,5 @@ export {
   dividerStyle,
   accountStatusProperties,
   formsOptions,
+  apartmentDetails,
 };

@@ -55,6 +55,15 @@ class TenantRow {
   }
 }
 
+const largeWidth = [
+  "יישוב",
+  "רחוב",
+  "שם דייר",
+  "ביקור אחרון",
+  "מועד תיאום",
+  "תאם פגישה",
+];
+
 class Column {
   constructor(field, headerName) {
     this.field = field;
@@ -79,7 +88,11 @@ class Column {
       this.disableColumnFilter = true;
       this.disableColumnSelector = true;
     }
-    this.width = (window.innerWidth * 0.97) / 14;
+    if (largeWidth.indexOf(headerName) !== -1) {
+      this.width = ((window.innerWidth * 0.97) / 14) * (1 + 1 / 3);
+    } else {
+      this.width = ((window.innerWidth * 0.97) / 14) * 0.75;
+    }
   }
 }
 

@@ -3,15 +3,15 @@ import { TextareaAutosize, FormLabel, FormControl } from "@mui/material";
 
 function TextAreaInput(
   { title, value, name, onChangeFunction, minRow, required },
-  ref
+  ref,
 ) {
   return (
-    <FormControl className="w-100 p-7">
+    <FormControl className="w-100">
       <FormLabel
         className={required ? "title-required" : "global-font"}
         id={`form-title-label-${title}`}
       >
-        {required ? `${title} - שדה חובה` : title}
+        <b>{required ? `${title} - שדה חובה` : title}</b>
       </FormLabel>
 
       <TextareaAutosize

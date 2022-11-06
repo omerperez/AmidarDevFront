@@ -10,7 +10,6 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import { TableColumns } from "../Data/Builders/MainTable";
 import { AuthContext } from "../Contexts/AuthContext";
 import WelcomeTitle from "../Components/HomePageComponents/WelcomeTitle";
-import TodayIcon from "@mui/icons-material/Today";
 import Box from "@mui/material/Box";
 
 export default function Main() {
@@ -64,12 +63,15 @@ export default function Main() {
 
   const getRowStyle = (event) => {
     const row = event.row;
-    return row.GREEN === "1" ? "bg-green" : row.PINK === "1" ? "bg-red" : null;
+    return row.GREEN === "1"
+      ? "bg-green"
+      : row.PINK === "1"
+      ? "bg-red"
+      : "bg-white";
   };
 
-  console.log(state.tableData);
   return (
-    <>
+    <div className="mt-20">
       {state.showAdvanceSearch ? (
         <AdvanceSearch />
       ) : (
@@ -94,8 +96,7 @@ export default function Main() {
             rowsPerPageOptions={[countOfPages]}
           />
         </Box>
-        <TodayIcon />
       </div>
-    </>
+    </div>
   );
 }
