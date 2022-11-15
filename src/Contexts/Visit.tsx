@@ -1,13 +1,20 @@
 import { useReducer, createContext, Dispatch } from "react";
 import { MaintenanceFormValues } from "../Builders/Visit";
 import { IPhoto } from "../Interfaces/Visit";
+import {
+  VisitGeneralDetails,
+  PaymentAccount,
+  MaintenanceVisit,
+  TenantsOccupancyDetails,
+} from "../Types/Visit";
 
 interface IVisit {
-  identifyingInformation: any;
-  maintenanceVisit: MaintenanceFormValues | null;
-  occupancyVisit: any;
-  abandonment: any;
-  invasion: any;
+  identifyingInformation: VisitGeneralDetails;
+  paymentDetails: PaymentAccount;
+  maintenanceVisit: MaintenanceVisit;
+  occupancyVisit: TenantsOccupancyDetails;
+  // abandonment: PaymentAccount;
+  // invasion: any;
   formsFiles: {
     liveAlone: Boolean;
     mainTenants: Boolean;
@@ -20,11 +27,10 @@ interface IVisit {
 }
 
 const initialState: IVisit = {
-  identifyingInformation: null,
-  maintenanceVisit: null,
-  occupancyVisit: null,
-  abandonment: null,
-  invasion: null,
+  identifyingInformation: new VisitGeneralDetails(null),
+  paymentDetails: new PaymentAccount(null),
+  maintenanceVisit: new MaintenanceVisit(null),
+  occupancyVisit: new TenantsOccupancyDetails(null),
   formsFiles: {
     liveAlone: false,
     mainTenants: false,
@@ -37,11 +43,18 @@ const initialState: IVisit = {
 };
 
 type VisitAction =
-  | { type: "setIdentifyingInformation"; identifyingInformation: any }
-  | { type: "setMaintenanceVisit"; maintenanceVisit: MaintenanceFormValues }
-  | { type: "setOccupancyVisit"; occupancyVisit: any }
-  | { type: "setAbandonment"; abandonment: any }
-  | { type: "setInvasion"; invasion: any }
+  | {
+      type: "setIdentifyingInformation";
+      identifyingInformation: VisitGeneralDetails;
+    }
+  | {
+      type: "setPaymentDetails";
+      paymentDetails: PaymentAccount;
+    }
+  | { type: "setMaintenanceVisit"; maintenanceVisit: MaintenanceVisit }
+  | { type: "setOccupancyVisit"; occupancyVisit: TenantsOccupancyDetails }
+  // | { type: "setAbandonment"; abandonment: any }
+  // | { type: "setInvasion"; invasion: any }
   | { type: "setFormsFiles"; formKey: any; value: Boolean }
   | { type: "setImages"; images: any[] };
 
@@ -61,16 +74,6 @@ const visitReducer = (visitState: IVisit, action: VisitAction) => {
       return (visitState = {
         ...visitState,
         occupancyVisit: action.occupancyVisit,
-      });
-    case "setAbandonment":
-      return (visitState = {
-        ...visitState,
-        abandonment: action.abandonment,
-      });
-    case "setInvasion":
-      return (visitState = {
-        ...visitState,
-        invasion: action.invasion,
       });
     case "setFormsFiles":
       return (visitState = {

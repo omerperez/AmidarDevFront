@@ -7,10 +7,10 @@ import { Edit } from "@mui/icons-material";
 import GenericDialog from "../../Global/GenericDialog";
 import EditGeneralDetails from "./EditGeneralDetails";
 import "../../../Layouts/Style/Visit.css";
-import { ApartmentGeneralDetails } from "../../../Builders/Visit";
+import { MainTenantDetails, VisitGeneralDetails } from "../../../Types/Visit";
 
 interface TenantGeneralDetailsProps {
-  apartment: ApartmentGeneralDetails;
+  apartment: VisitGeneralDetails;
 }
 
 export default function TenantGeneralDetails({
@@ -34,8 +34,10 @@ export default function TenantGeneralDetails({
                   </div>
                   <span className="card-body-text-value">
                     {item.name === "firstName"
-                      ? `${apartment.firstName} ${apartment.lastName}`
-                      : (apartment[item.name] as string)}
+                      ? `${apartment.mainTenantDetails.firstName} ${apartment.mainTenantDetails.lastName}`
+                      : apartment.mainTenantDetails[
+                          item.name as keyof MainTenantDetails
+                        ]}
                   </span>
                 </Grid>
                 {index === 1 && (
@@ -52,7 +54,11 @@ export default function TenantGeneralDetails({
                         </Fab>
                       }
                       closeBtn={false}
-                      title={apartment.firstName + " " + apartment.lastName}
+                      title={
+                        apartment.mainTenantDetails.firstName +
+                        " " +
+                        apartment.mainTenantDetails.lastName
+                      }
                       content={<EditGeneralDetails apartment={apartment} />}
                     />
                   </Grid>

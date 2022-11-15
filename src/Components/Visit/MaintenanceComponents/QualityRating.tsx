@@ -3,18 +3,25 @@ import RatingInput from "./RatingInput";
 import { Chip, Grid } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import TextArea from "../../Global/TextArea";
-import { IMaintenanceItem, ISelectListItem } from "../../../Interfaces/Visit";
+import {
+  IDefect,
+  IMaintenanceItem,
+  ISelectListItem,
+} from "../../../Interfaces/Visit";
 
 interface QualityRatingProps {
   item: IMaintenanceItem;
   onChange: (e: ChangeEvent) => void;
   options?: any;
+  defaultValue: IDefect | null;
 }
 function QualityRating(
-  { item, onChange, options }: QualityRatingProps,
-  ref: Ref<any>
+  { item, onChange, options, defaultValue }: QualityRatingProps,
+  ref: Ref<any>,
 ) {
-  const [deficienciesText, setDeficienciesText] = useState<string>("");
+  const [deficienciesText, setDeficienciesText] = useState<string>(
+    defaultValue?.defectDescription ?? "",
+  );
 
   const handleChangeValue = (e: any) => {
     onChange(e);
@@ -35,7 +42,7 @@ function QualityRating(
       <Grid container spacing={0} className="mt-20">
         <Grid item xs={12} className="">
           <RatingInput
-            value={options[item.name]}
+            value={options[item.name] ?? defaultValue?.rate}
             onChange={handleChangeValue}
             name={item.name}
           />
@@ -62,7 +69,7 @@ function QualityRating(
                   onClick={() => handleClickDef(def.label)}
                   deleteIcon={<Add />}
                 />
-              )
+              ),
             )}
           </div>
         </Grid>

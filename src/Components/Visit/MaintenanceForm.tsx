@@ -4,7 +4,6 @@ import QualityRating from "./MaintenanceComponents/QualityRating";
 import IsExistInput from "./MaintenanceComponents/IsExistInput";
 import SubPagesTitle from "./SubPageTitle";
 import Alert from "../Global/Alert";
-
 import {
   getIncompleteFields,
   isFormDescriptionsFieldsFilled,
@@ -17,27 +16,29 @@ import ApartmentDetails from "./MaintenanceComponents/ApartmentDetails";
 import { Grid } from "@mui/material";
 import { contexts } from "../../Contexts/ContextsExports";
 import { MaintenanceFormValues } from "../../Builders/Visit";
+import { MaintenanceVisit } from "../../Types/Visit";
+import { IDefect } from "../../Interfaces/Visit";
 
 export default function MaintenanceForm() {
   const [values, handleChange] = useForm();
   const [error, setError] = useState("");
-  const { visitDispatch } = useContext(contexts.Visit);
+  const { visitState, visitDispatch } = useContext(contexts.Visit);
 
   const elementsRef: Ref<any> = useRef(
-    maintenanceQualityList.map(() => createRef())
+    maintenanceQualityList.map(() => createRef()),
   );
 
   const onSubmit = () => {
     const incompleteFieldsIndexLocation = getIncompleteFields(values);
     const incompleteDescriptionsIndexLocation = isFormDescriptionsFieldsFilled(
       values,
-      elementsRef
+      elementsRef,
     );
     if (incompleteFieldsIndexLocation >= 0) {
       elementsRef.current[incompleteFieldsIndexLocation].current.scrollIntoView(
         {
           behavior: "smooth",
-        }
+        },
       );
       return setError("בבקשה מלא את כל השדות");
     } else if (incompleteDescriptionsIndexLocation >= 0) {
@@ -49,7 +50,8 @@ export default function MaintenanceForm() {
     const maintenanceForm = new MaintenanceFormValues(values, elementsRef);
     visitDispatch({
       type: "setMaintenanceVisit",
-      maintenanceVisit: maintenanceForm,
+      maintenanceVisit: new MaintenanceVisit(null),
+      // maintenanceForm,
     });
   };
 
@@ -59,14 +61,17 @@ export default function MaintenanceForm() {
       {error && <Alert title={"שגיאה"} text={error} severity={"error"} />}
       <Grid container spacing={0}>
         <Grid item xs={12} md={12} className="white-box">
-          <ApartmentDetails />
+          <ApartmentDetails
+            apartmentMaintenanceDetails={
+              visitState.maintenanceVisit.apartmentDetails
+            }
+          />
         </Grid>
         {maintenanceQualityList.map((item, index) => {
           return (
             <Grid
               item
               xs={12}
-              md={12}
               className="white-box mt-20"
               key={`maintenanceQualityList-Item-${index}`}
             >
@@ -75,6 +80,11 @@ export default function MaintenanceForm() {
                 key={`qualityRating-${item.title}-${index}`}
                 onChange={handleChange}
                 options={values}
+                defaultValue={
+                  visitState.maintenanceVisit[
+                    item.name as keyof MaintenanceVisit
+                  ] as IDefect
+                }
                 ref={elementsRef.current[index]}
               />
             </Grid>

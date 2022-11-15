@@ -5,6 +5,7 @@ import {
   SelectChangeEvent,
   SxProps,
   Theme,
+  FormControl,
 } from "@mui/material";
 import Layout from "../../Layouts/Forms/InputLayout";
 import { ISelectListItem } from "../../Interfaces/Visit";
@@ -47,21 +48,19 @@ export default function SelectInput({
         className={required ? "select-required" : "h-100"}
         style={style}
         sx={ssx}
-        value={value ?? defaultValue}
+        value={value}
         onChange={onChange}
         name={name}
       >
         {list &&
-          list.map((item, key) => {
-            return (
-              <MenuItem
-                key={`selectInput-MenuItem-${item.label}-${key}`}
-                value={item.value}
-              >
-                {key === 0 ? <em>{item.label}</em> : item.label}
-              </MenuItem>
-            );
-          })}
+          list.map((item, key) => (
+            <MenuItem
+              key={`selectInput-MenuItem-${item.label}-${key}`}
+              value={item.value}
+            >
+              {item.label}
+            </MenuItem>
+          ))}
       </Select>
     </Layout>
   );

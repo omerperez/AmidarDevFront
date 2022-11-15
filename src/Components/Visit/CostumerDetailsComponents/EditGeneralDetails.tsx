@@ -3,10 +3,10 @@ import { Grid } from "@mui/material";
 import { identifyingInformationInputs } from "../../../Assets/Visit";
 import Input from "../../Global/Input";
 import "../../../Layouts/Style/Visit.css";
-import { ApartmentGeneralDetails } from "../../../Builders/Visit";
+import { MainTenantDetails, VisitGeneralDetails } from "../../../Types/Visit";
 
 interface EditGeneralDetailsProps {
-  apartment: ApartmentGeneralDetails;
+  apartment: VisitGeneralDetails;
 }
 
 export default function EditGeneralDetails({
@@ -26,8 +26,12 @@ export default function EditGeneralDetails({
                 label={item.label}
                 value={
                   item.name === "firstName"
-                    ? `${apartment?.firstName} ${apartment?.lastName}`
-                    : (apartment[item.name] as string)
+                    ? `${apartment?.mainTenantDetails.firstName} ${apartment?.mainTenantDetails.lastName}`
+                    : `${
+                        apartment?.mainTenantDetails[
+                          item.name as keyof MainTenantDetails
+                        ]
+                      }`
                 }
                 onChange={() => console.log("omer")}
                 variant={item.isEdit ? "outlined" : "filled"}

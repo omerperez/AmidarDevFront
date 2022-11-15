@@ -3,10 +3,18 @@ import Select from "../../Global/Select";
 import Input from "../../Global/Input";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
 import { Card, Grid, SelectChangeEvent } from "@mui/material";
-import { apartmentDetails } from "../../../Assets/Visit/Maintenance";
+import { apartmentDetailsLabels } from "../../../Assets/Visit/Maintenance";
+import { ApartmentDetails } from "../../../Types/Visit";
 
-export default function ApartmentDetails() {
-  const [genericState, setGenericState] = useState<string | null>(null);
+interface ApartmentDetailsProps {
+  apartmentMaintenanceDetails: ApartmentDetails;
+}
+export default function ApartmentDetail({
+  apartmentMaintenanceDetails,
+}: ApartmentDetailsProps) {
+  const [genericState, setGenericState] = useState<string | number | undefined>(
+    apartmentMaintenanceDetails.area,
+  );
 
   return (
     <ThemeRightToLeft>
@@ -14,7 +22,7 @@ export default function ApartmentDetails() {
         <div className="pl-20">
           <h3 className="mb-none qr-title">פרטי הנכס</h3>
           <Grid container spacing={2} className="mtb-10">
-            {apartmentDetails.map((item, index) => (
+            {apartmentDetailsLabels.map((item, index) => (
               <Grid
                 item
                 sm={item.gridSize}
@@ -28,6 +36,10 @@ export default function ApartmentDetails() {
                       list={item.values.list}
                       sx={item.values.sx}
                       name={item.values.name}
+                      value={genericState}
+                      defaultValue={`${
+                        apartmentMaintenanceDetails[item.values.name]
+                      }`}
                       onChange={(e: SelectChangeEvent<any>) =>
                         setGenericState(e.target.value)
                       }
@@ -40,8 +52,9 @@ export default function ApartmentDetails() {
                       isShowLabel={item.values.isShowLabel}
                       readOnly={item.values.readOnly}
                       sx={item.values.sx}
+                      name={item.values.name}
                       variant={item.values.variant}
-                      value={item.values.value}
+                      value={apartmentMaintenanceDetails[item.values.name]}
                     />
                   )}
                 </span>

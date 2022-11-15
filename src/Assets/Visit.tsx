@@ -21,8 +21,10 @@ import MainTenant from "../Components/Visit/Forms/MainTenant";
 import {
   IApartmentidentifyingInformationInputs,
   IStepperProperties,
+  IContactInformation,
 } from "../Interfaces/Visit";
 import "../Layouts/Style/Visit.css";
+import { PaymentAccount } from "../Types/Visit";
 
 // import AccountDebit from "./AccountDebit";
 // import DebtSettlement from "./DebtSettlement";
@@ -215,63 +217,80 @@ const apartmentDetails = [
   },
 ];
 
-const accountStatusProperties = [
+interface IPaymentAccount {
+  label: string;
+  name: keyof PaymentAccount;
+  flag: boolean;
+  gridExtra?: number;
+}
+const accountStatusProperties: IPaymentAccount[] = [
   {
     label: "מספר חשבון",
-    value: "2055546845",
+    name: "accountNumber",
+    // value: "2055546845",
     flag: false,
   },
   {
     label: "שם הלקוח",
-    value: "חיים כהן",
+    name: "accountFullName",
+    // value: "חיים כהן",
     flag: false,
   },
   {
     label: "שכ״ד נטו",
-    value: "133.485",
+    name: "netRent",
+    // value: "133.485",
     flag: true,
     gridExtra: 6,
   },
   {
     label: "ברוטו",
-    value: "780.23",
+    name: "grossRent",
+    // value: "780.23",
     flag: false,
   },
   {
     label: "סוג שכ״ד",
-    value: "מסובסד",
+    name: "rentType",
+    // value: "מסובסד",
     flag: false,
   },
   {
     label: "סוג הנחה ראשי",
-    value: "מדרוג",
+    name: "discountType",
+    // value: "מדרוג",
     flag: true,
     gridExtra: 3,
   },
   {
     label: "תאריך סיום",
-    value: "30/11/2022",
+    name: "finishDate",
+    // value: "30/11/2022",
     flag: false,
   },
   {
     label: "אמצעי גביה",
-    value: "שובר",
+    name: "collectionMeans",
+    // value: "שובר",
     flag: false,
   },
   {
     label: "סה״כ חוב",
-    value: "61.252",
+    name: "debt",
+    // value: "61.252",
     flag: true,
     gridExtra: 3,
   },
   {
     label: "יתרת חוב בהסדר",
-    value: "0.00",
+    name: "debt",
+    // value: "0.00",
     flag: false,
   },
   {
     label: "חוב בתביעה",
-    value: "0.00-",
+    name: "lawsuitDebt",
+    // value: "0.00-",
     flag: false,
   },
 ];
@@ -306,7 +325,7 @@ const identifyingInformationInputs: IApartmentidentifyingInformationInputs[] = [
   },
   {
     label: "בית",
-    name: "number",
+    name: "apartmentNumber",
     sm: 2,
     md: 3,
     variant: "filled",
@@ -336,7 +355,7 @@ const identifyingInformationInputs: IApartmentidentifyingInformationInputs[] = [
 const occupancyInformationLabels: IApartmentidentifyingInformationInputs[] = [
   {
     label: "מצב אכלוס",
-    name: "statusDescription",
+    name: "occupancyStatus",
     sm: 2,
     md: 2,
     variant: "filled",
@@ -344,7 +363,7 @@ const occupancyInformationLabels: IApartmentidentifyingInformationInputs[] = [
   },
   {
     label: "תאריך אכלוס",
-    name: "tenancyStartDate",
+    name: "occupancyDate",
     sm: 2,
     md: 2,
     variant: "filled",
@@ -352,23 +371,23 @@ const occupancyInformationLabels: IApartmentidentifyingInformationInputs[] = [
   },
   {
     label: "ביקור אחרון",
-    name: "coordinationDate",
+    name: "lastVisitDate",
     sm: 2,
     md: 2,
     variant: "filled",
     readOnly: true,
   },
-  {
-    label: "שטח",
-    name: "area",
-    sm: 2,
-    md: 2,
-    variant: "filled",
-    readOnly: true,
-  },
+  // {
+  //   label: "שטח",
+  //   name: "area",
+  //   sm: 2,
+  //   md: 2,
+  //   variant: "filled",
+  //   readOnly: true,
+  // },
   {
     label: "מספר נפשות",
-    name: "countOfTenants",
+    name: "totalTenantsCount",
     sm: 2,
     md: 2,
     variant: "filled",
@@ -376,7 +395,7 @@ const occupancyInformationLabels: IApartmentidentifyingInformationInputs[] = [
   },
   {
     label: "ילדים עד גיל 21",
-    name: "countOfKidsUnder21",
+    name: "kidsUnder21",
     sm: 2,
     md: 2,
     variant: "filled",
@@ -384,10 +403,10 @@ const occupancyInformationLabels: IApartmentidentifyingInformationInputs[] = [
   },
 ];
 
-const contactInfoLabels = [
+const contactInfoLabels: IContactInformation[] = [
   {
     label: "נייד מוביל",
-    name: "mainMobileNumber",
+    name: "mainPhoneNumber",
     value: "0522520484",
   },
   {
@@ -402,22 +421,32 @@ const contactInfoLabels = [
   },
   {
     label: `דוא"ל`,
-    name: "contactEmail",
+    name: "email",
     value: "omerperez222@gmail.com",
   },
   {
     label: "דוד השכן",
-    name: "anotherPhoneNumber",
+    name: "firstContactName",
+    value: "0522520484",
+  },
+  {
+    label: "דוד השכן",
+    name: "firstContactPhoneNumber",
     value: "0522520484",
   },
   {
     label: "משה ועד בית",
-    name: "anotherPhoneNumber2",
+    name: "secondContactName",
+    value: "0522520484",
+  },
+  {
+    label: "דוד השכן",
+    name: "secondContactPhoneNumber",
     value: "0522520484",
   },
   {
     label: "פרטי התקשרות נוספים",
-    name: "anotherContactsDetails",
+    name: "otherContactDetailsComment",
     value:
       "המספר למעלה עבור משה השכן, שימו לב בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה בלה",
   },

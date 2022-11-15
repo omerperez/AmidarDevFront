@@ -32,7 +32,7 @@ export default function Main() {
         employeeOriginalTableData: diaryVisitData,
       });
       setCountOfPages(
-        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1
+        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1,
       );
       homeDispatch({ type: "changeLoadingStatus", loadingStatus: false });
     };

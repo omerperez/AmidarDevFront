@@ -1,5 +1,5 @@
 import { SxProps, Theme } from "@mui/material";
-import { ApartmentGeneralDetails } from "../Builders/Visit";
+import { MainTenantDetails, OccupancyDetails, ContactInformation, ApartmentDetails } from "../Types/Visit";
 import { variant } from "../Types/MuiTypes";
 
 interface IPhoto {
@@ -32,7 +32,7 @@ interface IApartmentDetailItem {
   type: "select" | "input";
   values: {
     sx: SxProps<Theme>;
-    name?: string;
+    name: keyof ApartmentDetails;
     list?: ISelectListItem[];
     isShowLabel?: boolean;
     readOnly?: boolean;
@@ -116,13 +116,29 @@ interface IApartmentGeneralDetails {
 
 interface IApartmentidentifyingInformationInputs {
   label: string;
-  name: keyof ApartmentGeneralDetails;
+  name: keyof OccupancyDetails | keyof MainTenantDetails;
   sm: number;
   md: number;
   variant: variant;
   isEdit?: Boolean;
   readOnly: Boolean;
   // isFullName?: Boolean;
+}
+
+interface IDefect {
+  rate: number;
+  defectDescription?: string;
+}
+
+interface IOtherDefect {
+  rate: Boolean;
+  defectDescription?: string;
+}
+
+interface IContactInformation {
+  label: string;
+  name: keyof ContactInformation,
+  value?: string;
 }
 
 export type {
@@ -137,5 +153,5 @@ export type {
   ITenantInformation,
   IMainTenantTableDetails,
   IApartmentGeneralDetails,
-  IApartmentidentifyingInformationInputs,
+  IApartmentidentifyingInformationInputs, IDefect, IOtherDefect, IContactInformation
 };

@@ -335,7 +335,7 @@ const apartmentDetailsInputStyle: SxProps<Theme> = {
   },
 };
 
-const apartmentDetails: IApartmentDetailItem[] = [
+const apartmentDetailsLabels: IApartmentDetailItem[] = [
   {
     label: "חימום מים",
     type: "select",
@@ -361,7 +361,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     type: "select",
     values: {
       sx: { maxHeight: 44 },
-      name: "securityRoom",
+      name: "tama",
       list: securityRoom,
     },
     gridSize: 3,
@@ -371,7 +371,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     type: "select",
     values: {
       sx: { maxHeight: 44 },
-      name: "securityRoom",
+      name: "actualUse",
       list: securityRoom,
     },
     gridSize: 3,
@@ -381,6 +381,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     type: "input",
     values: {
       isShowLabel: false,
+      name: "area",
       readOnly: true,
       sx: apartmentDetailsInputStyle,
       variant: "outlined",
@@ -394,6 +395,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     values: {
       isShowLabel: false,
       readOnly: true,
+      name: "rooms",
       sx: apartmentDetailsInputStyle,
       variant: "outlined",
       value: 1,
@@ -406,6 +408,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     values: {
       isShowLabel: false,
       readOnly: true,
+      name: "halfRooms",
       sx: apartmentDetailsInputStyle,
       variant: "outlined",
       value: 1,
@@ -418,6 +421,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     values: {
       isShowLabel: false,
       readOnly: true,
+      name: "floor",
       sx: apartmentDetailsInputStyle,
       variant: "outlined",
       value: 1,
@@ -430,6 +434,7 @@ const apartmentDetails: IApartmentDetailItem[] = [
     values: {
       isShowLabel: false,
       readOnly: true,
+      name: "stairs",
       sx: apartmentDetailsInputStyle,
       variant: "outlined",
       value: 1,
@@ -442,5 +447,5 @@ export {
   qualityRatingOptionsList,
   maintenanceQualityList,
   isExistsItemsList,
-  apartmentDetails,
+  apartmentDetailsLabels,
 };

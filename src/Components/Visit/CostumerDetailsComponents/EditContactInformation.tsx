@@ -28,14 +28,14 @@ export default function EditContactInformation() {
                       required={false}
                     />
                   </Grid>
-                ) : item.name.includes("anotherPhoneNumber") ? (
+                ) : item.name.includes("firstContactName") ? (
                   <Fragment
                     key={`EditContactInformationFragmentLabel-${index}`}
                   >
                     <Grid item md={3} key={`another-phone-label-${index}`}>
                       <Input
                         label={
-                          item.name === "anotherPhoneNumber"
+                          item.name === "firstContactName"
                             ? "שם איש קשר"
                             : "שם איש קשר 2"
                         }
@@ -56,7 +56,7 @@ export default function EditContactInformation() {
                     >
                       <Input
                         label={
-                          item.name === "anotherPhoneNumber"
+                          item.name === "firstContactName"
                             ? "נייד איש קשר"
                             : "נייד איש קשר 2"
                         }

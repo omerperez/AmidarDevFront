@@ -21,7 +21,7 @@ import "../Layouts/Style/Visit.css";
 export default function VisitPage() {
   const [searchParams] = useSearchParams();
   const [apartment, setApartment] = useState<ApartmentGeneralDetails | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState(true);
   const [activeStep, setActiveStep] = useState(0);
@@ -33,17 +33,12 @@ export default function VisitPage() {
         if (searchParams) {
           const currentApartment = Object.fromEntries([...searchParams]);
           const response = await getVisitDetails(currentApartment);
-          // const formStatusRequestData = await formStatusRequest(currentApartment);
-
           const [element] = await response;
           if (element) {
             setApartment(new ApartmentGeneralDetails(element));
           } else {
             setApartment(null);
           }
-          // if (formStatusRequestData) {
-          //   visitContextFunction.setFormsFiles(formStatusRequestData);
-          // }
           setLoading(false);
         }
       };
@@ -61,7 +56,8 @@ export default function VisitPage() {
 
   const SubPages = [
     <div className="mb-20 maintenance-layout">
-      <CostumerDetails apartment={apartment} />
+      <CostumerDetails />
+      {/* apartment={apartment} */}
     </div>,
     <div className="maintenance-layout">
       <AccountStatus />

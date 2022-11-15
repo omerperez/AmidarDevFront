@@ -7,8 +7,15 @@ import { Edit } from "@mui/icons-material";
 import "../../../Layouts/Style/Visit.css";
 import GenericDialog from "../../Global/GenericDialog";
 import EditContactInformation from "./EditContactInformation";
+import { VisitGeneralDetails } from "../../../Types/Visit";
 
-export default function ContactInformation() {
+interface ContactInformationProps {
+  apartment: VisitGeneralDetails;
+}
+
+export default function ContactInformation({
+  apartment,
+}: ContactInformationProps) {
   return (
     <ThemeRightToLeft>
       <div className="section-general">
@@ -43,7 +50,7 @@ export default function ContactInformation() {
                         : "card-body-text-value"
                     }
                   >
-                    {occupancyItem.value}
+                    {`${apartment.contactInformation[occupancyItem.name]}`}
                   </span>
                 </Grid>
                 {index === 2 && (
