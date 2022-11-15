@@ -2,35 +2,6 @@
   text-align: center;
 }
 
-.blue-area,
-.green-area {
-  display: inline-block !important;
-  line-height: 30px !important;
-  height: 30px !important;
-}
-
-.blue-area {
-  padding: 0 0 0 8px !important;
-  background-color: #26799b !important;
-  position: relative !important;
-}
-
-.blue-area:after {
-  content: "" !important;
-  position: absolute !important;
-  left: 100% !important;
-  top: 0 !important;
-  border-color: transparent transparent #26799b transparent !important;
-  border-style: solid !important;
-  border-width: 0 30px 30px 0 !important;
-  display: block !important;
-}
-
-.green-area {
-  background-color: #386c19 !important;
-  padding: 0 8px 0 30px !important;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

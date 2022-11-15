@@ -18,8 +18,9 @@
 
 .version-title {
   margin-right: 10px;
-  font-size: 14px;
-  font-family: Tahoma;
+  font-size: 16px;
+  /* font-family: Tahoma; */
+  font-family: "Noto Sans Hebrew", sans-serif;
 }
 
 .color-white {
@@ -33,7 +34,8 @@
 .loading-text {
   color: rgb(27, 44, 63) !important;
   font-size: 22px !important;
-  font-family: Tahoma !important;
+  /* font-family: Tahoma !important; */
+  font-family: "Noto Sans Hebrew", sans-serif !important;
 }
 
 .loading-style {
