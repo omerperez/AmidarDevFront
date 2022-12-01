@@ -10,6 +10,7 @@ import {
 import { IVisitContext, VisitProviderProps } from "../Data/Interfaces/Visit";
 import { VisitContextType } from "../Data/Types/Visit";
 import visitReducer from "../Reducers/VisitReducer";
+import { getTableCode } from "../Services/Visit";
 
 const initialState: IVisitContext = {
   identifyingInformation: new VisitGeneralDetails(null),
@@ -29,8 +30,18 @@ export default function VisitProvider({ children }: VisitProviderProps) {
   const [visitState, dispatch] = useReducer(visitReducer, initialState);
 
   function initVisit(visit: IVisitContext) {
-    dispatch({ type: "initializationVisit", visitState: visit });
+    getTableCode(true)
+      .then((tb) => {
+        visit = {
+          ...visit,
+          tableCode: tb,
+        };
+      })
+      .then(() => {
+        dispatch({ type: "initializationVisit", visitState: visit });
+      });
   }
+
   function setIdentifyingInfo(generalDetails: VisitGeneralDetails) {
     dispatch({
       type: "setIdentifyingInformation",

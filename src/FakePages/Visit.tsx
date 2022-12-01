@@ -31,12 +31,6 @@ export default function VisitFakePage() {
   const [camera, setCamera] = useState<Boolean>(false);
   const [representativeNumber, setRepresentativeNumber] = useState<string>("");
 
-  useEffect(() => {
-    getTableCode(true).then((tables) => {
-      setTableCode(tables);
-    });
-  }, []);
-
   useMemo(() => {
     if (visitState.activeStep === 0) {
       const [element] = tenant_3;
