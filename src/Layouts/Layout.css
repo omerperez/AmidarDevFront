@@ -6,6 +6,15 @@
     #5899e2 82%,
     white 90%
   ) !important;
+
+  /* background: linear-gradient(
+    120deg,
+    white 7%,
+    #5899e2 20%,
+    #5899e2 82%,
+    rgb(75 134 197) 90%,
+    white 95%
+  ) !important; */
 }
 
 .h-75 {
@@ -49,4 +58,14 @@
 
 .col-white {
   color: white !important;
+}
+
+.project-font {
+  font-family: "Noto Sans Hebrew", sans-serif;
+}
+
+.input-error {
+  color: rgb(160, 52, 57);
+  font-size: 14px;
+  margin: 3px 5px;
 }

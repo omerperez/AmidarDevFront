@@ -1,90 +1,112 @@
-import { ChangeEvent } from "react";
 import { Button, Card, Grid } from "@mui/material";
+import { ChangeEvent, useContext } from "react";
+import { contexts } from "../../Contexts/ContextsExports";
 import GenericDialog from "../Global/GenericDialog";
 import Input from "../Global/Input";
 import SelectInput from "../Global/Select";
 import TextAreaInputRef from "../Global/TextArea";
 import SubPagesTitle from "./SubPageTitle";
 import SummaryVisit from "./SummaryVisit";
+import { Summary } from "../../Data/Builders/Visit";
+import { VisitContextType } from "../../Data/Types/Visit";
 
-const demo = [
+interface IDemo {
+  label: string;
+  keyName: keyof Summary;
+  inputType: "select" | "input" | "textArea";
+}
+const demo: IDemo[] = [
   {
     label: "שינויים בהרכב המשפחה",
-    value: "אין",
-    type: "select",
+    keyName: "familyTenantsChanges",
+    inputType: "select",
   },
   {
     label: "האם גר/ה בגפו/ה",
-    value: "בחירה",
-    type: "select",
+    keyName: "isLiveAlone",
+    inputType: "select",
   },
   {
     label: "חתם על תצהיר גר בגפו",
-    value: "בחירה",
-    type: "select",
+    keyName: "isSignLiveAlone",
+    inputType: "select",
   },
   {
     label: "הסכמה לעבור לדירה קטנה",
-    value: "בחירה",
-    type: "select",
+    keyName: "isAgreeSmallApartment",
+    inputType: "select",
   },
   {
     label: "מעבר אזרח ותיק",
-    value: "בחירה",
-    type: "select",
+    keyName: "isTransitionalOldTenant",
+    inputType: "select",
   },
   {
     label: "שפת הביקור",
-    value: "01 עברית",
-    type: "select",
+    keyName: "visitLanguage",
+    inputType: "select",
   },
   {
     label: "נכח מתרגם",
-    value: "לא",
-    type: "select",
+    keyName: "isTranslatorPresent",
+    inputType: "select",
   },
   {
     label: "שם הדייר החותם",
-    value: "כהן גינה",
-    type: "input",
+    keyName: "signsTenantName",
+    inputType: "input",
   },
   {
     label: "מהות הדייר הנוכח בדירה",
-    value: "בחירה",
-    type: "select",
+    keyName: "signsTenantEssence",
+    inputType: "select",
   },
   {
     label: "תעודת זהות מתרגם",
-    value: "209543214",
-    type: "input",
+    keyName: "translatorId",
+    inputType: "input",
   },
   {
     label: "הערות לביקור",
-    value: "בלה בלה בלה בלה בלה בלה",
-    type: "textArea",
+    keyName: "comments",
+    inputType: "textArea",
   },
 ];
 
+const list = ["omer", "perez", "ariella", "nadler", "true", "false"];
 export default function LastStep() {
+  const { visitState } = useContext(contexts.Visit) as VisitContextType;
+
   return (
     <div className="section-general">
       <SubPagesTitle title="סיכום הביקור" fontSize="32" />
       <Card className="white-box">
         <Grid container spacing={1} className="mb-20 mt-10">
           {demo.map((item, key) => (
-            <Grid item sm={item.type === "textArea" ? 12 : 2.4} key={key}>
-              {item.type === "select" ? (
+            <Grid item sm={item.inputType === "textArea" ? 12 : 2.4} key={key}>
+              {item.inputType === "select" ? (
                 <SelectInput
-                  list={demo}
-                  name={item.label}
+                  disabled={
+                    item.keyName === "isTransitionalOldTenant"
+                      ? !visitState.summary[item.keyName]
+                      : false
+                  }
+                  required={
+                    (item.keyName === "isTransitionalOldTenant" &&
+                      visitState.summary[item.keyName]) ??
+                    false
+                  }
+                  list={list}
+                  value={visitState.summary[item.keyName] ? "true" : "false"}
+                  name={item.keyName}
                   label={item.label}
                   style={{ background: "white" }}
                 />
-              ) : item.type === "textArea" ? (
+              ) : item.inputType === "textArea" ? (
                 <TextAreaInputRef
                   title={item.label}
-                  value={item.value}
-                  name={item.label}
+                  value={visitState.summary[item.keyName] ? "true" : "false"}
+                  name={item.keyName}
                   minRow={5}
                   required={false}
                 />
@@ -97,7 +119,7 @@ export default function LastStep() {
                   isShowLabel={false}
                   readOnly={false}
                   variant={"outlined"}
-                  value={"209543214"}
+                  value={visitState.summary[item.keyName] ? "true" : "false"}
                 />
               )}
             </Grid>
@@ -105,13 +127,16 @@ export default function LastStep() {
           <div style={{ margin: "30px auto 0 auto ", marginTop: 10 }}>
             <GenericDialog
               children={
-                <Button className="paymant-btn" variant="contained">
+                <Button
+                  className="paymant-btn"
+                  variant="contained"
+                  // onClick={save}
+                >
                   סיים ביקור
                 </Button>
               }
               closeBtn={true}
               fullSize={true}
-              //   content={<PrinterWrapper children={<SummaryVisit />} />}
               content={<SummaryVisit />}
             />
           </div>

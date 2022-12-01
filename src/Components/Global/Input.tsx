@@ -1,31 +1,16 @@
+import { SxProps, TextField, Theme } from "@mui/material";
 import {
-  useId,
-  useState,
-  InputHTMLAttributes,
   ChangeEvent,
   CSSProperties,
+  InputHTMLAttributes,
+  useId,
+  useState,
 } from "react";
-import Layout from "../../Layouts/Forms/InputLayout";
-import { TextField } from "@mui/material";
-import { variant } from "../../Types/MuiTypes";
-import { SxProps, Theme } from "@mui/material";
 import "../../Layouts/Forms/FieldsTypesStyle.css";
-
-const dateInputStyle = {
-  "& .muirtl-md26zr-MuiInputBase-root-MuiOutlinedInput-root": {
-    fontFamily: "Noto Sans Hebrew, sans-serif",
-  },
-  "& .muirtl-1a1fmpi-MuiInputBase-root-MuiInput-root": {
-    fontFamily: "Noto Sans Hebrew, sans-serif",
-  },
-  "& .muirtl-10botns-MuiInputBase-input-MuiFilledInput-input": {
-    fontFamily: "Noto Sans Hebrew, sans-serif",
-    padding: "16px 8px 16px 12px",
-  },
-  "& .muirtl-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
-    textAlign: "start",
-  },
-};
+import Layout from "../../Layouts/Forms/InputLayout";
+import { InputMui } from "../../Layouts/Style/MUI/GlobalStyle";
+import { variant } from "../../Data/Types/MuiTypes";
+import { isStringIncludesNumbersOnly } from "../../Features/FormatsFunctions";
 
 interface InputProps {
   label?: string;
@@ -57,14 +42,13 @@ export default function Input({
   const inputId = useId();
   const [error, setError] = useState("");
 
-  const [stateVal, setStateVal] = useState<string | null>(null);
-
   const handleChange = (event: any) => {
-    if (
-      validation &&
-      validation.function !== undefined &&
-      validation.errorComment !== undefined
-    ) {
+    if (type === "mobile" || name === "id") {
+      if (isStringIncludesNumbersOnly(event)) {
+        return;
+      }
+    }
+    if (validation && validation.function && validation.errorComment) {
       if (!validation.function(event.target.value)) {
         setError(validation.errorComment);
       } else {
@@ -74,6 +58,7 @@ export default function Input({
     onChange(event);
   };
 
+  const inputStyle = sx ? { ...sx, ...InputMui } : InputMui;
   return (
     <Layout label={label} error={error}>
       <TextField
@@ -82,11 +67,9 @@ export default function Input({
         name={name}
         id={inputId}
         label={isShowLabel ? label : ""}
-        type={type}
-        value={stateVal !== null ? stateVal : value ?? ""}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setStateVal(e.target.value)
-        }
+        type={type ?? "text"}
+        value={value ?? ""}
+        onChange={handleChange}
         InputLabelProps={{
           shrink: true,
         }}
@@ -94,7 +77,7 @@ export default function Input({
           readOnly: readOnly ?? false,
         }}
         className={"h-100"}
-        sx={sx ?? dateInputStyle}
+        sx={inputStyle}
         style={style}
       />
     </Layout>

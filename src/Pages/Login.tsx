@@ -1,162 +1,209 @@
-import { useState, useContext, ChangeEvent, KeyboardEvent } from "react";
+import {
+  Alert,
+  Button,
+  FormControl,
+  FormLabel,
+  TextField,
+} from "@mui/material";
+import { ChangeEvent, KeyboardEvent, useContext, useState } from "react";
+import {
+  LOGIN,
+  LOGIN_BTN_TEXT,
+  PASSWORD,
+  USERNAME,
+} from "../Assets/Constants/Constants";
 import { amidarLogo } from "../Assets/ProjectImages";
 import ThemeRightToLeft from "../Assets/ThemeRightToLeft";
-import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  TextField,
-  FormLabel,
-  FormControl,
-  Alert,
-} from "@mui/material";
-import { CookiesService } from "../Services/Cookies";
+import PasswordInput from "../Components/Auth/PasswordInput";
+import SuccessAnimation from "../Components/Auth/SuccessAnimation";
+import WelcomeTitle from "../Components/Auth/WelcomeTitle";
 import { contexts } from "../Contexts/ContextsExports";
-import { getEmployeeProperties } from "../Services/Home";
-import { errorIconStyle } from "../Assets/Auth";
-import { validationService } from "../Services/Validations";
-import PasswordInput from "../Components/Global/PasswordInput";
-import "../Layouts/Style/Auth.css";
+import { AuthContextType } from "../Data/Types/Auth";
+import "../Layouts/Style/CSS/Auth.css";
+import { errorIconStyle } from "../Layouts/Style/MUI/AuthStyle";
+import CookiesService from "../Services/Cookies";
+import { loginAuth } from "../Services/Login";
+import { validationService } from "../Services/Validation/GlobalValidations";
 
+interface ILoginState {
+  username: string;
+  password: string;
+  error: string;
+  userFullName: string;
+  disabled: boolean;
+  showPassword: boolean;
+  open: boolean;
+  removeIcon: boolean;
+}
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const [employeeNumber, setEmployeeNumber] = useState<string>("");
-  const [employeeMobile, setEmployeeMobile] = useState<string>("");
-  const [verificationCode, setVerificationCode] = useState<string>("");
-  const [handleClickLogin, setHandleClickLogin] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const { authDispatch } = useContext(contexts.Auth);
+  const { login } = useContext(contexts.Auth) as AuthContextType;
+
+  const [loginState, setLoginState] = useState<ILoginState>({
+    username: "",
+    password: "",
+    error: "",
+    userFullName: "",
+    disabled: false,
+    showPassword: false,
+    open: false,
+    removeIcon: false,
+  });
 
   const handleClickOnShowPasswordIcon = () => {
-    setShowPassword(!showPassword);
+    setLoginState((prevstate) => ({
+      ...prevstate,
+      showPassword: !loginState.showPassword,
+    }));
   };
 
-  const handleChangeVerificationCode = (e: ChangeEvent<HTMLInputElement>) => {
-    setVerificationCode(e.target.value);
+  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginState((prevstate) => ({
+      ...prevstate,
+      password: e.target.value,
+    }));
   };
 
-  const handleClickLoginBtn = async () => {
-    if (!handleClickLogin) {
-      if (!validationService.isEmployeeNumberProper.function(employeeNumber)) {
-        return setError(validationService.isEmployeeNumberProper.errorComment);
-      }
-      if (!validationService.isEmployeeMobileProper.function(employeeMobile)) {
-        return setError(validationService.isEmployeeMobileProper.errorComment);
-      }
-      setError("");
-      setHandleClickLogin(true);
+  const setError = (error: string) => {
+    setLoginState((prevstate) => ({
+      ...prevstate,
+      error: error,
+    }));
+  };
+
+  const setState = (key: keyof ILoginState, value: string | boolean) => {
+    setLoginState((prevstate) => ({
+      ...prevstate,
+      [key]: value,
+    }));
+  };
+
+  const setStateAfterAuthResponse = (
+    fullName: string,
+    open: boolean,
+    removeIcon: boolean
+  ) => {
+    setLoginState((prevstate) => ({
+      ...prevstate,
+      open: open,
+      userFullName: fullName,
+      removeIcon: removeIcon,
+    }));
+  };
+
+  const disabledBtn = async () => {
+    if (
+      !validationService.isEmployeeNumberProper.function(loginState.username)
+    ) {
+      return setError(validationService.isEmployeeNumberProper.errorComment);
+    }
+    if (
+      !validationService.isUserPasswordPropper.function(loginState.password)
+    ) {
+      return setError(validationService.isUserPasswordPropper.errorComment);
+    }
+    setState("disabled", true);
+    const authResponse = await loginAuth(
+      loginState.username,
+      loginState.password
+    );
+    if (authResponse.error) {
+      return setError(authResponse.error);
+    }
+    setError("");
+    if (authResponse) {
+      setStateAfterAuthResponse(authResponse.fullName, true, false);
+      setTimeout(() => {
+        setState("removeIcon", true);
+        setTimeout(() => {
+          CookiesService.setUserObj(authResponse);
+          login(authResponse);
+          setState("open", false);
+        }, 5000);
+      }, 2000);
     } else {
-      if (verificationCode?.length !== 6) {
-        return setError("קוד ההזדהות אינו תקין, נסה/י שוב");
-      }
-      const currentUser = await getEmployeeProperties(employeeNumber);
-      CookiesService.setUserObj(currentUser);
-      authDispatch({
-        type: "login",
-        currentUserId: currentUser.employeeNumber,
-      });
-      authDispatch({
-        type: "changeUserProperties",
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        mobileNumber: currentUser.mobileNumber,
-      });
-      return navigate("/homepage");
+      setState("disabled", false);
+      return setError(validationService.isEmployeeMobileProper.errorComment);
     }
   };
 
   const handlePressEnter = (e: KeyboardEvent<any>) => {
     if (e.key === "Enter") {
-      return handleClickLoginBtn();
+      return disabledBtn();
     }
   };
+
+  if (loginState.open) {
+    return (
+      <div className="login-page">
+        <div className="login-card">
+          <div className="text-center">
+            <img src={amidarLogo} alt={LOGIN} width={400} />
+          </div>
+          {loginState.removeIcon ? (
+            <WelcomeTitle username={loginState.userFullName} />
+          ) : (
+            <SuccessAnimation />
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="login-page">
       <div className="login-card">
         <div className="text-center">
-          <img src={amidarLogo} alt="Login" width={300} />
+          <img src={amidarLogo} alt={LOGIN} width={400} />
         </div>
         <ThemeRightToLeft>
-          {error && (
+          {loginState.error && (
             <Alert sx={errorIconStyle} className="error-font" severity="error">
-              {error}
+              {loginState.error}
             </Alert>
           )}
-          <FormControl className="w-100">
+          <FormControl className="input-login">
             <div className="mtb-10">
               <FormLabel
                 className="login-title"
                 id={"form-title-label-employee-number"}
               >
-                מספר עובד
+                {USERNAME}
               </FormLabel>
               <TextField
                 fullWidth
-                disabled={handleClickLogin}
+                disabled={loginState.disabled}
                 className="mtb-10"
                 required
-                variant={handleClickLogin ? "filled" : "outlined"}
+                variant={loginState.disabled ? "filled" : "outlined"}
                 id="employee-number"
-                label="מספר עובד"
-                value={employeeNumber}
+                label={USERNAME}
+                value={loginState.username}
                 onKeyDown={handlePressEnter}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEmployeeNumber(e.target.value)
+                  setState("username", e.target.value)
                 }
               />
             </div>
-            <div className="mt-10 mb-10">
-              <FormLabel
-                className="login-title"
-                id={"form-title-label-employee-mobile"}
-              >
-                מספר פלאפון
-              </FormLabel>
-              <TextField
-                disabled={handleClickLogin}
-                className="mtb-10"
-                fullWidth
-                required
-                variant={handleClickLogin ? "filled" : "outlined"}
-                id="employee-mobile"
-                label="מספר פלאפון"
-                value={employeeMobile}
-                onKeyDown={handlePressEnter}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEmployeeMobile(e.target.value)
-                }
-              />
-            </div>
-
-            {handleClickLogin && (
-              <div className="mt-10 mb-10">
-                <PasswordInput
-                  title={"קוד הזדהות"}
-                  formLabelStyle={"login-title"}
-                  textFieldStyle={"mtb-10"}
-                  showPassword={showPassword}
-                  value={verificationCode}
-                  onKeyPress={handlePressEnter}
-                  handleChangeInput={handleChangeVerificationCode}
-                  isShowPassword={handleClickOnShowPasswordIcon}
-                />
-              </div>
-            )}
+            <PasswordInput
+              title={PASSWORD}
+              formLabelStyle={"login-title"}
+              textFieldStyle={"mb-10"}
+              showPassword={loginState.showPassword}
+              value={loginState.password}
+              onKeyPress={handlePressEnter}
+              handleChangeInput={handleChangePassword}
+              isShowPassword={handleClickOnShowPasswordIcon}
+            />
           </FormControl>
         </ThemeRightToLeft>
         <div className="btn-pos">
           <Button
             variant="contained"
-            className={
-              handleClickLogin
-                ? "login-btn-after-vertification-code"
-                : "login-btn"
-            }
+            className="login-btn"
             fullWidth
-            onClick={handleClickLoginBtn}
+            onClick={disabledBtn}
           >
-            {handleClickLogin ? "התחבר/י" : "שלח קוד הזדהות"}
+            {LOGIN_BTN_TEXT}
           </Button>
         </div>
       </div>

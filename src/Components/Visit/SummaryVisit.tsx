@@ -1,20 +1,21 @@
-import { useRef } from "react";
 import { Grid } from "@mui/material";
-import SubPagesTitle from "./SubPageTitle";
-import GenericTable from "./SummaryVisit/GenericTable";
+import { useRef } from "react";
+import SignaturePad from "react-signature-pad-wrapper";
+import { TEXTS, TITLES } from "../../Assets/Constants/VisitConstants";
 import {
   ApartmentDetailsColumns,
   ApartmentDetailsDemoValues,
   OccupancyDetailsColumns,
   OccupancyDetailsDemoValues,
-  TenantsDetailsColumns,
-  TenantsDetailsDemoValues,
   PaymentDetailsColumns,
   PaymentDetailsDemoValues,
+  TenantsDetailsColumns,
+  TenantsDetailsDemoValues,
 } from "../../Assets/Visit/SummaryVisit";
-import MaintenanceSummary from "./SummaryVisit/MaintenanceSummary";
+import SubPagesTitle from "./SubPageTitle";
 import Approvals from "./SummaryVisit/Approvals";
-import SignaturePad from "react-signature-pad-wrapper";
+import GenericTable from "./SummaryVisit/GenericTable";
+import MaintenanceSummary from "./SummaryVisit/MaintenanceSummary";
 
 const demoValues = [
   "שם הדייר: ילנה גוליק",
@@ -62,36 +63,36 @@ export default function SummaryVisit() {
         ))}
       </Grid>
       <GenericTable
-        tableTitle={"פרטי הנכס"}
+        tableTitle={TITLES.APARTMENT_DETAILS}
         columns={ApartmentDetailsColumns}
         rows={ApartmentDetailsDemoValues}
       />
       <GenericTable
-        tableTitle={"פרטי אכלוס"}
+        tableTitle={TITLES.OCCUPANCY_DETAILS}
         columns={OccupancyDetailsColumns}
         rows={OccupancyDetailsDemoValues}
         gridSize={1}
       />
       <GenericTable
-        tableTitle={"פרטי משתכנים"}
+        tableTitle={TITLES.TENANTS_DETAILS}
         columns={TenantsDetailsColumns}
         rows={TenantsDetailsDemoValues}
         gridSize={2.4}
       />
       <GenericTable
-        tableTitle={"פרטי נסמכים"}
+        tableTitle={TITLES.NISMACH_DETAILS}
         columns={TenantsDetailsColumns}
         rows={TenantsDetailsDemoValues}
         gridSize={2.4}
       />
       <div>
-        <b className="maintenance-first-label">*הערות: </b>
+        <b className="maintenance-first-label">{TEXTS.SUMMERY_COMMENT}</b>
         <span className="sammary-font-medium">
           דירה מתוחזקת, הלקוחה מעוניינת למכור
         </span>
       </div>
       <GenericTable
-        tableTitle={"פרטי גבייה"}
+        tableTitle={TITLES.COLLECTION_DETAILS}
         columns={PaymentDetailsColumns}
         rows={PaymentDetailsDemoValues}
         gridSize={1.2}

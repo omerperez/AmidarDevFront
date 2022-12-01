@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
 import createCache from "@emotion/cache";
-import rtlPlugin from "stylis-plugin-rtl";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CacheProvider } from "@emotion/react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ReactNode } from "react";
+import rtlPlugin from "stylis-plugin-rtl";
 
 const theme = createTheme({
   direction: "rtl",

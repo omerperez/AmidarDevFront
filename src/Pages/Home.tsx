@@ -1,40 +1,36 @@
-import { useEffect, useState, useContext } from "react";
-import {
-  DataGrid,
-  GridColumns,
-  GridEventListener,
-  MuiEvent,
-} from "@mui/x-data-grid";
-import { boxStyle } from "../Components/Home/Assets";
-import BasicSearch from "../Components/Home/BasicSearch";
-import AdvanceSearch from "../Components/Home/AdvanceSearch";
-import Loading from "../Layouts/Loading";
-import { getDiaryVisitData } from "../Services/Home";
-import { TableColumns } from "../Builders/Home";
 import { Box } from "@mui/material";
+import { DataGrid, GridColumns, MuiEvent } from "@mui/x-data-grid";
+import { useContext, useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { APARTMENTS } from "../Assets/Constants/Constants";
+import AdvanceSearch from "../Components/Home/AdvanceSearch";
+import BasicSearch from "../Components/Home/BasicSearch";
 import { contexts } from "../Contexts/ContextsExports";
-import { IMainTenantTableDetails } from "../Interfaces/Visit";
+import { TableColumns } from "../Data/Builders/Home";
+import { IMainTenantTableDetails } from "../Data/Interfaces/Visit";
+import { HomeContextType } from "../Data/Types/Home";
+import Loading from "../Layouts/Loading";
+import { TableBoxMui } from "../Layouts/Style/MUI/HomeStyle";
+import { getDiaryVisitData } from "../Services/Home";
 
 export default function Main() {
   const tableProperties = new TableColumns()
     .columns as unknown as GridColumns<any>;
-  const { homeState, homeDispatch } = useContext(contexts.Home);
+  const { homeState, updateData, getOriginalData, setLoading } = useContext(
+    contexts.Home
+  ) as HomeContextType;
   const navigate = useNavigate();
   const [countOfPages, setCountOfPages] = useState<number>(1);
 
   useEffect(() => {
     const fetchData = async () => {
       const diaryVisitData = await getDiaryVisitData();
-      homeDispatch({ type: "changeTableData", tableData: diaryVisitData });
-      homeDispatch({
-        type: "getEmployeeOriginalTableData",
-        employeeOriginalTableData: diaryVisitData,
-      });
+      updateData(diaryVisitData);
+      getOriginalData(diaryVisitData);
       setCountOfPages(
-        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1,
+        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1
       );
-      homeDispatch({ type: "changeLoadingStatus", loadingStatus: false });
+      setLoading(false);
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,7 +39,7 @@ export default function Main() {
   const handleClickOnApartment = (event: MuiEvent<any>) => {
     const row = event.row;
     navigate({
-      pathname: "/apartments",
+      pathname: `/${APARTMENTS}`,
       search: createSearchParams({
         blockId: row.V_YOMAN_BIKUR_SHIKUN_0,
         buildingNumber: row.V_YOMAN_BIKUR_MIVNE_0,
@@ -54,7 +50,7 @@ export default function Main() {
     });
   };
 
-  if (homeState.loading) {
+  if (homeState.isLoading) {
     return <Loading loadingTitle={"טוען נתונים..."} />;
   }
 
@@ -73,14 +69,14 @@ export default function Main() {
 
   return (
     <div className="mt-20">
-      {homeState.showAdvanceSearch && <AdvanceSearch />}
+      {homeState.isShowAdvanceSearch && <AdvanceSearch />}
       <div className="mb-50">
         <div className="table-search">
           <BasicSearch />
         </div>
-        <Box sx={boxStyle}>
+        <Box sx={TableBoxMui}>
           <DataGrid
-            rows={homeState.tableData}
+            rows={homeState.currentData}
             getRowId={tableGetRowId}
             onRowClick={handleClickOnApartment}
             columns={tableProperties}

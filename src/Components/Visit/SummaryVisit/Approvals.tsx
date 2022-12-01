@@ -1,4 +1,4 @@
-import { Grid, Checkbox } from "@mui/material";
+import { Checkbox, Grid } from "@mui/material";
 import { Stack } from "@mui/system";
 
 const items = [

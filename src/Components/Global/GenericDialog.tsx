@@ -1,14 +1,23 @@
-import { forwardRef, Ref, ReactElement, useState, cloneElement } from "react";
-import { TransitionProps } from "@mui/material/transitions";
 import {
   Button,
-  DialogActions,
   Dialog,
+  DialogActions,
   DialogContent,
   Slide,
+  Stack,
 } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import {
+  cloneElement,
+  forwardRef,
+  KeyboardEvent,
+  ReactElement,
+  Ref,
+  useState,
+} from "react";
+import { CANCEL_CHANGES, SAVE_CHANGES } from "../../Assets/Constants/Constants";
+import { DialogFullSize, DialogMui } from "../../Layouts/Style/MUI/GlobalStyle";
 import SubPagesTitle from "../Visit/SubPageTitle";
-import { dialogStyle, dialogFullSizeStyle } from "../../Assets/Global";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,6 +34,9 @@ interface GenericDialogProps {
   content?: JSX.Element;
   fullSize?: Boolean;
   closeBtn?: Boolean;
+  isEditBtn?: Boolean;
+  cancelEdit?: () => void;
+  saveEdit?: () => void;
 }
 
 export default function GenericDialog({
@@ -33,14 +45,26 @@ export default function GenericDialog({
   content,
   fullSize,
   closeBtn,
+  isEditBtn,
+  cancelEdit,
+  saveEdit,
 }: GenericDialogProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleClose = () => {
+  const handlePressESC = (e: KeyboardEvent<any>) => {
+    if (e.key === "Escape") {
+      return cancel();
+    }
+  };
+  const save = () => {
+    saveEdit && saveEdit();
+    setOpen(false);
+  };
+  const cancel = () => {
+    cancelEdit && cancelEdit();
     setOpen(false);
   };
 
@@ -48,23 +72,39 @@ export default function GenericDialog({
     <div>
       {cloneElement(children, { onClick: handleClickOpen })}
       <Dialog
+        onKeyDown={handlePressESC}
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
         className={fullSize ? "" : "mh-800"}
-        sx={fullSize ? dialogFullSizeStyle : dialogStyle}
+        sx={fullSize ? DialogFullSize : DialogMui}
         aria-describedby="alert-dialog-slide-description"
       >
         {content && (
           <DialogContent className="mb-20">
             {title && <SubPagesTitle title={title} fontSize={"32"} />}
             {content}
+            {isEditBtn && (
+              <div className="pos-edit-btns">
+                <Stack direction={"row"} spacing={3} onClick={save}>
+                  <Button className="save-edit-btn" variant="contained">
+                    {SAVE_CHANGES}
+                  </Button>
+                  <Button
+                    className="cancel-edit-btn"
+                    variant="contained"
+                    onClick={cancel}
+                  >
+                    {CANCEL_CHANGES}
+                  </Button>
+                </Stack>
+              </div>
+            )}
           </DialogContent>
         )}
         {closeBtn !== false ? (
           <DialogActions>
-            <Button className="dialog-action-btn" onClick={handleClose}>
+            <Button className="dialog-action-btn" onClick={cancel}>
               סגור
             </Button>
           </DialogActions>

@@ -29,23 +29,5 @@ export default function GenericTable({
         </tbody>
       </table>
     </div>
-
-    // <div className="summary-box">
-    //   <div className="summary-sub-title">
-    //     <span className={`section-title-20`}>{tableTitle}</span>
-    //   </div>
-    //   <Card className="white-box">
-    //     <Grid container spacing={1}>
-    //       {columns.map((col, index) => (
-    //         <Grid item sm={gridSize ?? 0.8} key={index} className="mb-10">
-    //           <div className="label-pos">
-    //             <span className="card-body-text-label">{col}</span>
-    //           </div>
-    //           <span className="card-body-text-value">{rows[index]}</span>
-    //         </Grid>
-    //       ))}
-    //     </Grid>
-    //   </Card>
-    // </div>
   );
 }

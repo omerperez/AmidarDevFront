@@ -1,4 +1,4 @@
-import { Grid, Divider } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 
 interface TenantFormDetailsForm {
   firstName: string;

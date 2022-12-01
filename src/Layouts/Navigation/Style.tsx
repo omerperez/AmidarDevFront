@@ -1,8 +1,14 @@
-import { ReactElement } from "react";
-import { styled } from "@mui/material/styles";
-import MuiAppBar from "@mui/material/AppBar";
-import { Logout, Search, EventRepeat } from "@mui/icons-material";
+import { EventRepeat, Logout, Search } from "@mui/icons-material";
 import { SvgIconProps } from "@mui/material";
+import MuiAppBar from "@mui/material/AppBar";
+import { styled } from "@mui/material/styles";
+import { ReactElement } from "react";
+import {
+  ADVANCE_SEARCH,
+  HOMEPAGE,
+  SEARCH,
+  VISIT_LOG,
+} from "../../Assets/Constants/Constants";
 
 const drawerWidth = 240;
 
@@ -53,6 +59,12 @@ const titleStyle = {
   fontFamily: `Noto Sans Hebrew`,
 };
 
+const usernameTopBarMui = {
+  flexGrow: 1,
+  marginRight: "8%",
+  fontFamily: `Noto Sans Hebrew`,
+};
+
 const whiteColor = { color: "white" };
 
 export type NavigationProps =
@@ -70,14 +82,14 @@ export type NavigationProps =
 
 const navigationProperties: NavigationProps[] = [
   {
-    title: "יומן ביקורים",
+    title: VISIT_LOG,
     icon: <EventRepeat sx={whiteColor} fontSize="large" />,
-    navigate: "homepage",
+    navigate: HOMEPAGE,
   },
   {
-    title: "חיפוש מתקדם",
+    title: ADVANCE_SEARCH,
     icon: <Search sx={whiteColor} fontSize="large" />,
-    onClick: "search",
+    onClick: SEARCH,
   },
   {
     title: "התנתק/י",
@@ -94,4 +106,5 @@ export {
   titleStyle,
   navigationProperties,
   displayFlex,
+  usernameTopBarMui,
 };

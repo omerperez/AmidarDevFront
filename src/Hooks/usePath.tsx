@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function useReactPath() {
   const [path, setPath] = useState(window.location.pathname);

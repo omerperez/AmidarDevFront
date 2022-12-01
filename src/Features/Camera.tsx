@@ -1,18 +1,19 @@
+import { Collections } from "@mui/icons-material";
+import { Button, Fab, Grid } from "@mui/material";
+import * as markerjs2 from "markerjs2";
 import {
+  Dispatch,
+  SetStateAction,
   useContext,
   useEffect,
   useRef,
   useState,
-  Dispatch,
-  SetStateAction,
 } from "react";
-import * as markerjs2 from "markerjs2";
-import { Button, Fab, Grid } from "@mui/material";
-import { FileSaver } from "../Utils/SaveFile";
-import { contexts } from "../Contexts/ContextsExports";
 import GenericDialog from "../Components/Global/GenericDialog";
-import { Collections } from "@mui/icons-material";
 import Gallery from "../Components/Visit/Gallery";
+import { contexts } from "../Contexts/ContextsExports";
+import { VisitContextType } from "../Data/Types/Visit";
+import { FileSaver } from "../Utils/SaveFile";
 
 interface CameraProp {
   closeCameraState: Dispatch<SetStateAction<Boolean>>;
@@ -25,7 +26,9 @@ export default function Camera({ closeCameraState }: CameraProp) {
 
   const [isTakeImage, setIsTakeImage] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const { visitState, visitDispatch } = useContext(contexts.Visit);
+  const { visitState, setImages } = useContext(
+    contexts.Visit
+  ) as VisitContextType;
 
   const showMarkerArea = () => {
     if (imgRef.current) {
@@ -69,8 +72,7 @@ export default function Camera({ closeCameraState }: CameraProp) {
           };
           if (visitState.images && imagesObj) {
             const tempImages = visitState.images?.concat(imagesObj);
-            // : [imagesObj];
-            visitDispatch({ type: "setImages", images: tempImages });
+            setImages(tempImages);
             FileSaver(
               "png",
               ctx.canvas.toDataURL(),

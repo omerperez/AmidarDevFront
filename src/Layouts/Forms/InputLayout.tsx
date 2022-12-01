@@ -1,5 +1,5 @@
+import { FormControl, FormLabel } from "@mui/material";
 import ThemeRightToLeft from "../../Assets/ThemeRightToLeft";
-import { FormLabel, FormControl } from "@mui/material";
 
 interface InputLayoutProps {
   error?: string;
@@ -7,19 +7,19 @@ interface InputLayoutProps {
   children: JSX.Element;
 }
 export default function InputLayout({
-  error,
   label,
   children,
+  error,
 }: InputLayoutProps) {
   return (
     <ThemeRightToLeft>
-      <FormControl className="w-100">
-        {error && <h6>{error}</h6>}
+      <FormControl fullWidth>
         <FormLabel className="form-label" id={`form-title-label-${label}`}>
           {label}
         </FormLabel>
         {children}
       </FormControl>
+      {error && <div className="input-error">{error}</div>}
     </ThemeRightToLeft>
   );
 }

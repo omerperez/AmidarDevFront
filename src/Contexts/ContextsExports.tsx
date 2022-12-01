@@ -1,9 +1,6 @@
-import AuthPovider from "./Auth";
-import HomeProvider from "./Home";
-import VisitProvider from "./Visit";
-import { AuthContext } from "./Auth";
-import { HomeContext } from "./Home";
-import { VisitContext } from "./Visit";
+import AuthPovider, { AuthContext } from "./Auth";
+import HomeProvider, { HomeContext } from "./Home";
+import VisitProvider, { VisitContext } from "./Visit";
 
 const contexts = {
   Auth: AuthContext,
@@ -16,4 +13,5 @@ const providers = {
   Home: HomeProvider,
   Visit: VisitProvider,
 };
+
 export { providers, contexts };

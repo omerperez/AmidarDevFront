@@ -1,0 +1,186 @@
+.global-font {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+}
+
+.bg-amidar-blue {
+  background: rgb(75 134 197) !important;
+}
+
+.bg-amidar-cancel {
+  background-color: #a4529b !important;
+}
+
+.m-5 {
+  margin: 5px !important;
+}
+
+.underline {
+  text-decoration: underline !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.jc-end {
+  justify-content: end !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mb-50 {
+  margin-bottom: 50px;
+}
+
+.text-start {
+  text-align: start !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+@media (min-width: 600px) {
+  .mr-30 {
+    margin-right: 30px !important;
+  }
+}
+
+.mouse-pointer {
+  cursor: pointer !important;
+}
+
+.mt-40 {
+  margin-top: 40px !important;
+}
+
+.mb-40 {
+  margin-bottom: 40px !important;
+}
+
+.dowload-file-btn {
+  background: rgb(75 134 197) !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  width: 125px !important;
+}
+
+.text-dowload-file-btn {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 100 !important;
+  margin: 0 35% 0 35% !important;
+}
+
+.icon-dowload-file-btn {
+  margin: 25% 0 10% 35% !important;
+  font-size: 30px !important;
+}
+
+.m-auto {
+  margin: auto !important;
+}
+
+.visit-page-layout {
+  background: rgba(220, 242, 255, 1) !important;
+  min-height: 100vh !important;
+}
+
+.section-title-pos {
+  display: flex;
+  justify-content: start;
+}
+
+.section-title {
+  font-size: 32px;
+  margin: 0 0 20px 10px;
+  color: rgb(27, 44, 63);
+}
+
+.section-title-22 {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 10px 10px;
+  color: rgb(27, 44, 63);
+}
+
+.section-title-32 {
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0 0 10px 10px;
+  color: rgb(27, 44, 63);
+}
+
+.mh-800 {
+  max-height: 800px !important;
+}
+
+.alert-layout {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  margin: 25px 0 !important;
+  border-radius: 8px !important;
+  border: solid 2px white !important;
+  background-color: #aa5ba1bb !important;
+}
+
+.warning-alert {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  padding: 5% !important;
+  font-size: 24px !important;
+  letter-spacing: 1px !important;
+  text-align: center !important;
+}
+
+.warning-dialog-btn-next {
+  background: rgb(75 134 197) !important;
+  border-radius: 8px !important;
+  font-weight: 300 !important;
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 16px !important;
+  width: 150px !important;
+  height: 50px !important;
+  margin: 10px !important;
+}
+
+.warning-dialog-btn-cancel {
+  background: rgb(160, 52, 57) !important;
+  border-radius: 8px !important;
+  font-weight: 300 !important;
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 16px !important;
+  width: 150px !important;
+  height: 50px !important;
+  margin: 10px !important;
+}
+
+.margin-grades-explain-first {
+  margin-left: 10px;
+}
+.margin-grades-explain {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.select-required {
+  border: solid 2px rgb(185, 17, 26) !important;
+  margin: -2px !important;
+}

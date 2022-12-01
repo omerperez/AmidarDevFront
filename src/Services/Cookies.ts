@@ -1,33 +1,32 @@
+/* eslint-disable import/no-anonymous-default-export */
 import Cookies from "universal-cookie";
-import { ApplicationUser } from "../Builders/Auth";
+import { IApplicationUser } from "../Data/Interfaces/Auth";
 
 const cookies = new Cookies();
 
+const getToken = () => {
+  const token = cookies.get("token");
+  return token;
+};
+
 const getUserId = () => {
-  return cookies.get("userId");
+  return cookies.get("id");
 };
 
-const setUserId = (userId: string) => {
-  return cookies.set("userId", userId);
-};
-
-const setUserObj = (user: ApplicationUser) => {
-  cookies.set("userId", user.employeeNumber);
-  cookies.set("firstName", user.firstName);
-  cookies.set("lastName", user.lastName);
-  cookies.set("phoneNumber", user.employeeNumber);
+const setUserObj = (applicationUser: IApplicationUser) => {
+  removeUser();
+  cookies.set("id", applicationUser.id);
+  cookies.set("fullName", applicationUser.fullName);
+  cookies.set("mobileNumber", applicationUser.mobileNumber);
+  cookies.set("token", applicationUser.token);
   return;
 };
 
-const removeUserId = () => {
-  return cookies.remove("userId");
-};
-
-const removeUserObj = () => {
-  cookies.remove("userId");
-  cookies.remove("firstName");
-  cookies.remove("lastName");
-  cookies.remove("phoneNumber");
+const removeUser = () => {
+  cookies.remove("token");
+  cookies.remove("fullName");
+  cookies.remove("mobileNumber");
+  cookies.remove("id");
   return;
 };
 
@@ -35,13 +34,10 @@ const removeProperties = (propName: string) => {
   return cookies.remove(`${propName}`);
 };
 
-const CookiesService = {
-  getCookie: cookies,
-  getUserId: getUserId,
-  setUserId: setUserId,
-  removeProperties: removeProperties,
-  removeUserId: removeUserId,
-  setUserObj: setUserObj,
-  removeUserObj: removeUserObj,
+export default {
+  getToken,
+  setUserObj,
+  removeUser,
+  removeProperties,
+  getUserId,
 };
-export { CookiesService };

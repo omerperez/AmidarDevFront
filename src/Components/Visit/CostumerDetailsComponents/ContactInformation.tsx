@@ -1,21 +1,54 @@
-import { Fragment } from "react";
-import SubPagesTitle from "../SubPageTitle";
-import { contactInfoLabels } from "../../../Assets/Visit";
-import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { Fab, Grid, Card } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import "../../../Layouts/Style/Visit.css";
+import { Card, Fab, Grid } from "@mui/material";
+import { Fragment, useContext } from "react";
+import { TITLES } from "../../../Assets/Constants/VisitConstants";
+import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
+import { contactInfoLabels } from "../../../Assets/Visit";
+import {
+  ContactInformation,
+  VisitGeneralDetails,
+} from "../../../Data/Builders/Visit";
+import { contexts } from "../../../Contexts/ContextsExports";
+import useForm from "../../../Hooks/useForm";
+import "../../../Layouts/Style/CSS/Visit.css";
 import GenericDialog from "../../Global/GenericDialog";
+import SubPagesTitle from "../SubPageTitle";
 import EditContactInformation from "./EditContactInformation";
-import { VisitGeneralDetails } from "../../../Types/Visit";
+import { VisitContextType } from "../../../Data/Types/Visit";
 
 interface ContactInformationProps {
   apartment: VisitGeneralDetails;
 }
 
-export default function ContactInformation({
+export default function ContactInformations({
   apartment,
 }: ContactInformationProps) {
+  const [formValues, changeFormValues, changeState] = useForm();
+  const { visitState, setIdentifyingInfo } = useContext(
+    contexts.Visit
+  ) as VisitContextType;
+
+  const handleCancelChanges = () => {
+    Object.keys(formValues).map((key) => {
+      return changeState(key);
+    });
+  };
+
+  const handleSaveChanges = () => {
+    let update = apartment.contactInformation;
+    Object.keys(formValues).map((key) => {
+      return (update = {
+        ...update,
+        [key]: formValues[key],
+      });
+    });
+    const updateProp = {
+      ...visitState.identifyingInformation,
+      contactInformation: update,
+    };
+    setIdentifyingInfo(updateProp);
+  };
+
   return (
     <ThemeRightToLeft>
       <div className="section-general">
@@ -26,26 +59,23 @@ export default function ContactInformation({
               <Fragment key={`ContactInformationFragment-${index}`}>
                 <Grid
                   item
-                  sm={
-                    index === 2
-                      ? 2.5
-                      : index === contactInfoLabels.length - 1
-                      ? 9
-                      : 4
-                  }
+                  sm={occupancyItem.gridSize ?? 4}
                   key={`ContactInformationGrid-${index}`}
-                  className={
-                    index === contactInfoLabels.length - 1 ? "mb-10" : ""
-                  }
                 >
                   <div className="label-pos">
                     <span className="card-body-text-label">
-                      {occupancyItem.label}
+                      {occupancyItem.isDynamicLabel
+                        ? `${
+                            apartment.contactInformation[
+                              occupancyItem.label as keyof ContactInformation
+                            ] ?? occupancyItem.defLabel
+                          }`
+                        : occupancyItem.label}
                     </span>
                   </div>
                   <span
                     className={
-                      index === contactInfoLabels.length - 1
+                      occupancyItem.gridSize === 9
                         ? "contact-details-text-value"
                         : "card-body-text-value"
                     }
@@ -66,9 +96,18 @@ export default function ContactInformation({
                           <Edit />
                         </Fab>
                       }
+                      saveEdit={handleSaveChanges}
+                      cancelEdit={handleCancelChanges}
                       closeBtn={false}
-                      title={`פרטי התקשרות`}
-                      content={<EditContactInformation />}
+                      isEditBtn={true}
+                      title={TITLES.CONTACT_DETAILS}
+                      content={
+                        <EditContactInformation
+                          changeFormValues={changeFormValues}
+                          formValues={formValues}
+                          apartment={apartment}
+                        />
+                      }
                     />
                   </Grid>
                 )}

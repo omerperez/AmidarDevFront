@@ -1,17 +1,16 @@
-import { useState, cloneElement, ReactElement, Ref, forwardRef } from "react";
-import {
-  Button,
-  Typography,
-  Dialog,
-  AppBar,
-  Toolbar,
-  IconButton,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogContent,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { cloneElement, forwardRef, ReactElement, Ref, useState } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
 
 const Transition = forwardRef(function Transition(

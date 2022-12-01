@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./Pages/Home";
+import { APARTMENTS, HOMEPAGE, LOGIN } from "./Assets/Constants/Constants";
 import { providers } from "./Contexts/ContextsExports";
-import PrivateRoute from "./Features/PrivateRoute";
-import PublicRoute from "./Features/PublicRoute";
+import PrivateRoute from "./Routes/PrivateRoute";
+import HomePage from "./Pages/Home";
 import LoginPage from "./Pages/Login";
 import VisitPage from "./Pages/Visit";
+import PublicRoute from "./Routes/PublicRoute";
 import "./Layouts/Layout.css";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
           <providers.Visit>
             <Routes>
               <Route
-                path="/login"
+                path={`/${LOGIN}`}
                 element={<PublicRoute children={<LoginPage />} />}
               ></Route>
               <Route
@@ -23,11 +24,11 @@ function App() {
                 element={<PrivateRoute children={<HomePage />} />}
               ></Route>
               <Route
-                path="/homepage"
+                path={`/${HOMEPAGE}`}
                 element={<PrivateRoute children={<HomePage />} />}
               ></Route>
               <Route
-                path="/apartments/*"
+                path={`/${APARTMENTS}/*`}
                 element={<PrivateRoute children={<VisitPage />} />}
               ></Route>
             </Routes>

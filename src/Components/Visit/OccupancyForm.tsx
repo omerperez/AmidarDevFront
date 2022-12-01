@@ -1,19 +1,14 @@
-import { ITenantInformation } from "../../Interfaces/Visit";
-import TenantsInformationRow from "./OccupancyFormComponents/TenantsInformationRow";
+import { Card, Grid, Stack } from "@mui/material";
+import { useContext } from "react";
+import { contexts } from "../../Contexts/ContextsExports";
+import { VisitContextType } from "../../Data/Types/Visit";
+import AddNismach from "./OccupancyFormComponents/AddNismach";
+import NismachInformation from "./OccupancyFormComponents/NismachInfo";
+import TenantsInformationRow from "./OccupancyFormComponents/TenantInfo";
 import SubPagesTitle from "./SubPageTitle";
-import { Grid, Stack, Button, Card } from "@mui/material";
-import { AddCircleOutline } from "@mui/icons-material";
-import GenericDialog from "../Global/GenericDialog";
-import EditOccupancyTenants from "./OccupancyFormComponents/EditOccupancyTenants";
 
 export default function OccupancyForm() {
-  const tenantInfo: ITenantInformation = {
-    id: "209543214",
-    fullName: "עומר פרץ",
-    gender: "זכר",
-    birthdate: "20/01/1998",
-    familyStatus: "רווק",
-  };
+  const { visitState } = useContext(contexts.Visit) as VisitContextType;
 
   return (
     <div className="section-general">
@@ -21,38 +16,36 @@ export default function OccupancyForm() {
       <Card className="white-box mb-20">
         <Grid container spacing={3}>
           <Grid item sm={12}>
-            <TenantsInformationRow details={tenantInfo} />
+            <TenantsInformationRow
+              tenantDetails={visitState.occupancyVisit.mainTenant}
+              occupancyKey="mainTenant"
+            />
           </Grid>
-          <Grid item sm={12}>
-            <TenantsInformationRow details={tenantInfo} />
-          </Grid>
+          {visitState.occupancyVisit.tenantPartner && (
+            <Grid item sm={12}>
+              <TenantsInformationRow
+                tenantDetails={visitState.occupancyVisit.tenantPartner}
+                occupancyKey="tenantPartner"
+              />
+            </Grid>
+          )}
         </Grid>
       </Card>
       <Stack direction={"row"}>
         <SubPagesTitle title="נסמכים" />
-        <div style={{ paddingTop: 8 }}>
-          <GenericDialog
-            children={
-              <Button className="neg-mt-10">
-                <AddCircleOutline />
-              </Button>
-            }
-            content={
-              <EditOccupancyTenants tenantInfo={null} isNewTenant={true} />
-            }
-          />
-        </div>
+        <AddNismach />
       </Stack>
-      <Card className="white-box">
-        <Grid container spacing={3}>
-          <Grid item sm={12}>
-            <TenantsInformationRow details={tenantInfo} />
+      {visitState.occupancyVisit.otherTenants.length > 0 && (
+        <Card className="white-box">
+          <Grid container spacing={3}>
+            {visitState.occupancyVisit.otherTenants.map((nismach, index) => (
+              <Grid item sm={12} key={`nismach-${index}`}>
+                <NismachInformation nismachIndex={index} />
+              </Grid>
+            ))}
           </Grid>
-          <Grid item sm={12}>
-            <TenantsInformationRow details={tenantInfo} />
-          </Grid>
-        </Grid>
-      </Card>
+        </Card>
+      )}
     </div>
   );
 }

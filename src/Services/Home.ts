@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApplicationUser } from "../Builders/Auth";
+// import { ApplicationUser } from "../Builders/Auth";
 
 const baseUrl = "http://fr11opdev:7001/ServiceManager/Macro/ExecMacro/";
 const visitCalenderApi = "bm_Yoman_Bikurim";
@@ -30,20 +30,18 @@ const getDiaryVisitData = async () => {
   return diaryVisitArray.bm_Yoman_BikurimArrayItem;
 };
 
-const getEmployeeProperties = async (userId: string) => {
-  let response = await axios.post(baseUrl + getEmployeePropertiesByUserId, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    pMis_oved: userId,
-  });
-  const employeeTableData = await response.data.Response.bm_rakazimTableArray;
-  const applicationUser = new ApplicationUser(
-    userId,
-    employeeTableData.bm_rakazimArrayItem[0]
-  );
-  return applicationUser;
-};
+// const getEmployeeProperties = async (userId: string) => {
+//   let response = await axios.post(baseUrl + getEmployeePropertiesByUserId, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     pMis_oved: userId,
+//   });
+//   const [employeeTableData] = await response.data.Response.bm_rakazimTableArray
+//     .bm_rakazimArrayItem;
+//   const applicationUser = new ApplicationUser(userId, employeeTableData);
+//   return applicationUser;
+// };
 
 const getAdvanceSearchData = async (values: any) => {
   let allPostData = {
@@ -63,4 +61,5 @@ const getAdvanceSearchData = async (values: any) => {
   return diaryVisitArray.bm_Yoman_Bikurim_searchArrayItem;
 };
 
-export { getDiaryVisitData, getEmployeeProperties, getAdvanceSearchData };
+export { getDiaryVisitData, getAdvanceSearchData };
+// getEmployeeProperties

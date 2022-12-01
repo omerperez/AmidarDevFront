@@ -1,8 +1,8 @@
-import { useRef } from "react";
-import { Button, Grid } from "@mui/material";
-import { takeImage } from "../Utils/SaveFile";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { Button, Grid } from "@mui/material";
+import { useRef } from "react";
 import "../Layouts/Forms/Forms.css";
+import { takeImage } from "../Utils/SaveFile";
 
 interface PrinterWrapperProps {
   children: JSX.Element;
@@ -13,7 +13,6 @@ export default function PrinterWrapper({ children }: PrinterWrapperProps) {
   return (
     <>
       <div className="page" id="divToPrint" dir="rtl" ref={contentRef}>
-        {/* size="A4" */}
         {children}
       </div>
       <div className="save-btn">

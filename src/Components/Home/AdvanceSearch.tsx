@@ -9,43 +9,36 @@ import {
   advanceSearchInputsProperties,
   advanceSearchGridSpacing,
   advanceSearchGridColumns,
-  TextFieldStyle,
 } from "../../Assets/Home";
-import "../../Layouts/Style/Home.css";
+import { TextFieldMui } from "../../Layouts/Style/MUI/HomeStyle";
+import "../../Layouts/Style/CSS/Home.css";
+import { ADVANCE_SEARCH } from "../../Assets/Constants/Constants";
+import { HomeContextType } from "../../Data/Types/Home";
 
 export default function AdvanceSearch() {
   const [values, changeForm] = useForm();
-  const { homeState, homeDispatch } = useContext(contexts.Home);
+  const { homeState, setLoading, setAdvanceSearch, updateData } = useContext(
+    contexts.Home
+  ) as HomeContextType;
 
   const inputsId = useId();
 
   const handleClickSearch = async () => {
-    homeDispatch({ type: "changeLoadingStatus", loadingStatus: true });
-
+    setLoading(true);
     const advanceSearchResponseData = await getAdvanceSearchData(values);
-
-    homeDispatch({
-      type: "changeTableData",
-      tableData: advanceSearchResponseData,
-    });
-    homeDispatch({
-      type: "changeAdvanceSearchValue",
-      showAdvanceSearch: homeState.showAdvanceSearch,
-    });
-    homeDispatch({ type: "changeLoadingStatus", loadingStatus: false });
+    updateData(advanceSearchResponseData);
+    setAdvanceSearch(homeState.isShowAdvanceSearch);
+    setLoading(false);
   };
 
   const handleClickAdvanceSearch = () => {
-    homeDispatch({
-      type: "changeAdvanceSearchValue",
-      showAdvanceSearch: homeState.showAdvanceSearch,
-    });
+    setAdvanceSearch(homeState.isShowAdvanceSearch);
   };
 
   return (
     <>
       <div className="adv-search-title-location">
-        <span className="adv-search-title">חיפוש מתקדם</span>
+        <span className="adv-search-title">{ADVANCE_SEARCH}</span>
         <Search fontSize="large" className="adv-search-icon" />
       </div>
       <Divider className="adv-search-divider" />
@@ -66,7 +59,7 @@ export default function AdvanceSearch() {
                     key={`advanceSearch-Grid-${index}`}
                   >
                     <TextField
-                      sx={TextFieldStyle}
+                      sx={TextFieldMui}
                       fullWidth
                       key={`advanceSearch-TextField-${index}`}
                       id={inputsId}

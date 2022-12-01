@@ -1,71 +1,76 @@
-import { useRef, createRef, useState, useContext, Ref } from "react";
-import useForm from "../../Hooks/useForm";
-import QualityRating from "./MaintenanceComponents/QualityRating";
-import IsExistInput from "./MaintenanceComponents/IsExistInput";
-import SubPagesTitle from "./SubPageTitle";
-import Alert from "../Global/Alert";
+import { Grid } from "@mui/material";
+import { createRef, Ref, useContext, useRef, useState } from "react";
+import { ERRORS_TITLE } from "../../Assets/Constants/Constants";
+import { TITLES } from "../../Assets/Constants/VisitConstants";
 import {
+  isExistsItemsList,
+  maintenanceQualityList,
+} from "../../Assets/Visit/Maintenance";
+import {
+  MaintenanceVisit,
+  OtherMaintenanceVisit,
+} from "../../Data/Builders/Visit";
+import Stepper from "../../Components/Visit/Stepper";
+import { contexts } from "../../Contexts/ContextsExports";
+import { IDefect, IOtherDefect } from "../../Data/Interfaces/Visit";
+import {
+  createMaintenanceVisitObject,
   getIncompleteFields,
   isFormDescriptionsFieldsFilled,
 } from "../../Services/Visit";
-import {
-  maintenanceQualityList,
-  isExistsItemsList,
-} from "../../Assets/Visit/Maintenance";
+import Alert from "../Global/Alert";
 import ApartmentDetails from "./MaintenanceComponents/ApartmentDetails";
-import { Grid } from "@mui/material";
-import { contexts } from "../../Contexts/ContextsExports";
-import { MaintenanceFormValues } from "../../Builders/Visit";
-import { MaintenanceVisit } from "../../Types/Visit";
-import { IDefect } from "../../Interfaces/Visit";
+import IsExistInput from "./MaintenanceComponents/IsExistInput";
+import QualityRating from "./MaintenanceComponents/QualityRating";
+import SubPagesTitle from "./SubPageTitle";
+import { VisitContextType } from "../../Data/Types/Visit";
 
 export default function MaintenanceForm() {
-  const [values, handleChange] = useForm();
   const [error, setError] = useState("");
-  const { visitState, visitDispatch } = useContext(contexts.Visit);
-
+  const { visitState, setMaintenance } = useContext(
+    contexts.Visit
+  ) as VisitContextType;
+  const isExistsElementRef: Ref<any> = useRef(
+    isExistsItemsList.map(() => createRef())
+  );
   const elementsRef: Ref<any> = useRef(
-    maintenanceQualityList.map(() => createRef()),
+    maintenanceQualityList.map(() => createRef())
   );
 
   const onSubmit = () => {
-    const incompleteFieldsIndexLocation = getIncompleteFields(values);
-    const incompleteDescriptionsIndexLocation = isFormDescriptionsFieldsFilled(
-      values,
+    const incompleteFieldsIndexLocation = getIncompleteFields(
+      visitState.maintenanceVisit
+    );
+    const maintenanceVisitValues = createMaintenanceVisitObject(
       elementsRef,
+      isExistsElementRef,
+      visitState.maintenanceVisit
     );
     if (incompleteFieldsIndexLocation >= 0) {
-      elementsRef.current[incompleteFieldsIndexLocation].current.scrollIntoView(
-        {
-          behavior: "smooth",
-        },
-      );
-      return setError("בבקשה מלא את כל השדות");
-    } else if (incompleteDescriptionsIndexLocation >= 0) {
-      elementsRef.current[
-        incompleteDescriptionsIndexLocation
-      ].current.scrollIntoView({ behavior: "smooth" });
-      return setError("בבקשה מלא הערות בליקויים שאינם תקינים");
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      setError(ERRORS_TITLE.MISSING_FIELDS);
+      return false;
     }
-    const maintenanceForm = new MaintenanceFormValues(values, elementsRef);
-    visitDispatch({
-      type: "setMaintenanceVisit",
-      maintenanceVisit: new MaintenanceVisit(null),
-      // maintenanceForm,
-    });
+    const incompleteDescriptionsIndexLocation = isFormDescriptionsFieldsFilled(
+      visitState.maintenanceVisit,
+      elementsRef,
+      isExistsElementRef
+    );
+    if (incompleteDescriptionsIndexLocation >= 0) {
+      setError(ERRORS_TITLE.NO_COMMENTS);
+      return false;
+    }
+    setMaintenance(maintenanceVisitValues);
+    return true;
   };
 
   return (
     <div className="maintenance-layout">
-      <SubPagesTitle title={"אחזקה"} fontSize={"32"} />
-      {error && <Alert title={"שגיאה"} text={error} severity={"error"} />}
+      <SubPagesTitle title={TITLES.MAINTENANCE} fontSize={"32"} />
+      {error && <Alert title={"שגיאה"} text={error} />}
       <Grid container spacing={0}>
         <Grid item xs={12} md={12} className="white-box">
-          <ApartmentDetails
-            apartmentMaintenanceDetails={
-              visitState.maintenanceVisit.apartmentDetails
-            }
-          />
+          <ApartmentDetails maintenanceVisit={visitState.maintenanceVisit} />
         </Grid>
         {maintenanceQualityList.map((item, index) => {
           return (
@@ -78,8 +83,6 @@ export default function MaintenanceForm() {
               <QualityRating
                 item={item}
                 key={`qualityRating-${item.title}-${index}`}
-                onChange={handleChange}
-                options={values}
                 defaultValue={
                   visitState.maintenanceVisit[
                     item.name as keyof MaintenanceVisit
@@ -103,9 +106,12 @@ export default function MaintenanceForm() {
                   <IsExistInput
                     item={item}
                     key={`itemStatus-${item.title}-${index}`}
-                    onChange={handleChange}
-                    options={values}
-                    ref={elementsRef.current[index]}
+                    otherDefect={
+                      visitState.maintenanceVisit.otherMaintenanceVisitDetails[
+                        item.name as keyof OtherMaintenanceVisit
+                      ] as IOtherDefect
+                    }
+                    ref={isExistsElementRef.current[index]}
                   />
                 </Grid>
               );
@@ -113,6 +119,9 @@ export default function MaintenanceForm() {
           </Grid>
         </Grid>
       </Grid>
+      <div className="stepper-pos">
+        <Stepper onSubmit={onSubmit} />
+      </div>
     </div>
   );
 }

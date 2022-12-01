@@ -1,91 +1,37 @@
-import { useReducer, createContext, useEffect, Dispatch } from "react";
-import { getEmployeeProperties } from "../Services/Home";
-import { CookiesService } from "../Services/Cookies";
+import { createContext, useReducer } from "react";
+import {
+  AuthProviderProps,
+  IApplicationUser,
+  IUser,
+} from "../Data/Interfaces/Auth";
+import { AuthContextType } from "../Data/Types/Auth";
+import authReducer from "../Reducers/AuthReducer";
 
-interface IUser {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  token: string;
-  company: string;
-}
-
-const initialState: IUser = {
+export const initialState: IUser = {
   id: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  phoneNumber: "",
+  fullName: "",
+  mobileNumber: "",
   token: "",
   company: "",
 };
 
-type AuthAction =
-  | { type: "login"; currentUserId: string }
-  | {
-      type: "changeUserProperties";
-      firstName: string;
-      lastName: string;
-      mobileNumber: string;
-    }
-  | { type: "logout" };
+export const AuthContext = createContext<AuthContextType | null>(null);
 
-const authReducer = (authState: IUser, action: AuthAction) => {
-  switch (action.type) {
-    case "login":
-      return (authState = {
-        ...authState,
-        id: action.currentUserId,
-      });
-    case "changeUserProperties":
-      return (authState = {
-        ...authState,
-        firstName: action.firstName,
-        lastName: action.lastName,
-        phoneNumber: action.mobileNumber,
-      });
-    case "logout":
-      CookiesService.removeUserObj();
-      return (authState = {
-        ...authState,
-        id: "",
-      });
-    default:
-      return authState;
-  }
-};
-
-export const AuthContext = createContext<{
-  authState: IUser;
-  authDispatch: Dispatch<AuthAction>;
-}>({ authState: initialState, authDispatch: () => null });
-
-export default function AuthPovider({ children }: any) {
+export default function AuthPovider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  useEffect(() => {
-    async function fetchData(employeeNumber: string) {
-      const currentUser = await getEmployeeProperties(employeeNumber);
-      dispatch({ type: "login", currentUserId: currentUser.employeeNumber });
-      dispatch({
-        type: "changeUserProperties",
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        mobileNumber: currentUser.mobileNumber,
-      });
-    }
+  function login(user: IApplicationUser) {
+    dispatch({ type: "login", userDetails: user });
+  }
 
-    const userId = CookiesService.getUserId();
-    if (userId !== undefined) {
-      fetchData(userId);
-    }
-  }, []);
+  function logout() {
+    dispatch({ type: "logout" });
+  }
 
   const value = {
     authState: authState,
-    authDispatch: dispatch,
+    login: login,
+    logout: logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

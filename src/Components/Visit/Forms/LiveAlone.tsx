@@ -1,15 +1,14 @@
-import React, { useState } from "react";
 import { Grid } from "@mui/material";
-import FormTitle from "../../../Layouts/Forms/FormTitle";
-import TenantFormDetails from "../../../Layouts/Forms/TenantFormDetails";
+import { useState } from "react";
 import Signature from "../../../Features/SignaturePad";
 import "../../../Layouts/Forms/Forms.css";
+import FormTitle from "../../../Layouts/Forms/FormTitle";
+import TenantFormDetails from "../../../Layouts/Forms/TenantFormDetails";
 
 export default function LiveAlone() {
   const [ownerStatus, setOwnerStatus] = useState(false);
 
   return (
-    //page  size="A4"
     <div className="page-layou" dir="rtl">
       <Grid container spacing={0}>
         <FormTitle title={"הצהרה - גר בגפו"} />

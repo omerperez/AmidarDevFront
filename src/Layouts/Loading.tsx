@@ -1,6 +1,5 @@
-import React from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./Layout.css";
 
 interface loadingProp {

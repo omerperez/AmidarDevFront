@@ -1,4 +1,4 @@
-import { VisitGeneralDetails } from "../../Types/Visit";
+import { VisitGeneralDetails } from "../../Data/Builders/Visit";
 import CostumerDetails from "./CostumerDetails";
 
 interface SubPagesProps {

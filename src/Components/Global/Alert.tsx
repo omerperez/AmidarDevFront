@@ -1,14 +1,14 @@
-import Alert, { AlertColor } from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import { ErrorAlertMui } from "../../Layouts/Style/MUI/GlobalStyle";
 
 interface AlertProps {
   title: string;
   text?: string;
-  severity: AlertColor | undefined;
 }
-export default function AlertForm({ title, text, severity }: AlertProps) {
+export default function AlertForm({ title, text }: AlertProps) {
   return (
-    <Alert severity={severity} className="global-font ml-2p mb-10">
+    <Alert variant="filled" className="alert-layout" sx={ErrorAlertMui}>
       <AlertTitle sx={{ marginRight: 1 }}>
         <b>{title}</b>
       </AlertTitle>

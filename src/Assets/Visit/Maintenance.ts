@@ -1,140 +1,146 @@
+import { ApartmentDetailsInputMui } from "../../Layouts/Style/MUI/VisitStyle";
 import {
   IApartmentDetailItem,
   IAreaListItem,
+  IListsOfSelect,
   IMaintenanceItem,
-  ISelectListItem,
   IRatingOptionItem,
-} from "../../Interfaces/Visit";
-import { SxProps, Theme } from "@mui/material";
+} from "../../Data/Interfaces/Visit";
+import {
+  areaValidation,
+  floorsValidation,
+  halfRoomsValidation,
+  roomsValidation,
+  stairsValidation,
+} from "../../Services/Validation/VisitValidation";
+import { DEFECTIONS_TITLES, QUALITY_TITLES } from "../Constants/VisitConstants";
+import { ERRORS } from "../Constants/VisitConstants";
 
 const qualityRatingOptionsList: IRatingOptionItem[] = [
   {
-    label: "תקין",
+    label: QUALITY_TITLES[5],
     value: 5,
     textActive: "text-label-white",
   },
   {
-    label: "תקין, אך ישן",
+    label: QUALITY_TITLES[4],
     value: 4,
     textActive: "text-label-black",
   },
   {
-    label: "דרוש טיפול נקודתי",
+    label: QUALITY_TITLES[3],
     value: 3,
     textActive: "text-label-black",
   },
   {
-    label: "נדרש תיקון מקיף",
+    label: QUALITY_TITLES[2],
     value: 2,
     textActive: "text-label-white",
   },
   {
-    label: "לא ראוי למגורים",
+    label: QUALITY_TITLES[1],
     value: 1,
     textActive: "text-label-white",
   },
 ];
 
-const flooring: ISelectListItem[] = [
-  { label: "ריצוף שבור", value: "ריצוף שבור" },
-  { label: " ריצוף חסר", value: " ריצוף חסר" },
-  { label: "ריצוף שקוע", value: "ריצוף שקוע" },
-  { label: "בעיה בחיפוי במטבח", value: "בעיה בחיפוי במטבח" },
-  { label: "בעיה בחיפוי במקלחת", value: "בעיה בחיפוי במקלחת" },
+const flooring: string[] = [
+  "ריצוף שבור",
+  "ריצוף חסר",
+  "ריצוף שקוע",
+  "בעיה בחיפוי במטבח",
+  "בעיה בחיפוי במקלחת",
 ];
 
-const enteryDoor: ISelectListItem[] = [
-  { label: "בעיה בצילינדר", value: "בעיה בצילינדר" },
-  { label: "בעיה באינסרט", value: "בעיה באינסרט" },
-  { label: "בעיה במנעול", value: "בעיה במנעול" },
-  { label: "בעיה בסגר ביטחון", value: "בעיה בסגר ביטחון" },
-  { label: "בעיה בעינית", value: "בעיה בעינית" },
-  { label: "בעיה בציפוי", value: "בעיה בציפוי" },
+const enteryDoor: string[] = [
+  "בעיה בצילינדר",
+  "בעיה באינסרט",
+  "בעיה במנעול",
+  "בעיה בסגר ביטחון",
+  "בעיה בעינית",
+  "בעיה בציפוי",
 ];
 
-const caulking: ISelectListItem[] = [
-  { label: "רטיבות בתקרה", value: "רטיבות בתקרה" },
-  { label: "רטיבות בקיר", value: "רטיבות בקיר" },
+const caulking: string[] = ["רטיבות בתקרה", "רטיבות בקיר"];
+
+const barsAndRailings: string[] = ["קיים ותקין", "תקין ולא קיים", "לא קיים"];
+
+const electricalSystem: string[] = ["בעיה בלוח חשמל", "בעיה בחשמל הפנים"];
+
+const pipingLeaks: string[] = [
+  "בעיה בצנרת דלוחין",
+  "בעיה בצנרת מים",
+  "בעיה בצנרת דוד",
+  "בעיה בלחץ מים",
 ];
 
-const barsAndRailings: ISelectListItem[] = [
-  { label: "קיים ותקין", value: "קיים ותקין" },
-  { label: "תקין ולא קיים", value: "תקין ולא קיים" },
-  { label: "לא קיים", value: "לא קיים" },
+const doors: string[] = [
+  "דלת לא נסגרת",
+  "דלת שבורה",
+  "אין דלת",
+  "משקוף לא תקין",
 ];
 
-const electricalSystem: ISelectListItem[] = [
-  { label: "בעיה בלוח חשמל", value: "בעיה בלוח חשמל" },
-  { label: "בעיה בחשמל הפנים", value: "בעיה בחשמל הפנים" },
+const windows: string[] = [
+  "חלון חסר",
+  "חלון שבור",
+  "חלון לא נסגר",
+  "משקוף לא תקין",
+  "חלון עץ",
+  "זגוגית שבורה",
 ];
 
-const pipingLeaks: ISelectListItem[] = [
-  { label: "בעיה בצנרת דלוחין", value: "בעיה בצנרת דלוחין" },
-  { label: "בעיה בצנרת מים", value: "בעיה בצנרת מים" },
-  { label: "בעיה בצנרת דוד", value: "בעיה בצנרת דוד" },
-  { label: "בעיה בלחץ מים", value: "בעיה בלחץ מים" },
+const blinds: string[] = [
+  "תריס חסר",
+  "תריס שבור",
+  "תריס לא נסגר",
+  "משקוף לא תקין",
+  "תריס מעץ",
+  "שלבים חסרים",
 ];
 
-const doors: ISelectListItem[] = [
-  { label: "דלת לא נסגרת", value: "דלת לא נסגרת" },
-  { label: "דלת שבורה", value: "דלת שבורה" },
-  { label: "אין דלת", value: "אין דלת" },
-  { label: "משקוף לא תקין", value: "משקוף לא תקין" },
+const kitchen: string[] = [
+  "ישן",
+  "שיש שבור",
+  "ברז לא תקין",
+  "כיור סדוק / שבור",
+  "קיימת רטיבות",
+  "קיימת סתימה",
 ];
 
-const windows: ISelectListItem[] = [
-  { label: "חלון חסר", value: "חלון חסר" },
-  { label: "חלון שבור", value: "חלון שבור" },
-  { label: "חלון לא נסגר", value: "חלון לא נסגר" },
-  { label: "משקוף לא תקין", value: "משקוף לא תקין" },
-  { label: "חלון עץ", value: "חלון עץ" },
-  { label: "זגוגית שבורה", value: "זגוגית שבורה" },
+const toilet: string[] = [
+  "אסלה שבורה",
+  "ניאגרה תקולה",
+  "ברז לא תקין",
+  "כיור סדוק / שבור",
+  "קיימת רטיבות",
+  "קיימת סתימה",
+  "חסרה ידית אחיזה",
 ];
 
-const blinds: ISelectListItem[] = [
-  { label: "תריס חסר", value: "תריס חסר" },
-  { label: "תריס שבור", value: "תריס שבור" },
-  { label: "תריס לא נסגר", value: "תריס לא נסגר" },
-  { label: "משקוף לא תקין", value: "משקוף לא תקין" },
-  { label: "תריס מעץ", value: "תריס מעץ" },
-  { label: "שלבים חסרים", value: "שלבים חסרים" },
+const shower: string[] = [
+  "ברז לא תקין",
+  "אינטרפוץ לא תקין",
+  "קיימת רטיבות",
+  "קיימת סתימה",
+  "חסרה ידית אחיזה",
 ];
 
-const kitchen: ISelectListItem[] = [
-  { label: "ישן", value: "ישן" },
-  { label: "שיש שבור", value: "שיש שבור" },
-  { label: "ברז לא תקין", value: "ברז לא תקין" },
-  { label: "כיור סדוק / שבור", value: "כיור סדוק / שבור" },
-  { label: "קיימת רטיבות", value: "קיימת רטיבות" },
-  { label: "קיימת סתימה", value: "קיימת סתימה" },
-];
-
-const toilet: ISelectListItem[] = [
-  { label: "אסלה שבורה", value: "אסלה שבורה" },
-  { label: "ניאגרה תקולה", value: "ניאגרה תקולה" },
-  { label: "ברז לא תקין", value: "ברז לא תקין" },
-  { label: "כיור סדוק / שבור", value: "כיור סדוק / שבור" },
-  { label: "קיימת רטיבות", value: "קיימת רטיבות" },
-  { label: "קיימת סתימה", value: "קיימת סתימה" },
-  { label: "חסרה ידית אחיזה", value: "חסרה ידית אחיזה" },
-];
-
-const shower: ISelectListItem[] = [
-  { label: "ברז לא תקין", value: "ברז לא תקין" },
-  { label: "אינטרפוץ לא תקין", value: "אינטרפוץ לא תקין" },
-  { label: "קיימת רטיבות", value: "קיימת רטיבות" },
-  { label: "קיימת סתימה", value: "קיימת סתימה" },
-  { label: "חסרה ידית אחיזה", value: "חסרה ידית אחיזה" },
-];
-
-const generalApartmentCondition: ISelectListItem[] = [
-  { label: "לא ראויה למגורים", value: "לא ראויה למגורים" },
-  { label: "נדרש שיפוץ כולל", value: "נדרש שיפוץ כולל" },
-  { label: "נדרש שיפוץ מקלחת", value: "נדרש שיפוץ מקלחת" },
-  { label: "נדרש שיפוץ מטבח", value: "נדרש שיפוץ מטבח" },
+const generalApartmentCondition: string[] = [
+  "לא ראויה למגורים",
+  "נדרש שיפוץ כולל",
+  "נדרש שיפוץ מקלחת",
+  "נדרש שיפוץ מטבח",
 ];
 
 const maintenanceQualityList: IMaintenanceItem[] = [
+  {
+    title: "ריצוף וחיפוי",
+    name: "flooring",
+    areaName: "flooringAreaComment",
+    deficienciesList: flooring,
+    indexLocation: 0,
+  },
   {
     title: "ריצוף וחיפוי",
     name: "flooring",
@@ -150,84 +156,84 @@ const maintenanceQualityList: IMaintenanceItem[] = [
     indexLocation: 1,
   },
   {
-    title: "ליקוי איטום (רטיבות)",
+    title: DEFECTIONS_TITLES.CAULKING_AREA,
     name: "caulking",
     areaName: "caulkingAreaComment",
     deficienciesList: caulking,
     indexLocation: 2,
   },
   {
-    title: "מעקות וסורגים (תקינות ויציבות)",
+    title: DEFECTIONS_TITLES.BAR_AND_RAILINGS,
     name: "barsAndRailings",
     areaName: "barsAndRailingsAreaComment",
     deficienciesList: barsAndRailings,
     indexLocation: 3,
   },
   {
-    title: "מערכת חשמל כללי",
+    title: DEFECTIONS_TITLES.ELECTRICAL_SYSTEM,
     name: "electricalSystem",
     areaName: "electricalSystemAreaComment",
     deficienciesList: electricalSystem,
     indexLocation: 4,
   },
   {
-    title: "נזילות מצנרת (מטבח, מקלחת וכו')",
+    title: DEFECTIONS_TITLES.PIPING_LEAKS,
     name: "pipingLeaks",
     areaName: "pipingLeaksAreaComment",
     deficienciesList: pipingLeaks,
     indexLocation: 5,
   },
   {
-    title: "דלתות פנים",
+    title: DEFECTIONS_TITLES.INSIDES_DOORS,
     name: "insidesDoors",
     areaName: "insidesDoorsAreaComment",
     deficienciesList: doors,
     indexLocation: 6,
   },
   {
-    title: "דלתות שירותים ומקלחת",
+    title: DEFECTIONS_TITLES.BATHROOM_DOORS,
     name: "bathroomDoors",
     areaName: "bathroomDoorsAreaComment",
     deficienciesList: doors,
     indexLocation: 7,
   },
   {
-    title: "חלונות",
+    title: DEFECTIONS_TITLES.WINDOWS,
     name: "windows",
     areaName: "windowsAreaComment",
     deficienciesList: windows,
     indexLocation: 8,
   },
   {
-    title: "תריסים",
+    title: DEFECTIONS_TITLES.BLINDS,
     name: "blinds",
     areaName: "blindsAreaComment",
     deficienciesList: blinds,
     indexLocation: 9,
   },
   {
-    title: "מטבח (מצב כללי)",
+    title: DEFECTIONS_TITLES.KITCHEN,
     name: "kitchen",
     areaName: "kitchenAreaComment",
     deficienciesList: kitchen,
     indexLocation: 10,
   },
   {
-    title: "שירותים (מצב כללי)",
+    title: DEFECTIONS_TITLES.TOILET,
     name: "toilet",
     areaName: "toiletAreaComment",
     deficienciesList: toilet,
     indexLocation: 11,
   },
   {
-    title: "מקלחת (מצב כללי)",
+    title: DEFECTIONS_TITLES.SHOWER,
     name: "shower",
     areaName: "showerAreaComment",
     deficienciesList: shower,
     indexLocation: 12,
   },
   {
-    title: "מצב דירה כללי",
+    title: DEFECTIONS_TITLES.GENERAL_APARTMENT_CONDITION,
     name: "generalApartmentCondition",
     areaName: "generalApartmentConditionAreaComment",
     deficienciesList: generalApartmentCondition,
@@ -237,103 +243,57 @@ const maintenanceQualityList: IMaintenanceItem[] = [
 
 const isExistsItemsList: IAreaListItem[] = [
   {
-    title: "חריגות בנייה (יש לפרט בהערות)",
+    title: DEFECTIONS_TITLES.CONSTRUCTION_ANOMALIES,
     name: "constructionAnomalies",
     areaName: "constructionAnomalies",
+    indexLocation: 0,
   },
   {
-    title: "סוג חימום מים נוסף",
-    name: "othersHeatsWater",
+    title: DEFECTIONS_TITLES.OTHERS_HEATS_WATER_TYPE,
+    name: "othersHeatsWaterType",
     areaName: "othersHeatsWaterAreaComment",
+    indexLocation: 1,
   },
   {
-    title: "אסבסט",
+    title: DEFECTIONS_TITLES.ASBESTOS,
     name: "asbestos",
     areaName: "asbestosAreaComment",
+    indexLocation: 2,
   },
   {
-    title: "גלאי עשן",
+    title: DEFECTIONS_TITLES.SMOKE_DETECTOR,
     name: "smokeDetector",
     areaName: "smokeDetectorAreaComment",
+    indexLocation: 3,
   },
   {
-    title: "ממסר פחת (בדיקה פיזית בלוח)",
+    title: DEFECTIONS_TITLES.DEPRECIATION_RELAY,
     name: "depreciationRelay",
     areaName: "depreciationRelayAreaComment",
+    indexLocation: 4,
   },
 ];
 
-const securityRoom: ISelectListItem[] = [
-  {
-    label: "חדר ביטחוני",
-    value: "Security room",
-  },
-  {
-    label: `ממ"ד`,
-    value: "dimension",
-  },
-  {
-    label: `ממ"ק`,
-    value: "Multi-storey dimension",
-  },
-  {
-    label: "מקלט עילי לבניין",
-    value: "Upper dimension for the building",
-  },
-  {
-    label: "מקלט תת קרקעי לבניין",
-    value: "Underground dimension for the building",
-  },
-  {
-    label: "מקלט אזורי",
-    value: "Area dimension",
-  },
-  {
-    label: "מחסה בלבד - לא תקני",
-    value: "Shelter only",
-  },
+const securityRoom: string[] = [
+  "חדר ביטחוני",
+  `ממ"ד`,
+  `ממ"ק`,
+  "מקלט עילי לבניין",
+  "מקלט תת קרקעי לבניין",
+  "מקלט אזורי",
+  "מחסה בלבד - לא תקני",
 ];
 
-const waterHeating: ISelectListItem[] = [
-  {
-    label: "חימום על גז",
-    value: "Gas",
-  },
-  {
-    label: "הסקה מרכזית",
-    value: "Central heating",
-  },
-  {
-    label: "דוד שמש מרכזי",
-    value: "Central solar heater",
-  },
-  {
-    label: "דוד שמש דירתי",
-    value: "Apartment solar heater",
-  },
-  {
-    label: "דוד חשמל",
-    value: "Electric heater",
-  },
-  {
-    label: "מכשיר אטמור",
-    value: "Atmor device",
-  },
-  {
-    label: "הסקה מרכזית ודוד שמש",
-    value: "Central heating and solar heater",
-  },
-  {
-    label: "הסקה מרכזית ודוד חשמלי",
-    value: "Central heating and electric heater",
-  },
+const waterHeating: string[] = [
+  "חימום על גז",
+  "הסקה מרכזית",
+  "דוד שמש מרכזי",
+  "דוד שמש דירתי",
+  "דוד חשמל",
+  "מכשיר אטמור",
+  "הסקה מרכזית ודוד שמש",
+  "הסקה מרכזית ודוד חשמלי",
 ];
-
-const apartmentDetailsInputStyle: SxProps<Theme> = {
-  "& .muirtl-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
-    height: "12px",
-  },
-};
 
 const apartmentDetailsLabels: IApartmentDetailItem[] = [
   {
@@ -382,65 +342,108 @@ const apartmentDetailsLabels: IApartmentDetailItem[] = [
     values: {
       isShowLabel: false,
       name: "area",
-      readOnly: true,
-      sx: apartmentDetailsInputStyle,
+      readOnly: false,
+      sx: ApartmentDetailsInputMui,
       variant: "outlined",
       value: 1,
     },
     gridSize: 2.4,
+    validation: {
+      function: areaValidation,
+      errorComment: ERRORS.AREA,
+    },
   },
   {
     label: "חדרים [1-9]",
     type: "input",
     values: {
       isShowLabel: false,
-      readOnly: true,
+      readOnly: false,
       name: "rooms",
-      sx: apartmentDetailsInputStyle,
+      sx: ApartmentDetailsInputMui,
       variant: "outlined",
       value: 1,
     },
     gridSize: 2.4,
+    validation: {
+      function: roomsValidation,
+      errorComment: ERRORS.ROOM,
+    },
   },
   {
     label: "חצאי חדרים [1-3]",
     type: "input",
     values: {
       isShowLabel: false,
-      readOnly: true,
+      readOnly: false,
       name: "halfRooms",
-      sx: apartmentDetailsInputStyle,
+      sx: ApartmentDetailsInputMui,
       variant: "outlined",
       value: 1,
     },
     gridSize: 2.4,
+    validation: {
+      function: halfRoomsValidation,
+      errorComment: ERRORS.ROOM,
+    },
   },
   {
     label: "קומה [1-99]",
     type: "input",
     values: {
       isShowLabel: false,
-      readOnly: true,
+      readOnly: false,
       name: "floor",
-      sx: apartmentDetailsInputStyle,
+      sx: ApartmentDetailsInputMui,
       variant: "outlined",
       value: 1,
     },
     gridSize: 2.4,
+    validation: {
+      function: floorsValidation,
+      errorComment: ERRORS.FLOOR,
+    },
   },
   {
     label: "מדרגות לדירה [1-120]",
     type: "input",
     values: {
       isShowLabel: false,
-      readOnly: true,
+      readOnly: false,
       name: "stairs",
-      sx: apartmentDetailsInputStyle,
+      sx: ApartmentDetailsInputMui,
       variant: "outlined",
       value: 1,
     },
     gridSize: 2.4,
+    validation: {
+      function: stairsValidation,
+      errorComment: ERRORS.STAIRS,
+    },
   },
+];
+
+const selectsLists: IListsOfSelect = {
+  EMGVIA: "collectionMeans",
+  BITACHON: "securityRoom",
+  CHIMUM: "waterHeating",
+  SHIMUSH: "actualUse",
+  KIDOMET: "mobile",
+  RECHOV: "streets",
+};
+
+const INismachKeys = [
+  "id",
+  "firstName",
+  "lastName",
+  "birthdate",
+  "kindOfFamilyRelationship",
+  "maritalStatus",
+  "disabilityPercentage",
+  "disabilityStartDate",
+  "disabilityEndDate",
+  "militaryServiceStartDate",
+  "militaryServiceEndDate",
 ];
 
 export {
@@ -448,4 +451,6 @@ export {
   maintenanceQualityList,
   isExistsItemsList,
   apartmentDetailsLabels,
+  selectsLists,
+  INismachKeys,
 };

@@ -1,74 +1,56 @@
-import { useReducer, createContext, Dispatch } from "react";
-import { IMainTenantTableDetails } from "../Interfaces/Visit";
-
-interface IHome {
-  employeeOriginalTableData: IMainTenantTableDetails[] | [];
-  tableData: IMainTenantTableDetails[] | [];
-  loading: Boolean;
-  showAdvanceSearch: Boolean;
-}
+import { createContext, useReducer } from "react";
+import { HomeProviderProps, IHome } from "../Data/Interfaces/Home";
+import homeReducer from "../Reducers/HomeReducer";
+import { IMainTenantTableDetails } from "../Data/Interfaces/Visit";
+import { HomeContextType } from "../Data/Types/Home";
 
 const initialState: IHome = {
-  employeeOriginalTableData: [],
-  tableData: [],
-  loading: true,
-  showAdvanceSearch: false,
+  originalData: [],
+  currentData: [],
+  isLoading: true,
+  isShowAdvanceSearch: false,
 };
 
-type HomeAction =
-  | { type: "changeAdvanceSearchValue"; showAdvanceSearch: Boolean }
-  | {
-      type: "getEmployeeOriginalTableData";
-      employeeOriginalTableData: IMainTenantTableDetails[];
-    }
-  | { type: "changeTableData"; tableData: IMainTenantTableDetails[] }
-  | { type: "changeLoadingStatus"; loadingStatus: Boolean };
+export const HomeContext = createContext<HomeContextType | null>(null);
 
-const homeReducer = (homeState: IHome, action: HomeAction) => {
-  switch (action.type) {
-    case "changeAdvanceSearchValue":
-      return (homeState = {
-        ...homeState,
-        showAdvanceSearch: !homeState.showAdvanceSearch,
-      });
-
-    case "getEmployeeOriginalTableData":
-      return (homeState = {
-        ...homeState,
-        employeeOriginalTableData: action.employeeOriginalTableData,
-      });
-
-    case "changeTableData":
-      return (homeState = {
-        ...homeState,
-        tableData: action.tableData,
-      });
-
-    case "changeLoadingStatus":
-      return (homeState = {
-        ...homeState,
-        loading: action.loadingStatus,
-      });
-
-    default:
-      return homeState;
-  }
-};
-
-export const HomeContext = createContext<{
-  homeState: IHome;
-  homeDispatch: Dispatch<HomeAction>;
-}>({ homeState: initialState, homeDispatch: () => null });
-
-interface HomeProviderProps {
-  children: JSX.Element;
-}
 export default function HomeProvider({ children }: HomeProviderProps) {
   const [homeState, dispatch] = useReducer(homeReducer, initialState);
 
+  function setAdvanceSearch(isShowAdvanceSearch: boolean) {
+    dispatch({
+      type: "setAdvanceSearch",
+      isShowAdvanceSearch: isShowAdvanceSearch,
+    });
+  }
+
+  function getOriginalData(originalData: IMainTenantTableDetails[]) {
+    dispatch({
+      type: "getOriginalData",
+      originalData: originalData,
+    });
+  }
+
+  function updateData(currentData: IMainTenantTableDetails[]) {
+    dispatch({
+      type: "setCurrentData",
+      currentData: currentData,
+    });
+  }
+
+  function setLoading(isLoading: boolean) {
+    dispatch({
+      type: "setLoading",
+      isLoading: isLoading,
+    });
+  }
+
   const value = {
     homeState: homeState,
-    homeDispatch: dispatch,
+    // homeDispatch: dispatch,
+    setAdvanceSearch: setAdvanceSearch,
+    getOriginalData: getOriginalData,
+    updateData: updateData,
+    setLoading: setLoading,
   };
 
   return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;

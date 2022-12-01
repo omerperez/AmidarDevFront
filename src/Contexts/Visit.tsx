@@ -1,109 +1,71 @@
-import { useReducer, createContext, Dispatch } from "react";
-import { MaintenanceFormValues } from "../Builders/Visit";
-import { IPhoto } from "../Interfaces/Visit";
+import { createContext, useReducer } from "react";
 import {
-  VisitGeneralDetails,
-  PaymentAccount,
+  FormStatus,
   MaintenanceVisit,
+  PaymentAccount,
+  Summary,
   TenantsOccupancyDetails,
-} from "../Types/Visit";
+  VisitGeneralDetails,
+} from "../Data/Builders/Visit";
+import { IVisitContext, VisitProviderProps } from "../Data/Interfaces/Visit";
+import { VisitContextType } from "../Data/Types/Visit";
+import visitReducer from "../Reducers/VisitReducer";
 
-interface IVisit {
-  identifyingInformation: VisitGeneralDetails;
-  paymentDetails: PaymentAccount;
-  maintenanceVisit: MaintenanceVisit;
-  occupancyVisit: TenantsOccupancyDetails;
-  // abandonment: PaymentAccount;
-  // invasion: any;
-  formsFiles: {
-    liveAlone: Boolean;
-    mainTenants: Boolean;
-    partner: Boolean;
-    transitionalRent: Boolean;
-    publicHousting: Boolean;
-    prefabricatedStructure: Boolean;
-  };
-  images: IPhoto[];
-}
-
-const initialState: IVisit = {
+const initialState: IVisitContext = {
   identifyingInformation: new VisitGeneralDetails(null),
   paymentDetails: new PaymentAccount(null),
   maintenanceVisit: new MaintenanceVisit(null),
   occupancyVisit: new TenantsOccupancyDetails(null),
-  formsFiles: {
-    liveAlone: false,
-    mainTenants: false,
-    partner: false,
-    transitionalRent: false,
-    publicHousting: false,
-    prefabricatedStructure: false,
-  },
+  formsFiles: new FormStatus(null),
+  summary: new Summary(null),
   images: [],
+  activeStep: 0,
 };
 
-type VisitAction =
-  | {
-      type: "setIdentifyingInformation";
-      identifyingInformation: VisitGeneralDetails;
-    }
-  | {
-      type: "setPaymentDetails";
-      paymentDetails: PaymentAccount;
-    }
-  | { type: "setMaintenanceVisit"; maintenanceVisit: MaintenanceVisit }
-  | { type: "setOccupancyVisit"; occupancyVisit: TenantsOccupancyDetails }
-  // | { type: "setAbandonment"; abandonment: any }
-  // | { type: "setInvasion"; invasion: any }
-  | { type: "setFormsFiles"; formKey: any; value: Boolean }
-  | { type: "setImages"; images: any[] };
+export const VisitContext = createContext<VisitContextType | null>(null);
 
-const visitReducer = (visitState: IVisit, action: VisitAction) => {
-  switch (action.type) {
-    case "setIdentifyingInformation":
-      return (visitState = {
-        ...visitState,
-        identifyingInformation: action.identifyingInformation,
-      });
-    case "setMaintenanceVisit":
-      return (visitState = {
-        ...visitState,
-        maintenanceVisit: action.maintenanceVisit,
-      });
-    case "setOccupancyVisit":
-      return (visitState = {
-        ...visitState,
-        occupancyVisit: action.occupancyVisit,
-      });
-    case "setFormsFiles":
-      return (visitState = {
-        ...visitState,
-        formsFiles: {
-          ...visitState.formsFiles,
-          [action.formKey]: action.value,
-        },
-      });
-    case "setImages":
-      return (visitState = {
-        ...visitState,
-        images: action.images,
-      });
-    default:
-      return visitState;
-  }
-};
-
-export const VisitContext = createContext<{
-  visitState: IVisit;
-  visitDispatch: Dispatch<VisitAction>;
-}>({ visitState: initialState, visitDispatch: () => null });
-
-export default function VisitProvider({ children }: any) {
+export default function VisitProvider({ children }: VisitProviderProps) {
   const [visitState, dispatch] = useReducer(visitReducer, initialState);
+
+  function initVisit(visit: IVisitContext) {
+    dispatch({ type: "initializationVisit", visitState: visit });
+  }
+  function setIdentifyingInfo(generalDetails: VisitGeneralDetails) {
+    dispatch({
+      type: "setIdentifyingInformation",
+      identifyingInformation: generalDetails,
+    });
+  }
+  function setPayment(account: PaymentAccount) {
+    dispatch({ type: "setPaymentDetails", paymentDetails: account });
+  }
+  function setMaintenance(maintenance: MaintenanceVisit) {
+    dispatch({ type: "setMaintenanceVisit", maintenanceVisit: maintenance });
+  }
+  function setOccupancy(occupancyDetails: TenantsOccupancyDetails) {
+    dispatch({ type: "setOccupancyVisit", occupancyVisit: occupancyDetails });
+  }
+  function setForms(key: any, value: boolean) {
+    dispatch({ type: "setFormsFiles", formKey: key, value: value });
+  }
+  function setImages(images: any[]) {
+    dispatch({ type: "setImages", images: images });
+  }
+  function setStep(step: number) {
+    dispatch({ type: "setActiveStep", step: step });
+  }
 
   const value = {
     visitState: visitState,
-    visitDispatch: dispatch,
+    // visitDispatch: dispatch,
+    initVisit: initVisit,
+    setIdentifyingInfo: setIdentifyingInfo,
+    setPayment: setPayment,
+    setMaintenance: setMaintenance,
+    setOccupancy: setOccupancy,
+    setForms: setForms,
+    setImages: setImages,
+    setStep: setStep,
   };
 
   return (

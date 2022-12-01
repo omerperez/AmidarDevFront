@@ -1,0 +1,61 @@
+.adv-search-icon {
+  padding: 3px !important;
+}
+
+.table-search {
+  display: flex;
+  justify-content: start;
+  margin: 0 2% 20px 2% !important;
+}
+
+.adv-search-title-location {
+  display: flex;
+  justify-content: start;
+  margin-right: 2% !important;
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+}
+
+.adv-search-title {
+  font-weight: 100;
+  margin-left: 10px;
+  font-size: 24px;
+}
+
+.adv-search-divider {
+  margin: 15px 2% 20px 2% !important;
+}
+
+.adv-search-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 2% 0 2% !important;
+}
+
+.adv-search-btn-text {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 20px !important;
+}
+
+.search-init-btn {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 16px !important;
+  text-decoration: underline !important;
+  margin: 5% !important;
+}
+
+.loading-backup-btn {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 17px !important;
+}
+
+.backup-done-icon {
+  background-color: #6ac976 !important;
+  border-radius: 50% !important;
+  color: white !important;
+  font-size: 36px !important;
+}
+
+.backup-cloud-icon {
+  color: #525aa4 !important;
+  font-size: 32px !important;
+}

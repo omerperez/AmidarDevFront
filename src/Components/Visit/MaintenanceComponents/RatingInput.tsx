@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Grid, Button, Avatar } from "@mui/material";
+import { Avatar, Button, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { qualityRatingOptionsList } from "../../../Assets/Visit/Maintenance";
-import { IRating } from "../../../Interfaces/Visit";
+import { IRating } from "../../../Data/Interfaces/Visit";
 import "../../../Layouts/Forms/FieldsTypesStyle.css";
 
 interface RatingInputProp {

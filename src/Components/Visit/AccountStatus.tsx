@@ -1,15 +1,15 @@
-import { useContext } from "react";
-import { Fragment } from "react";
-import SubPageTitle from "./SubPageTitle";
 import { Button, Grid } from "@mui/material";
+import { Fragment, useContext } from "react";
 import { accountStatusProperties } from "../../Assets/Visit";
 import { contexts } from "../../Contexts/ContextsExports";
+import { VisitContextType } from "../../Data/Types/Visit";
+import SubPageTitle from "./SubPageTitle";
 export default function AccountStatus() {
   const openAmidarPaymentForm = () => {
     window.open(process.env.REACT_APP_AMIDAR_PAYMENT_API);
   };
 
-  const { visitState } = useContext(contexts.Visit);
+  const { visitState } = useContext(contexts.Visit) as VisitContextType;
 
   return (
     <div className="section-general ">

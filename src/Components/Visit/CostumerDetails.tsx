@@ -1,15 +1,14 @@
-import { useContext } from "react";
 import { Grid } from "@mui/material";
-import TenantGeneralDetails from "./CostumerDetailsComponents/TenantGeneralDetails";
-import OccupancyDetails from "./CostumerDetailsComponents/OccupancyDetails";
-import ContactInformation from "./CostumerDetailsComponents/ContactInformation";
-import { VisitGeneralDetails } from "../../Types/Visit";
+import { useContext } from "react";
 import { contexts } from "../../Contexts/ContextsExports";
-import "../../Layouts/Style/Visit.css";
+import { VisitContextType } from "../../Data/Types/Visit";
+import "../../Layouts/Style/CSS/Visit.css";
+import ContactInformation from "./CostumerDetailsComponents/ContactInformation";
+import OccupancyDetails from "./CostumerDetailsComponents/OccupancyDetails";
+import TenantGeneralDetails from "./CostumerDetailsComponents/TenantGeneralDetails";
 
 export default function CostumerDetails() {
-  // { apartment }: CostumerDetailsProps
-  const { visitState } = useContext(contexts.Visit);
+  const { visitState } = useContext(contexts.Visit) as VisitContextType;
 
   return (
     <Grid container spacing={2}>

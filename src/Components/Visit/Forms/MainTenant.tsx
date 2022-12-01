@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
-import FormTitle from "../../../Layouts/Forms/FormTitle";
-import TenantFormDetails from "../../../Layouts/Forms/TenantFormDetails";
 import Signature from "../../../Features/SignaturePad";
 import "../../../Layouts/Forms/Forms.css";
+import FormTitle from "../../../Layouts/Forms/FormTitle";
+import TenantFormDetails from "../../../Layouts/Forms/TenantFormDetails";
 
 export default function MainTenant() {
   return (

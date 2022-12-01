@@ -1,5 +1,5 @@
-import { amidarLogo } from "../../Assets/ProjectImages";
 import { Grid } from "@mui/material";
+import { amidarLogo } from "../../Assets/ProjectImages";
 
 interface FormTitleProp {
   title: string;

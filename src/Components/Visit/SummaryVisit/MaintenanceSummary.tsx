@@ -22,13 +22,20 @@ const items = [
 
 const labels = ["פריט/ים לבדיקה", "ציון", "תיאור", "הערות"];
 
+const MAINTENANCE_GRADES_EXPLANATION = {
+  5: "5 - תקין",
+  4: "4 - תקין, אך ישן",
+  3: "3 - נדרש תיקון נקודתי",
+  2: "2- לא תקין, נדרש טיפול מקיף",
+  1: "1 - לא ראוי למגורים",
+};
+
 export default function MaintenanceSummary() {
   return (
     <div className="summary-box">
       <div className="summary-sub-title">
         <span className={`table-title`}>{"ביקור אחזקה"}</span>
       </div>
-
       <Grid container spacing={3}>
         {items.map((item, index) => (
           <Grid item sm={3} key={`main-section-${item.label + index}`}>
@@ -146,8 +153,25 @@ export default function MaintenanceSummary() {
           </Grid>
         </Grid>
         <div className="mt-10 maintenance-first-label">
-          * 5 - תקין 4 - תקין אך ישן 3 - נדרש תחקון נקודתי 2 - לא תקין, נדרש
-          טיפול מקיף 1 - לא ראוי למגורים
+          <span className="margin-grades-explain-first">
+            {`* ${MAINTENANCE_GRADES_EXPLANATION[5]}`}
+          </span>
+          |
+          <span className="margin-grades-explain">
+            {MAINTENANCE_GRADES_EXPLANATION[4]}
+          </span>
+          |
+          <span className="margin-grades-explain">
+            {MAINTENANCE_GRADES_EXPLANATION[3]}
+          </span>
+          |
+          <span className="margin-grades-explain">
+            {MAINTENANCE_GRADES_EXPLANATION[2]}
+          </span>
+          |
+          <span className="margin-grades-explain">
+            {MAINTENANCE_GRADES_EXPLANATION[1]}
+          </span>
         </div>
       </div>
     </div>

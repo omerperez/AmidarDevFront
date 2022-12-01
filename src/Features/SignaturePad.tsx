@@ -1,8 +1,8 @@
-import { useRef } from "react";
-import { getDateFormat } from "./FormatsFunctions";
-import SignaturePad from "react-signature-pad-wrapper";
 import { Button, Divider, Grid } from "@mui/material";
+import { useRef } from "react";
+import SignaturePad from "react-signature-pad-wrapper";
 import "../Layouts/Forms/Forms.css";
+import { getDateFormat } from "./FormatsFunctions";
 
 export default function Signature() {
   const signatureRef = useRef<any>(null);

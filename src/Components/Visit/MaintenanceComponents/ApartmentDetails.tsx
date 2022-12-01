@@ -1,20 +1,42 @@
-import { ChangeEvent, useState } from "react";
-import Select from "../../Global/Select";
-import Input from "../../Global/Input";
+import { Card, Grid } from "@mui/material";
+import { useContext, useEffect } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { Card, Grid, SelectChangeEvent } from "@mui/material";
 import { apartmentDetailsLabels } from "../../../Assets/Visit/Maintenance";
-import { ApartmentDetails } from "../../../Types/Visit";
+import { MaintenanceVisit } from "../../../Data/Builders/VisitHomeDemo";
+import { contexts } from "../../../Contexts/ContextsExports";
+import useForm from "../../../Hooks/useForm";
+import Input from "../../Global/Input";
+import Select from "../../Global/Select";
+import { VisitContextType } from "../../../Data/Types/Visit";
 
 interface ApartmentDetailsProps {
-  apartmentMaintenanceDetails: ApartmentDetails;
+  maintenanceVisit: MaintenanceVisit;
 }
 export default function ApartmentDetail({
-  apartmentMaintenanceDetails,
+  maintenanceVisit,
 }: ApartmentDetailsProps) {
-  const [genericState, setGenericState] = useState<string | number | undefined>(
-    apartmentMaintenanceDetails.area,
-  );
+  const { setMaintenance } = useContext(contexts.Visit) as VisitContextType;
+  const [formValues, handleChange] = useForm();
+  const apartmentMaintenanceDetails = maintenanceVisit.apartmentDetails;
+  useEffect(() => {
+    if (formValues) {
+      let apartmentDetails = apartmentMaintenanceDetails;
+      apartmentDetailsLabels.map((item) => {
+        if (formValues[item.values.name]) {
+          return (apartmentDetails = {
+            ...apartmentDetails,
+            [item.values.name]: formValues[item.values.name],
+          });
+        }
+      });
+      const updateMaintenanceVisit = {
+        ...maintenanceVisit,
+        apartmentDetails: apartmentDetails,
+      };
+      setMaintenance(updateMaintenanceVisit);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formValues]);
 
   return (
     <ThemeRightToLeft>
@@ -34,27 +56,24 @@ export default function ApartmentDetail({
                   {item.type === "select" ? (
                     <Select
                       list={item.values.list}
-                      sx={item.values.sx}
                       name={item.values.name}
-                      value={genericState}
-                      defaultValue={`${
-                        apartmentMaintenanceDetails[item.values.name]
-                      }`}
-                      onChange={(e: SelectChangeEvent<any>) =>
-                        setGenericState(e.target.value)
-                      }
+                      value={`${apartmentMaintenanceDetails[item.values.name]}`}
+                      onChange={handleChange}
                     />
                   ) : (
                     <Input
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        setGenericState(e.target.value)
-                      }
+                      onChange={handleChange}
                       isShowLabel={item.values.isShowLabel}
                       readOnly={item.values.readOnly}
                       sx={item.values.sx}
                       name={item.values.name}
                       variant={item.values.variant}
-                      value={apartmentMaintenanceDetails[item.values.name]}
+                      value={
+                        formValues[item.values.name] ??
+                        apartmentMaintenanceDetails[item.values.name]
+                      }
+                      validation={item.validation}
+                      type="number"
                     />
                   )}
                 </span>
