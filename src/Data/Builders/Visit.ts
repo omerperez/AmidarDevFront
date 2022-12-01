@@ -462,17 +462,24 @@ class Summary {
   }
 }
 
-class TableCode {
-  tableCode: Map<string, ITableCodeItem[]>;;
-  constructor(visitDetails: any) {
-    this.tableCode = new Map();
-    const fetchData = async () => {
-      this.tableCode = await getTableCode(false);
-    }
-    fetchData();
+// class TableCode {
+//   tableCode: Map<string, ITableCodeItem[]> | undefined;
+
+//   constructor(visitDetails: any) {
+//     getTableCode(true).then((results) => {
+//       console.log(results)
+//       this.tableCode = results;
+//     })
+//   }
+// }
+async function initTableCode(tableCode: Map<string, ITableCodeItem[]>) {
+  try {
+    const tc = await getTableCode(true);
+    tableCode = tc;
+  } catch (err) {
+    console.log(err);
   }
 }
-
 class VisitState implements IVisitState {
   identifyingInformation;
   paymentDetails;
@@ -490,7 +497,8 @@ class VisitState implements IVisitState {
     this.images = [];
     this.formsFiles = new FormStatus(visitDetails);
     this.summary = new Summary(visitDetails);
-    this.tableCode = new TableCode(visitDetails).tableCode;
+    this.tableCode = new Map();
+    initTableCode(this.tableCode);
   }
   images: IPhoto[];
 

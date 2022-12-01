@@ -32,11 +32,9 @@ export default function VisitFakePage() {
   const [representativeNumber, setRepresentativeNumber] = useState<string>("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getTableCode(true);
-      setTableCode(response);
-    };
-    fetchData();
+    getTableCode(true).then((tables) => {
+      setTableCode(tables);
+    });
   }, []);
 
   useMemo(() => {
