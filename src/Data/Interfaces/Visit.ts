@@ -210,6 +210,7 @@ interface IVisitState {
   images: IPhoto[];
   formsFiles: FormStatus;
   summary: Summary;
+  tableCode: Map<string, ITableCodeItem[]>;
 }
 
 interface IListsOfSelect {
@@ -228,6 +229,14 @@ interface IVisitContext extends IVisitState {
 interface VisitProviderProps {
   children: JSX.Element;
 }
+
+interface ITableCodeItem {
+  TABLENAME: string,
+  FILTER1: string,
+  FIELD1: string,
+  FIELD2: string,
+};
+
 
 export type {
   IPhoto,
@@ -252,4 +261,5 @@ export type {
   IListsOfSelect,
   IVisitContext,
   VisitProviderProps,
+  ITableCodeItem
 };

@@ -3,7 +3,7 @@ import { VisitAction } from "../Data/Types/Visit";
 
 export default function visitReducer(
   visitState: IVisitContext,
-  action: VisitAction
+  action: VisitAction,
 ) {
   switch (action.type) {
     case "initializationVisit":
@@ -40,6 +40,11 @@ export default function visitReducer(
       return (visitState = {
         ...visitState,
         activeStep: action.step,
+      });
+    case "setTableCode":
+      return (visitState = {
+        ...visitState,
+        tableCode: action.tableCode,
       });
     default:
       return visitState;

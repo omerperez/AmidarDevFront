@@ -20,6 +20,7 @@ const initialState: IVisitContext = {
   summary: new Summary(null),
   images: [],
   activeStep: 0,
+  tableCode: new Map(),
 };
 
 export const VisitContext = createContext<VisitContextType | null>(null);
@@ -54,6 +55,9 @@ export default function VisitProvider({ children }: VisitProviderProps) {
   function setStep(step: number) {
     dispatch({ type: "setActiveStep", step: step });
   }
+  function setTableCode(codes: Map<any, any>) {
+    dispatch({ type: "setTableCode", tableCode: codes });
+  }
 
   const value = {
     visitState: visitState,
@@ -66,6 +70,7 @@ export default function VisitProvider({ children }: VisitProviderProps) {
     setForms: setForms,
     setImages: setImages,
     setStep: setStep,
+    setTableCode: setTableCode,
   };
 
   return (

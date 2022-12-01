@@ -1,20 +1,23 @@
 import { RefObject } from "react";
+import { fakeCodesResponse } from "../Assets/FakeData/Fake";
+import HttpConstans from "../Assets/Http";
 import {
   isExistsItemsList,
   maintenanceQualityList,
-  selectsLists,
+  selectsLists
 } from "../Assets/Visit/Maintenance";
 import {
   MaintenanceVisit,
-  OtherMaintenanceVisit,
+  OtherMaintenanceVisit
 } from "../Data/Builders/Visit";
+import { IRepresentativeApartment } from "../Data/Interfaces/Home";
 import {
   IDefect,
   IListsOfSelect,
   IOtherDefect,
+  ISelectListItem,
+  ITableCodeItem
 } from "../Data/Interfaces/Visit";
-import { IRepresentativeApartment } from "../Data/Interfaces/Home";
-import HttpConstans from "../Assets/Http";
 import HttpService from "../Services/Http";
 
 const isDefectUncompleted = (currentVisit: MaintenanceVisit) => {
@@ -71,7 +74,7 @@ const createMaintenanceVisitObject = (
   isExistsItemsList.map((item) => {
     return ((
       maintenanceVisitValues.otherMaintenanceVisitDetails[
-        item.name as keyof OtherMaintenanceVisit
+      item.name as keyof OtherMaintenanceVisit
       ] as IOtherDefect
     ).defectDescription =
       isExistsElementRef?.current[item.indexLocation].current.value);
@@ -141,25 +144,39 @@ const isFormDescriptionsFieldsFilled = (
   return defectTextRequired;
 };
 
-const getTableCode = async () => {
-  const response = await HttpService.postRequest(HttpConstans.tableCodeApi);
-  const codesResponse =
-    response.bm_tables_codesTableArray.bm_tables_codesArrayItem;
-
+const getTableCode = async (isFake: boolean) => {
+  let codesResponse;
+  if (isFake) {
+    codesResponse = fakeCodesResponse
+  } else {
+    const response = await HttpService.postRequest(HttpConstans.tableCodeApi);
+    codesResponse =
+      response.bm_tables_codesTableArray.bm_tables_codesArrayItem;
+  }
   const map = new Map();
-
   Object.keys(selectsLists).map((key) => {
     return map.set(selectsLists[key as keyof IListsOfSelect], []);
   });
-
   for (let i = 0; i < codesResponse.length; i++) {
     map
       .get(selectsLists[codesResponse[i].TABLENAME as keyof IListsOfSelect])
       .push(codesResponse[i]);
   }
-
-  return map;
+  return map as Map<string, ITableCodeItem[]>;
 };
+
+const convertTableCodeToSelectListFormat = (tableCodeList: ITableCodeItem[] | undefined) => {
+  let selectListFormat: ISelectListItem[] = [];
+  if (tableCodeList) {
+    tableCodeList.map((item) => {
+      selectListFormat.push({
+        label: item.FIELD2,
+        value: item.FIELD1,
+      });
+    });
+  }
+  return selectListFormat;
+}
 
 const getApartment = async (apartment: { [k: string]: string }) => {
   const response = await HttpService.postRequest(
@@ -197,4 +214,5 @@ export {
   getVisitDetails,
   createMaintenanceVisitObject,
   getTableCode,
+  convertTableCodeToSelectListFormat
 };

@@ -1,6 +1,6 @@
 import { Edit } from "@mui/icons-material";
 import { Card, Fab, Grid } from "@mui/material";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { TITLES } from "../../../Assets/Constants/VisitConstants";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
 import { identifyingInformationInputs } from "../../../Assets/Visit";
@@ -25,7 +25,7 @@ export default function TenantGeneralDetails({
 }: TenantGeneralDetailsProps) {
   const [formValues, changeFormValues, changeState] = useForm();
   const { visitState, setIdentifyingInfo } = useContext(
-    contexts.Visit
+    contexts.Visit,
   ) as VisitContextType;
 
   const handleCancelChanges = () => {

@@ -9,13 +9,14 @@ import SubPagesTitle from "./SubPageTitle";
 import SummaryVisit from "./SummaryVisit";
 import { Summary } from "../../Data/Builders/Visit";
 import { VisitContextType } from "../../Data/Types/Visit";
+import convertClassToPostRequest from "../../Utils/ConvertClassToPostReq";
 
-interface IDemo {
+interface ISummary {
   label: string;
   keyName: keyof Summary;
   inputType: "select" | "input" | "textArea";
 }
-const demo: IDemo[] = [
+const demo: ISummary[] = [
   {
     label: "שינויים בהרכב המשפחה",
     keyName: "familyTenantsChanges",
@@ -73,9 +74,23 @@ const demo: IDemo[] = [
   },
 ];
 
-const list = ["omer", "perez", "ariella", "nadler", "true", "false"];
+const list = [
+  {
+    label: "כן",
+    value: "1",
+  },
+  {
+    label: "לא",
+    value: "0",
+  },
+];
+
 export default function LastStep() {
   const { visitState } = useContext(contexts.Visit) as VisitContextType;
+  // const save = () => {
+  //   const results = convertClassToPostRequest(visitState);
+  //   console.log(results);
+  // };
 
   return (
     <div className="section-general">
@@ -97,7 +112,7 @@ export default function LastStep() {
                     false
                   }
                   list={list}
-                  value={visitState.summary[item.keyName] ? "true" : "false"}
+                  value={visitState.summary[item.keyName] ? "כן" : "לא"}
                   name={item.keyName}
                   label={item.label}
                   style={{ background: "white" }}
@@ -127,11 +142,7 @@ export default function LastStep() {
           <div style={{ margin: "30px auto 0 auto ", marginTop: 10 }}>
             <GenericDialog
               children={
-                <Button
-                  className="paymant-btn"
-                  variant="contained"
-                  // onClick={save}
-                >
+                <Button className="paymant-btn" variant="contained">
                   סיים ביקור
                 </Button>
               }

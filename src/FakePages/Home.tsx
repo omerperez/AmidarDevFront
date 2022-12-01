@@ -3,6 +3,7 @@ import { DataGrid, GridColumns, MuiEvent } from "@mui/x-data-grid";
 import { useContext, useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { APARTMENTS } from "../Assets/Constants/Constants";
+import { fakeTable } from "../Assets/FakeData/Fake";
 import AdvanceSearch from "../Components/Home/AdvanceSearch";
 import BasicSearch from "../Components/Home/BasicSearch";
 import { contexts } from "../Contexts/ContextsExports";
@@ -11,9 +12,8 @@ import { IMainTenantTableDetails } from "../Data/Interfaces/Visit";
 import { HomeContextType } from "../Data/Types/Home";
 import Loading from "../Layouts/Loading";
 import { TableBoxMui } from "../Layouts/Style/MUI/HomeStyle";
-import { getDiaryVisitData } from "../Services/Home";
 
-export default function Main() {
+export default function MainFakePage() {
   const tableProperties = new TableColumns()
     .columns as unknown as GridColumns<any>;
   const { homeState, updateData, getOriginalData, setLoading } = useContext(
@@ -23,16 +23,13 @@ export default function Main() {
   const [countOfPages, setCountOfPages] = useState<number>(1);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const diaryVisitData = await getDiaryVisitData();
-      updateData(diaryVisitData);
-      getOriginalData(diaryVisitData);
-      setCountOfPages(
-        diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1,
-      );
-      setLoading(false);
-    };
-    fetchData();
+    const diaryVisitData = fakeTable;
+    updateData(diaryVisitData);
+    getOriginalData(diaryVisitData);
+    setCountOfPages(
+      diaryVisitData?.length > 0 ? diaryVisitData.length / 100 : 1,
+    );
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

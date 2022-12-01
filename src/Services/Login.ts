@@ -24,8 +24,10 @@ const loginAuth = async (username: string, password: string) => {
     username: username,
     password: password,
   };
+
   const response = await axios.post(baseUrl, user, JSON_CONTENT);
   return response.data;
+
 };
 
 const getWelcomeTitle = () => {

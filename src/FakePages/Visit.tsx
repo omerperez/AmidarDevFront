@@ -1,7 +1,8 @@
 import { CameraAlt, Collections } from "@mui/icons-material";
 import { Fab } from "@mui/material";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { tenant_3 } from "../Assets/FakeData/Fake";
 import GenericDialog from "../Components/Global/GenericDialog";
 import AccountStatus from "../Components/Visit/AccountStatus";
 import CostumerDetails from "../Components/Visit/CostumerDetails";
@@ -13,67 +14,39 @@ import OccupancyForm from "../Components/Visit/OccupancyForm";
 import Stepper from "../Components/Visit/Stepper";
 import SummaryVisit from "../Components/Visit/SummaryVisit";
 import { contexts } from "../Contexts/ContextsExports";
-import { RepresentativeApartment } from "../Data/Builders/Home";
 import { VisitState } from "../Data/Builders/Visit";
-import { IRepresentativeApartment } from "../Data/Interfaces/Home";
 import { VisitContextType } from "../Data/Types/Visit";
-import idb from "../db/localforage";
 import Camera from "../Features/Camera";
 import ExistVisitPopup from "../Layouts/ExistVisitPopup";
 import Loading from "../Layouts/Loading";
 import "../Layouts/Style/CSS/Visit.css";
-import Http from "../Services/Http";
-import { getVisitDetails } from "../Services/Visit";
+import { getTableCode } from "../Services/Visit";
 
-export default function VisitPage() {
+export default function VisitFakePage() {
   const [searchParams] = useSearchParams();
-  const { visitState, initVisit } = useContext(
+  const { visitState, initVisit, setTableCode } = useContext(
     contexts.Visit,
   ) as VisitContextType;
   const [loading, setLoading] = useState(true);
   const [camera, setCamera] = useState<Boolean>(false);
   const [representativeNumber, setRepresentativeNumber] = useState<string>("");
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getTableCode(true);
+      setTableCode(response);
+    };
+    fetchData();
+  }, []);
+
   useMemo(() => {
     if (visitState.activeStep === 0) {
-      const fetchData = async () => {
-        if (searchParams) {
-          const currentApartment = Object.fromEntries([...searchParams]);
-          setRepresentativeNumber(
-            `${currentApartment.blockId}-${currentApartment.buildingNumber}-${currentApartment.entrance}-${currentApartment.flatId}`,
-          );
-          const response = await getVisitDetails(
-            new RepresentativeApartment(currentApartment),
-          );
-          const [element] = await response;
-          if (element) {
-            const initVisitState = new VisitState(element);
-            initVisit({ ...initVisitState, activeStep: 0 });
-          }
-          setLoading(false);
-        }
-      };
-      Http.isConnectionPropper()
-        .then(() => {
-          fetchData();
-        })
-        .catch(async () => {
-          const currentApartment = Object.fromEntries([...searchParams]);
-          const apartment: IRepresentativeApartment = {
-            blockId: currentApartment.blockId,
-            buildingNumber: currentApartment.buildingNumber,
-            entrance: currentApartment.entrance,
-            flatId: currentApartment.flatId,
-            personId: currentApartment.personId,
-          };
-
-          const userdata = await idb.getFromDataDbById(apartment);
-
-          if (userdata) {
-            initVisit({ ...userdata, activeStep: 0 });
-            setLoading(false);
-          }
-        });
+      const [element] = tenant_3;
+      if (element) {
+        const initVisitState = new VisitState(element);
+        initVisit({ ...initVisitState, activeStep: 0 });
+      }
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, visitState.activeStep]);

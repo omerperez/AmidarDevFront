@@ -510,7 +510,7 @@ const nismachObjFromStringFormat = (currentNismach: string[]) => {
     fullName: `${currentNismach[1]} ${currentNismach[2]}`,
     kindOfFamilyRelationship:
       kindOfFamilyRelationshipOptions[
-        createNismach["kindOfFamilyRelationship"] - 1
+      createNismach["kindOfFamilyRelationship"] - 1
       ],
     maritalStatus:
       maritalStatusOptions[createNismach["kindOfFamilyRelationship"] - 1],
@@ -525,6 +525,7 @@ class VisitState implements IVisitState {
   occupancyVisit;
   formsFiles;
   summary;
+  tableCode;
 
   constructor(visitDetails: any) {
     this.identifyingInformation = new VisitGeneralDetails(visitDetails);
@@ -534,6 +535,8 @@ class VisitState implements IVisitState {
     this.images = [];
     this.formsFiles = new FormStatus(null);
     this.summary = new Summary(null);
+    this.tableCode = new Map();
+
   }
   images: IPhoto[];
 }

@@ -1,20 +1,14 @@
 import {
-  IDefect,
-  IOtherDefect,
-  ITenant,
-  INismach,
-  IVisitState,
-  IPhoto,
-} from "../Interfaces/Visit";
-import {
-  getDateFormat,
-  getDefaultStringValueIfEmpty,
-  getDefaultNumberValueIfEmpty,
-  getGender,
+  getDateFormat, getDefaultNumberValueIfEmpty, getDefaultStringValueIfEmpty, getGender,
   getMobileFormat,
   getStatus,
-  nismachObjFromStringFormat,
+  nismachObjFromStringFormat
 } from "../../Features/FormatsFunctions";
+import { getTableCode } from "../../Services/Visit";
+import {
+  IDefect, INismach, IOtherDefect, IPhoto,
+  ITableCodeItem, ITenant, IVisitState
+} from "../Interfaces/Visit";
 import { maritalStatusOptions } from "../Types/Visit";
 
 class MainTenantDetails {
@@ -468,6 +462,17 @@ class Summary {
   }
 }
 
+class TableCode {
+  tableCode: Map<string, ITableCodeItem[]>;;
+  constructor(visitDetails: any) {
+    this.tableCode = new Map();
+    const fetchData = async () => {
+      this.tableCode = await getTableCode(false);
+    }
+    fetchData();
+  }
+}
+
 class VisitState implements IVisitState {
   identifyingInformation;
   paymentDetails;
@@ -475,6 +480,7 @@ class VisitState implements IVisitState {
   occupancyVisit;
   formsFiles;
   summary;
+  tableCode;
 
   constructor(visitDetails: any) {
     this.identifyingInformation = new VisitGeneralDetails(visitDetails);
@@ -484,8 +490,10 @@ class VisitState implements IVisitState {
     this.images = [];
     this.formsFiles = new FormStatus(visitDetails);
     this.summary = new Summary(visitDetails);
+    this.tableCode = new TableCode(visitDetails).tableCode;
   }
   images: IPhoto[];
+
 }
 
 export {

@@ -1,20 +1,19 @@
-import { ApartmentDetailsInputMui } from "../../Layouts/Style/MUI/VisitStyle";
 import {
   IApartmentDetailItem,
   IAreaListItem,
   IListsOfSelect,
   IMaintenanceItem,
-  IRatingOptionItem,
+  IRatingOptionItem
 } from "../../Data/Interfaces/Visit";
+import { ApartmentDetailsInputMui } from "../../Layouts/Style/MUI/VisitStyle";
 import {
   areaValidation,
   floorsValidation,
   halfRoomsValidation,
   roomsValidation,
-  stairsValidation,
+  stairsValidation
 } from "../../Services/Validation/VisitValidation";
-import { DEFECTIONS_TITLES, QUALITY_TITLES } from "../Constants/VisitConstants";
-import { ERRORS } from "../Constants/VisitConstants";
+import { DEFECTIONS_TITLES, ERRORS, QUALITY_TITLES } from "../Constants/VisitConstants";
 
 const qualityRatingOptionsList: IRatingOptionItem[] = [
   {

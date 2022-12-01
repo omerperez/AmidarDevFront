@@ -35,7 +35,7 @@ interface ILoginState {
   open: boolean;
   removeIcon: boolean;
 }
-export default function LoginPage() {
+export default function LoginFakePage() {
   const { login } = useContext(contexts.Auth) as AuthContextType;
 
   const [loginState, setLoginState] = useState<ILoginState>({
@@ -102,10 +102,13 @@ export default function LoginPage() {
       return setError(validationService.isUserPasswordPropper.errorComment);
     }
     setState("disabled", true);
-    const authResponse = await loginAuth(
-      loginState.username,
-      loginState.password,
-    );
+    const authResponse = {
+      id: "U9628",
+      fullName: "עומר פרץ",
+      mobileNumber: "0522520484",
+      token: "123456",
+      error: null,
+    };
     if (authResponse.error) {
       return setError(authResponse.error);
     }

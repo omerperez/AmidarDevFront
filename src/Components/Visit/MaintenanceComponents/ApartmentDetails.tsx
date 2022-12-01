@@ -8,6 +8,7 @@ import useForm from "../../../Hooks/useForm";
 import Input from "../../Global/Input";
 import Select from "../../Global/Select";
 import { VisitContextType } from "../../../Data/Types/Visit";
+import { convertTableCodeToSelectListFormat } from "../../../Services/Visit";
 
 interface ApartmentDetailsProps {
   maintenanceVisit: MaintenanceVisit;
@@ -15,7 +16,9 @@ interface ApartmentDetailsProps {
 export default function ApartmentDetail({
   maintenanceVisit,
 }: ApartmentDetailsProps) {
-  const { setMaintenance } = useContext(contexts.Visit) as VisitContextType;
+  const { visitState, setMaintenance } = useContext(
+    contexts.Visit,
+  ) as VisitContextType;
   const [formValues, handleChange] = useForm();
   const apartmentMaintenanceDetails = maintenanceVisit.apartmentDetails;
   useEffect(() => {
@@ -38,6 +41,10 @@ export default function ApartmentDetail({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
+  // const autocompleteStreetList = convertTableCodeToSelectListFormat(
+  //   visitState.tableCode.get("streets"),
+  // );
+
   return (
     <ThemeRightToLeft>
       <Card className="apartment-details-box">
@@ -55,7 +62,11 @@ export default function ApartmentDetail({
                 <span className="card-body-text-value">
                   {item.type === "select" ? (
                     <Select
-                      list={item.values.list}
+                      list={
+                        convertTableCodeToSelectListFormat(
+                          visitState.tableCode.get(item.values.name),
+                        ) ?? []
+                      }
                       name={item.values.name}
                       value={`${apartmentMaintenanceDetails[item.values.name]}`}
                       onChange={handleChange}
