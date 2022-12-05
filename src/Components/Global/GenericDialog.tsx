@@ -86,8 +86,12 @@ export default function GenericDialog({
             {content}
             {isEditBtn && (
               <div className="pos-edit-btns">
-                <Stack direction={"row"} spacing={3} onClick={save}>
-                  <Button className="save-edit-btn" variant="contained">
+                <Stack direction={"row"} spacing={3}>
+                  <Button
+                    className="save-edit-btn"
+                    variant="contained"
+                    onClick={save}
+                  >
                     {SAVE_CHANGES}
                   </Button>
                   <Button

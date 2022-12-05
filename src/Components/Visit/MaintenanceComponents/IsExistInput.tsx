@@ -2,26 +2,26 @@ import { ThumbDownAlt, ThumbUpAlt } from "@mui/icons-material";
 import { Avatar, Button, Grid } from "@mui/material";
 import { forwardRef, Ref, useContext, useEffect, useState } from "react";
 import { contexts } from "../../../Contexts/ContextsExports";
-import { IOtherDefect } from "../../../Data/Interfaces/Visit";
+import { IAreaListItem, IOtherDefect } from "../../../Data/Interfaces/Visit";
 import { VisitContextType } from "../../../Data/Types/Visit";
 import TextArea from "../../Global/TextArea";
 
 interface IsExistInputProps {
-  item: { title: string; name: string; areaName: string };
+  item: IAreaListItem;
   otherDefect: IOtherDefect;
 }
 
 function IsExistInput({ item, otherDefect }: IsExistInputProps, ref: Ref<any>) {
   const { visitState, setMaintenance } = useContext(
-    contexts.Visit
+    contexts.Visit,
   ) as VisitContextType;
   const [deficienciesText, setDeficienciesText] = useState<string>(
-    otherDefect?.defectDescription ?? ""
+    otherDefect?.defectDescription ?? "",
   );
   const [currentValue, setCurrentValue] = useState<Boolean | null>(
     otherDefect?.rate === false || otherDefect?.rate === true
       ? otherDefect.rate
-      : null
+      : null,
   );
   const isTextAreaRequired = (value: Boolean) => {
     return value;
@@ -47,7 +47,7 @@ function IsExistInput({ item, otherDefect }: IsExistInputProps, ref: Ref<any>) {
   return (
     <div className="qr-layout">
       <div className="mt-20">
-        <h3 className="mb-none qr-title">{item.title}</h3>
+        <h3 className="mb-none qr-title">{item.label}</h3>
       </div>
       <Grid container spacing={0} className="mt-20">
         <Grid item xs={12}>

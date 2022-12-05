@@ -17,7 +17,7 @@ const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement;
   },
-  ref: Ref<unknown>
+  ref: Ref<unknown>,
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,6 +42,7 @@ export default function FullScreenDialog({
   const handleClose = () => {
     setOpen(false);
   };
+
   const TypographyStyle = {
     ml: 2,
     flex: 1,
@@ -49,12 +50,23 @@ export default function FullScreenDialog({
     letterSpacing: 1,
     fontSize: 24,
   };
+
+  const ButtonFullDialogMui = {
+    fontFamily: `Noto Sans Hebrew`,
+    letterSpacing: 1,
+    fontSize: 24,
+  };
+
+  const DialogFullScreenMui = {
+    zIndex: 1000000,
+  };
+
   return (
     <ThemeRightToLeft>
       {cloneElement(children, { onClick: handleClickOpen })}
       <Dialog
         fullScreen
-        sx={{ zIndex: 1000000 }}
+        sx={DialogFullScreenMui}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -73,11 +85,7 @@ export default function FullScreenDialog({
               טופס {title}
             </Typography>
             <Button
-              sx={{
-                fontFamily: `Noto Sans Hebrew`,
-                letterSpacing: 1,
-                fontSize: 24,
-              }}
+              sx={ButtonFullDialogMui}
               autoFocus
               color="inherit"
               onClick={handleClose}

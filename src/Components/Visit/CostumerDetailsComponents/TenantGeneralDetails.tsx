@@ -1,20 +1,21 @@
 import { Edit } from "@mui/icons-material";
 import { Card, Fab, Grid } from "@mui/material";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext } from "react";
 import { TITLES } from "../../../Assets/Constants/VisitConstants";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { identifyingInformationInputs } from "../../../Assets/Visit";
+import { generalDetailsFields } from "../../../Assets/Visit/CostumerDetails";
+import { contexts } from "../../../Contexts/ContextsExports";
 import {
   MainTenantDetails,
   VisitGeneralDetails,
 } from "../../../Data/Builders/Visit";
-import { contexts } from "../../../Contexts/ContextsExports";
+import { VisitContextType } from "../../../Data/Types/Visit";
 import useForm from "../../../Hooks/useForm";
 import "../../../Layouts/Style/CSS/Visit.css";
 import GenericDialog from "../../Global/GenericDialog";
+import FieldValue from "../FiledValue";
 import SubPageTitle from "../SubPageTitle";
 import EditGeneralDetails from "./EditGeneralDetails";
-import { VisitContextType } from "../../../Data/Types/Visit";
 
 interface TenantGeneralDetailsProps {
   apartment: VisitGeneralDetails;
@@ -29,22 +30,23 @@ export default function TenantGeneralDetails({
   ) as VisitContextType;
 
   const handleCancelChanges = () => {
-    Object.keys(formValues).map((key) => {
+    Object.keys(formValues).forEach((key) => {
       return changeState(key);
     });
   };
 
   const handleSaveChanges = () => {
-    let update = apartment.mainTenantDetails;
-    Object.keys(formValues).map((key) => {
-      return (update = {
-        ...update,
-        [key]: formValues[key],
-      });
+    let currentDetails = apartment.mainTenantDetails;
+    Object.keys(formValues).forEach((key) => {
+      if (key === "number") {
+        currentDetails.number = formValues.number as number;
+      } else {
+        currentDetails.street = formValues.street;
+      }
     });
     const updateProp = {
       ...visitState.identifyingInformation,
-      mainTenantDetails: update,
+      mainTenantDetails: currentDetails,
     };
     setIdentifyingInfo(updateProp);
   };
@@ -55,23 +57,21 @@ export default function TenantGeneralDetails({
         <SubPageTitle title={TITLES.CLIENT_DETAILS} />
         <Card className="white-box">
           <Grid container spacing={2.5} className="mb-10">
-            {identifyingInformationInputs.map((item, index) => (
+            {generalDetailsFields.map((item, index) => (
               <Fragment key={`tenant-general-details-${index}`}>
                 <Grid
                   item
-                  md={item.md}
+                  sm={item.gridSize}
                   key={`TenantGeneralDetailsLabel-${index}`}
                 >
-                  <div className="label-pos">
-                    <span className="card-body-text-label">{item.label}</span>
-                  </div>
-                  <span className="card-body-text-value">
-                    {item.name === "firstName"
-                      ? `${apartment.mainTenantDetails.firstName} ${apartment.mainTenantDetails.lastName}`
-                      : apartment.mainTenantDetails[
-                          item.name as keyof MainTenantDetails
-                        ]}
-                  </span>
+                  <FieldValue
+                    label={item.label}
+                    value={
+                      apartment.mainTenantDetails[
+                        item.name as keyof MainTenantDetails
+                      ] as string
+                    }
+                  />
                 </Grid>
                 {index === 1 && (
                   <Grid
@@ -82,7 +82,7 @@ export default function TenantGeneralDetails({
                   >
                     <GenericDialog
                       children={
-                        <Fab className="edit-fab" aria-label="edit">
+                        <Fab className="edit-fab">
                           <Edit />
                         </Fab>
                       }
@@ -90,16 +90,12 @@ export default function TenantGeneralDetails({
                       cancelEdit={handleCancelChanges}
                       closeBtn={false}
                       isEditBtn={true}
-                      title={
-                        apartment.mainTenantDetails.firstName +
-                        " " +
-                        apartment.mainTenantDetails.lastName
-                      }
+                      title={apartment.mainTenantDetails.fullName}
                       content={
                         <EditGeneralDetails
+                          mainTenantDetails={apartment.mainTenantDetails}
                           changeFormValues={changeFormValues}
                           formValues={formValues}
-                          mainTenantDetails={apartment.mainTenantDetails}
                         />
                       }
                     />

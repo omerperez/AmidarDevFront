@@ -39,6 +39,7 @@ export default function SelectInput({
         style={style}
         sx={SelectMui}
         value={value}
+        variant={disabled ? "filled" : "outlined"}
         onChange={onChange}
         name={name}
       >

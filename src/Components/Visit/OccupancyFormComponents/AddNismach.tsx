@@ -13,46 +13,57 @@ const tenantDemoRowInfo = [
   {
     label: "תעודת זהות",
     name: "id",
+    type: "id",
   },
   {
     label: "שם פרטי",
     name: "firstName",
+    type: "text",
   },
   {
     label: "שם משפחה",
     name: "lastName",
+    type: "text",
   },
   {
     label: "תאריך לידה",
     name: "birthdate",
+    type: "date",
   },
   {
     label: "סוג קרבה",
     name: "kindOfFamilyRelationship",
+    type: "select",
   },
   {
     label: "מצב משפחתי",
     name: "maritalStatus",
+    type: "select",
   },
   {
     label: "אחוז נכות",
     name: "disabilityPercentage",
+    type: "number",
   },
   {
     label: "תאריך תחילת נכות",
     name: "disabilityStartDate",
+    type: "date",
   },
   {
     label: "תאריך הגבלת נכות",
     name: "disabilityEndDate",
+    type: "date",
   },
   {
     label: `תאריך תחילת שרות סדיר בצה"ל`,
     name: "militaryServiceStartDate",
+    type: "date",
   },
   {
     label: `תאריך סיום שרות סדיר בצה"ל`,
     name: "militaryServiceEndDate",
+    type: "date",
   },
 ];
 

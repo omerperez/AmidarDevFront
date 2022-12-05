@@ -181,6 +181,14 @@
 }
 
 .select-required {
-  border: solid 2px rgb(185, 17, 26) !important;
+  border: solid 3px rgb(185, 17, 26) !important;
+  border-radius: 8px !important;
   margin: -2px !important;
+}
+
+.input-required {
+  border: solid 3px rgb(185, 17, 26) !important;
+  border-radius: 8px !important;
+  margin: -2px !important;
+  height: 100% !important;
 }

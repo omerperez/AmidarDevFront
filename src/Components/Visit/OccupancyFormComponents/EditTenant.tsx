@@ -1,59 +1,11 @@
 import { Grid } from "@mui/material";
 import { ChangeEvent } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
+import { tenantInfoFields } from "../../../Assets/Visit/Occupancy";
 import { ITenant } from "../../../Data/Interfaces/Visit";
-import { isIdPropper } from "../../../Features/FormatsFunctions";
 import "../../../Layouts/Style/CSS/Visit.css";
-import { validationService } from "../../../Services/Validation/GlobalValidations";
 import BasicDatePicker from "../../Global/DatePicker";
 import Input from "../../Global/Input";
-
-const handleValidation = (date: string) => {
-  return validationService.isDatePropperValidation.function(date, false);
-};
-
-const errorComment = (status: boolean) => {
-  return validationService.isDatePropperValidation.errorComment(status, false);
-};
-
-const tenantDemoRowInfo = [
-  {
-    label: "תעודת זהות",
-    name: "id",
-    validation: {
-      function: isIdPropper,
-      errorComment: "תעודת זהות אינה תקינה",
-    },
-  },
-  {
-    label: "תעודת זהות חדשה",
-    name: "newId",
-    validation: {
-      function: isIdPropper,
-      errorComment: "תעודת זהות אינה תקינה",
-    },
-  },
-  {
-    label: "שם מלא",
-    name: "firstName",
-  },
-  {
-    label: "מין",
-    name: "gender",
-  },
-  {
-    label: "תאריך לידה",
-    name: "birthdate",
-    validation: {
-      function: handleValidation,
-      errorComment: errorComment,
-    },
-  },
-  {
-    label: "מצב משפחתי",
-    name: "maritalStatus",
-  },
-];
 
 interface EditTenantProps {
   tenantDetails: ITenant;
@@ -73,18 +25,20 @@ export default function EditTenant({
     }
   };
 
+  const getCurrentValue = (name: keyof ITenant) => {
+    return formValues[name] ?? (tenantDetails[name] as string);
+  };
+
   return (
     <ThemeRightToLeft>
       <Grid container spacing={3}>
-        {tenantDemoRowInfo.map((tenant, index) => {
+        {tenantInfoFields.map((tenant, index) => {
           return (
             <Grid item md={4} key={`tenantDemoRowInfo-label-${index}`}>
               {tenant.name === "birthdate" ? (
                 <BasicDatePicker
                   label={tenant.label}
-                  currentValue={
-                    formValues.birthdate ?? `${tenantDetails.birthdate}`
-                  }
+                  currentValue={getCurrentValue(tenant.name)}
                   onChange={changeState}
                   readOnly={false}
                   name={tenant.name}
@@ -94,10 +48,7 @@ export default function EditTenant({
               ) : (
                 <Input
                   label={tenant.label}
-                  value={
-                    formValues[`${tenant.name}`] ??
-                    `${tenantDetails[tenant.name as keyof ITenant]}`
-                  }
+                  value={getCurrentValue(tenant.name)}
                   onChange={handleChange}
                   variant={"outlined"}
                   readOnly={false}

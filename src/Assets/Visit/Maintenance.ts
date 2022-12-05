@@ -1,11 +1,11 @@
 import {
-  IApartmentDetailItem,
+  IApartmentDetailsFields,
   IAreaListItem,
   IListsOfSelect,
   IMaintenanceItem,
-  IRatingOptionItem
+  IRatingOptionItem,
+  ITableCodeItem
 } from "../../Data/Interfaces/Visit";
-import { ApartmentDetailsInputMui } from "../../Layouts/Style/MUI/VisitStyle";
 import {
   areaValidation,
   floorsValidation,
@@ -13,7 +13,11 @@ import {
   roomsValidation,
   stairsValidation
 } from "../../Services/Validation/VisitValidation";
-import { DEFECTIONS_TITLES, ERRORS, QUALITY_TITLES } from "../Constants/VisitConstants";
+import {
+  DEFECTIONS_TITLES,
+  ERRORS,
+  QUALITY_TITLES
+} from "../Constants/VisitConstants";
 
 const qualityRatingOptionsList: IRatingOptionItem[] = [
   {
@@ -134,105 +138,105 @@ const generalApartmentCondition: string[] = [
 
 const maintenanceQualityList: IMaintenanceItem[] = [
   {
-    title: "ריצוף וחיפוי",
+    label: "ריצוף וחיפוי",
     name: "flooring",
     areaName: "flooringAreaComment",
     deficienciesList: flooring,
     indexLocation: 0,
   },
   {
-    title: "ריצוף וחיפוי",
+    label: "ריצוף וחיפוי",
     name: "flooring",
     areaName: "flooringAreaComment",
     deficienciesList: flooring,
     indexLocation: 0,
   },
   {
-    title: "דלת כניסה",
+    label: "דלת כניסה",
     name: "enteryDoor",
     areaName: "enteryDoorAreaComment",
     deficienciesList: enteryDoor,
     indexLocation: 1,
   },
   {
-    title: DEFECTIONS_TITLES.CAULKING_AREA,
+    label: DEFECTIONS_TITLES.CAULKING_AREA,
     name: "caulking",
     areaName: "caulkingAreaComment",
     deficienciesList: caulking,
     indexLocation: 2,
   },
   {
-    title: DEFECTIONS_TITLES.BAR_AND_RAILINGS,
+    label: DEFECTIONS_TITLES.BAR_AND_RAILINGS,
     name: "barsAndRailings",
     areaName: "barsAndRailingsAreaComment",
     deficienciesList: barsAndRailings,
     indexLocation: 3,
   },
   {
-    title: DEFECTIONS_TITLES.ELECTRICAL_SYSTEM,
+    label: DEFECTIONS_TITLES.ELECTRICAL_SYSTEM,
     name: "electricalSystem",
     areaName: "electricalSystemAreaComment",
     deficienciesList: electricalSystem,
     indexLocation: 4,
   },
   {
-    title: DEFECTIONS_TITLES.PIPING_LEAKS,
+    label: DEFECTIONS_TITLES.PIPING_LEAKS,
     name: "pipingLeaks",
     areaName: "pipingLeaksAreaComment",
     deficienciesList: pipingLeaks,
     indexLocation: 5,
   },
   {
-    title: DEFECTIONS_TITLES.INSIDES_DOORS,
+    label: DEFECTIONS_TITLES.INSIDES_DOORS,
     name: "insidesDoors",
     areaName: "insidesDoorsAreaComment",
     deficienciesList: doors,
     indexLocation: 6,
   },
   {
-    title: DEFECTIONS_TITLES.BATHROOM_DOORS,
+    label: DEFECTIONS_TITLES.BATHROOM_DOORS,
     name: "bathroomDoors",
     areaName: "bathroomDoorsAreaComment",
     deficienciesList: doors,
     indexLocation: 7,
   },
   {
-    title: DEFECTIONS_TITLES.WINDOWS,
+    label: DEFECTIONS_TITLES.WINDOWS,
     name: "windows",
     areaName: "windowsAreaComment",
     deficienciesList: windows,
     indexLocation: 8,
   },
   {
-    title: DEFECTIONS_TITLES.BLINDS,
+    label: DEFECTIONS_TITLES.BLINDS,
     name: "blinds",
     areaName: "blindsAreaComment",
     deficienciesList: blinds,
     indexLocation: 9,
   },
   {
-    title: DEFECTIONS_TITLES.KITCHEN,
+    label: DEFECTIONS_TITLES.KITCHEN,
     name: "kitchen",
     areaName: "kitchenAreaComment",
     deficienciesList: kitchen,
     indexLocation: 10,
   },
   {
-    title: DEFECTIONS_TITLES.TOILET,
+    label: DEFECTIONS_TITLES.TOILET,
     name: "toilet",
     areaName: "toiletAreaComment",
     deficienciesList: toilet,
     indexLocation: 11,
   },
   {
-    title: DEFECTIONS_TITLES.SHOWER,
+    label: DEFECTIONS_TITLES.SHOWER,
     name: "shower",
     areaName: "showerAreaComment",
     deficienciesList: shower,
     indexLocation: 12,
   },
   {
-    title: DEFECTIONS_TITLES.GENERAL_APARTMENT_CONDITION,
+    label: DEFECTIONS_TITLES.GENERAL_APARTMENT_CONDITION,
     name: "generalApartmentCondition",
     areaName: "generalApartmentConditionAreaComment",
     deficienciesList: generalApartmentCondition,
@@ -242,111 +246,85 @@ const maintenanceQualityList: IMaintenanceItem[] = [
 
 const isExistsItemsList: IAreaListItem[] = [
   {
-    title: DEFECTIONS_TITLES.CONSTRUCTION_ANOMALIES,
+    label: DEFECTIONS_TITLES.CONSTRUCTION_ANOMALIES,
     name: "constructionAnomalies",
     areaName: "constructionAnomalies",
     indexLocation: 0,
   },
   {
-    title: DEFECTIONS_TITLES.OTHERS_HEATS_WATER_TYPE,
+    label: DEFECTIONS_TITLES.OTHERS_HEATS_WATER_TYPE,
     name: "othersHeatsWaterType",
     areaName: "othersHeatsWaterAreaComment",
     indexLocation: 1,
   },
   {
-    title: DEFECTIONS_TITLES.ASBESTOS,
+    label: DEFECTIONS_TITLES.ASBESTOS,
     name: "asbestos",
     areaName: "asbestosAreaComment",
     indexLocation: 2,
   },
   {
-    title: DEFECTIONS_TITLES.SMOKE_DETECTOR,
+    label: DEFECTIONS_TITLES.SMOKE_DETECTOR,
     name: "smokeDetector",
     areaName: "smokeDetectorAreaComment",
     indexLocation: 3,
   },
   {
-    title: DEFECTIONS_TITLES.DEPRECIATION_RELAY,
+    label: DEFECTIONS_TITLES.DEPRECIATION_RELAY,
     name: "depreciationRelay",
     areaName: "depreciationRelayAreaComment",
     indexLocation: 4,
   },
 ];
 
-const securityRoom: string[] = [
-  "חדר ביטחוני",
-  `ממ"ד`,
-  `ממ"ק`,
-  "מקלט עילי לבניין",
-  "מקלט תת קרקעי לבניין",
-  "מקלט אזורי",
-  "מחסה בלבד - לא תקני",
+const isTama: ITableCodeItem[] = [
+  {
+    TABLENAME: "isTama",
+    FILTER1: "",
+    FIELD1: "1",
+    FIELD2: "החלה בנייה"
+  },
+  {
+    TABLENAME: "isTama",
+    FILTER1: "",
+    FIELD1: "0",
+    FIELD2: "עדיין לא החלה בנייה"
+  },
 ];
 
-const waterHeating: string[] = [
-  "חימום על גז",
-  "הסקה מרכזית",
-  "דוד שמש מרכזי",
-  "דוד שמש דירתי",
-  "דוד חשמל",
-  "מכשיר אטמור",
-  "הסקה מרכזית ודוד שמש",
-  "הסקה מרכזית ודוד חשמלי",
-];
+const selectGrid = 3;
+const inputGrid = 2.4;
 
-const apartmentDetailsLabels: IApartmentDetailItem[] = [
+const apartmentDetailsFields: IApartmentDetailsFields[] = [
   {
     label: "חימום מים",
+    name: "waterHeating",
     type: "select",
-    values: {
-      sx: { maxHeight: 44 },
-      name: "waterHeating",
-      list: waterHeating,
-    },
-    gridSize: 3,
+    gridSize: selectGrid,
   },
   {
     label: "חדר ביטחון",
+    name: "securityRoom",
     type: "select",
-    values: {
-      sx: { maxHeight: 44 },
-      name: "securityRoom",
-      list: securityRoom,
-    },
-    gridSize: 3,
+    gridSize: selectGrid,
   },
   {
     label: `תמ"א`,
+    name: "isTama",
     type: "select",
-    values: {
-      sx: { maxHeight: 44 },
-      name: "tama",
-      list: securityRoom,
-    },
-    gridSize: 3,
+    gridSize: selectGrid,
   },
   {
     label: "שימוש בפועל",
+    name: "actualUse",
     type: "select",
-    values: {
-      sx: { maxHeight: 44 },
-      name: "actualUse",
-      list: securityRoom,
-    },
-    gridSize: 3,
+    gridSize: selectGrid,
   },
   {
     label: "שטח",
-    type: "input",
-    values: {
-      isShowLabel: false,
-      name: "area",
-      readOnly: false,
-      sx: ApartmentDetailsInputMui,
-      variant: "outlined",
-      value: 1,
-    },
-    gridSize: 2.4,
+    name: "area",
+    type: "number",
+    gridSize: inputGrid,
     validation: {
       function: areaValidation,
       errorComment: ERRORS.AREA,
@@ -354,16 +332,9 @@ const apartmentDetailsLabels: IApartmentDetailItem[] = [
   },
   {
     label: "חדרים [1-9]",
-    type: "input",
-    values: {
-      isShowLabel: false,
-      readOnly: false,
-      name: "rooms",
-      sx: ApartmentDetailsInputMui,
-      variant: "outlined",
-      value: 1,
-    },
-    gridSize: 2.4,
+    name: "rooms",
+    type: "number",
+    gridSize: inputGrid,
     validation: {
       function: roomsValidation,
       errorComment: ERRORS.ROOM,
@@ -371,16 +342,9 @@ const apartmentDetailsLabels: IApartmentDetailItem[] = [
   },
   {
     label: "חצאי חדרים [1-3]",
-    type: "input",
-    values: {
-      isShowLabel: false,
-      readOnly: false,
-      name: "halfRooms",
-      sx: ApartmentDetailsInputMui,
-      variant: "outlined",
-      value: 1,
-    },
-    gridSize: 2.4,
+    name: "halfRooms",
+    type: "number",
+    gridSize: inputGrid,
     validation: {
       function: halfRoomsValidation,
       errorComment: ERRORS.ROOM,
@@ -388,16 +352,9 @@ const apartmentDetailsLabels: IApartmentDetailItem[] = [
   },
   {
     label: "קומה [1-99]",
-    type: "input",
-    values: {
-      isShowLabel: false,
-      readOnly: false,
-      name: "floor",
-      sx: ApartmentDetailsInputMui,
-      variant: "outlined",
-      value: 1,
-    },
-    gridSize: 2.4,
+    name: "floor",
+    type: "number",
+    gridSize: inputGrid,
     validation: {
       function: floorsValidation,
       errorComment: ERRORS.FLOOR,
@@ -405,16 +362,9 @@ const apartmentDetailsLabels: IApartmentDetailItem[] = [
   },
   {
     label: "מדרגות לדירה [1-120]",
-    type: "input",
-    values: {
-      isShowLabel: false,
-      readOnly: false,
-      name: "stairs",
-      sx: ApartmentDetailsInputMui,
-      variant: "outlined",
-      value: 1,
-    },
-    gridSize: 2.4,
+    name: "stairs",
+    type: "number",
+    gridSize: inputGrid,
     validation: {
       function: stairsValidation,
       errorComment: ERRORS.STAIRS,
@@ -429,6 +379,7 @@ const selectsLists: IListsOfSelect = {
   SHIMUSH: "actualUse",
   KIDOMET: "mobile",
   RECHOV: "streets",
+  SAFOT: "language",
 };
 
 const INismachKeys = [
@@ -449,7 +400,8 @@ export {
   qualityRatingOptionsList,
   maintenanceQualityList,
   isExistsItemsList,
-  apartmentDetailsLabels,
+  apartmentDetailsFields,
   selectsLists,
   INismachKeys,
+  isTama
 };

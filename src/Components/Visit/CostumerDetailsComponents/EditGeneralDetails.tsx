@@ -1,7 +1,7 @@
-import { Grid, SelectChangeEvent } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ChangeEvent, useContext } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { identifyingInformationInputs } from "../../../Assets/Visit";
+import { generalDetailsFields } from "../../../Assets/Visit/CostumerDetails";
 import { contexts } from "../../../Contexts/ContextsExports";
 import { MainTenantDetails } from "../../../Data/Builders/Visit";
 import { VisitContextType } from "../../../Data/Types/Visit";
@@ -33,37 +33,35 @@ export default function EditGeneralDetails({
     }
   };
 
+  const getCurrentValue = (name: string) => {
+    if (formValues[name]) {
+      return formValues[name];
+    }
+    return mainTenantDetails[name as keyof MainTenantDetails] as string;
+  };
+
   return (
     <ThemeRightToLeft>
       <Grid container spacing={3}>
-        {identifyingInformationInputs.map((item, index) => {
+        {generalDetailsFields.map((item, index) => {
           return (
             <Grid
               item
-              md={index < 2 ? 6 : 3}
+              sm={item.editGridSize}
               key={`identifyingInformationInputs-label-${index}`}
             >
-              {item.name === "street" ? (
+              {item.type === "autocomplete" ? (
                 <AutocompleteInput
                   list={autocompleteStreetList}
                   name={item.name}
-                  value={
-                    formValues[`${item.name}`] ??
-                    `${mainTenantDetails[item.name as keyof MainTenantDetails]}`
-                  }
-                  onChange={(e: SelectChangeEvent<any>) => {
-                    console.log(e.target.value);
-                  }}
+                  value={getCurrentValue(item.name)}
                   label={item.label}
                   cancelLabel={true}
                 />
               ) : (
                 <Input
                   label={item.label}
-                  value={
-                    formValues[`${item.name}`] ??
-                    `${mainTenantDetails[item.name as keyof MainTenantDetails]}`
-                  }
+                  value={getCurrentValue(item.name)}
                   onChange={handleChange}
                   variant={item.isEdit ? "outlined" : "filled"}
                   readOnly={!item.isEdit}

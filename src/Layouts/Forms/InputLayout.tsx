@@ -14,9 +14,11 @@ export default function InputLayout({
   return (
     <ThemeRightToLeft>
       <FormControl fullWidth>
-        <FormLabel className="form-label" id={`form-title-label-${label}`}>
-          {label}
-        </FormLabel>
+        {label && (
+          <FormLabel className="form-label" id={`form-title-label-${label}`}>
+            {label}
+          </FormLabel>
+        )}
         {children}
       </FormControl>
       {error && <div className="input-error">{error}</div>}

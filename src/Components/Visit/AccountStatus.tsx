@@ -1,35 +1,40 @@
 import { Button, Grid } from "@mui/material";
 import { Fragment, useContext } from "react";
-import { accountStatusProperties } from "../../Assets/Visit";
+import { accountFields } from "../../Assets/Visit/AccountStatus";
 import { contexts } from "../../Contexts/ContextsExports";
+import { PaymentAccount } from "../../Data/Builders/Visit";
 import { VisitContextType } from "../../Data/Types/Visit";
+import FieldValue from "./FiledValue";
 import SubPageTitle from "./SubPageTitle";
-export default function AccountStatus() {
-  const openAmidarPaymentForm = () => {
-    window.open(process.env.REACT_APP_AMIDAR_PAYMENT_API);
-  };
 
+const openPaymentWebsite = () => {
+  window.open(process.env.REACT_APP_AMIDAR_PAYMENT_API);
+};
+
+export default function AccountStatus() {
   const { visitState } = useContext(contexts.Visit) as VisitContextType;
 
+  const title = "מצב חשבון";
+  const btnText = "לחץ לתשלום";
+
   return (
-    <div className="section-general ">
-      <SubPageTitle title={"מצב חשבון"} fontSize={"32"} />
-      <div className="section-content white-box">
-        <Grid container spacing={2}>
-          {accountStatusProperties.map((item, index) => (
+    <div>
+      <SubPageTitle title={title} fontSize={"32"} />
+      <div className="white-box">
+        <Grid container spacing={4} className="payment-padding">
+          {accountFields.map((item, index) => (
             <Fragment key={`AccountStatusFragment-${index}`}>
-              {item.flag && <Grid item md={item.gridExtra} />}
               <Grid
                 item
-                md={3}
-                key={`account-status-field=${item.label}-${index}`}
+                md={item.gridSize}
+                key={`account-status-field-${item.label}-${index}`}
               >
-                <div className="label-pos">
-                  <span className="card-body-text-label">{item.label}</span>
-                </div>
-                <span className="card-body-text-value">{`${
-                  visitState.paymentDetails[item.name]
-                }`}</span>
+                <FieldValue
+                  label={item.label}
+                  value={
+                    visitState.paymentDetails[item.name as keyof PaymentAccount]
+                  }
+                />
               </Grid>
             </Fragment>
           ))}
@@ -37,9 +42,9 @@ export default function AccountStatus() {
             <Button
               className="paymant-btn"
               variant="contained"
-              onClick={openAmidarPaymentForm}
+              onClick={openPaymentWebsite}
             >
-              לחץ לתשלום
+              {btnText}
             </Button>
           </Grid>
         </Grid>

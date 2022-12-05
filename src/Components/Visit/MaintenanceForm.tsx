@@ -6,13 +6,10 @@ import {
   isExistsItemsList,
   maintenanceQualityList,
 } from "../../Assets/Visit/Maintenance";
-import {
-  MaintenanceVisit,
-  OtherMaintenanceVisit,
-} from "../../Data/Builders/Visit";
 import Stepper from "../../Components/Visit/Stepper";
 import { contexts } from "../../Contexts/ContextsExports";
 import { IDefect, IOtherDefect } from "../../Data/Interfaces/Visit";
+import { VisitContextType } from "../../Data/Types/Visit";
 import {
   createMaintenanceVisitObject,
   getIncompleteFields,
@@ -23,28 +20,30 @@ import ApartmentDetails from "./MaintenanceComponents/ApartmentDetails";
 import IsExistInput from "./MaintenanceComponents/IsExistInput";
 import QualityRating from "./MaintenanceComponents/QualityRating";
 import SubPagesTitle from "./SubPageTitle";
-import { VisitContextType } from "../../Data/Types/Visit";
 
 export default function MaintenanceForm() {
-  const [error, setError] = useState("");
   const { visitState, setMaintenance } = useContext(
-    contexts.Visit
+    contexts.Visit,
   ) as VisitContextType;
+
+  const [error, setError] = useState("");
+
   const isExistsElementRef: Ref<any> = useRef(
-    isExistsItemsList.map(() => createRef())
+    isExistsItemsList.map(() => createRef()),
   );
+
   const elementsRef: Ref<any> = useRef(
-    maintenanceQualityList.map(() => createRef())
+    maintenanceQualityList.map(() => createRef()),
   );
 
   const onSubmit = () => {
     const incompleteFieldsIndexLocation = getIncompleteFields(
-      visitState.maintenanceVisit
+      visitState.maintenanceVisit,
     );
     const maintenanceVisitValues = createMaintenanceVisitObject(
       elementsRef,
       isExistsElementRef,
-      visitState.maintenanceVisit
+      visitState.maintenanceVisit,
     );
     if (incompleteFieldsIndexLocation >= 0) {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -54,7 +53,7 @@ export default function MaintenanceForm() {
     const incompleteDescriptionsIndexLocation = isFormDescriptionsFieldsFilled(
       visitState.maintenanceVisit,
       elementsRef,
-      isExistsElementRef
+      isExistsElementRef,
     );
     if (incompleteDescriptionsIndexLocation >= 0) {
       setError(ERRORS_TITLE.NO_COMMENTS);
@@ -82,19 +81,15 @@ export default function MaintenanceForm() {
             >
               <QualityRating
                 item={item}
-                key={`qualityRating-${item.title}-${index}`}
-                defaultValue={
-                  visitState.maintenanceVisit[
-                    item.name as keyof MaintenanceVisit
-                  ] as IDefect
-                }
+                key={`qualityRating-${item.label}-${index}`}
+                defaultValue={visitState.maintenanceVisit[item.name] as IDefect}
                 ref={elementsRef.current[index]}
               />
             </Grid>
           );
         })}
         <Grid item xs={12} className="mb-40">
-          <Grid container spacing={0}>
+          <Grid container>
             {isExistsItemsList.map((item, index) => {
               return (
                 <Grid
@@ -105,10 +100,10 @@ export default function MaintenanceForm() {
                 >
                   <IsExistInput
                     item={item}
-                    key={`itemStatus-${item.title}-${index}`}
+                    key={`itemStatus-${item.label}-${index}`}
                     otherDefect={
                       visitState.maintenanceVisit.otherMaintenanceVisitDetails[
-                        item.name as keyof OtherMaintenanceVisit
+                        item.name
                       ] as IOtherDefect
                     }
                     ref={isExistsElementRef.current[index]}

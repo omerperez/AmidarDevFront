@@ -18,17 +18,15 @@ import {
 const apartmentDetailsKeys: { [key: string]: string } = {
   waterHeating: "CHIMUMMAYIM",
   securityRoom: "CHADARBITACHON",
-  //
-  tama: "CHADARBITACHON",
-  actualUse: "CHADARBITACHON",
-  //
+  isTama: "ISTAMA",
+  actualUse: "SHIMUSHBEFOAL",
   area: "SHETACH",
   rooms: "CHADARIM",
   halfRooms: "CATZAEICHADARIM",
   floor: "KOMA",
   stairs: "MADREGOT",
 };
-// "TZIYUN", "HEAROT"
+
 const ratingKeys: { [key: string]: string } = {
   flooring: "RITZUF",
   enteryDoor: "KNISA",
@@ -119,7 +117,6 @@ function convertTenant(tenant: ITenant, isPartner: boolean) {
   return tenantObj;
 }
 
-// General Details
 const mainTenantKeys: { [key: string]: string } = {
   firstName: "SHEMPRATI",
   lastName: "SHEMMISHPACHA",
@@ -236,7 +233,6 @@ function convertContactInformation(contactInfo: ContactInformation) {
   return contact;
 }
 
-// Maintenance Visit
 function convertMaintenanceVisit(maintenanceVisit: MaintenanceVisit) {
   const apartmentDetails = convertApartmentDetails(
     maintenanceVisit.apartmentDetails,

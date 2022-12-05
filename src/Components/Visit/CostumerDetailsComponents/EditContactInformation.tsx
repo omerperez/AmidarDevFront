@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { ChangeEvent, Fragment } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { editContactInfoLabels } from "../../../Assets/Visit";
+import { editContactFields } from "../../../Assets/Visit/CostumerDetails";
 import {
   ContactInformation,
   VisitGeneralDetails,
@@ -12,7 +12,7 @@ import TextArea from "../../Global/TextArea";
 
 interface EditContactInformationProps {
   apartment: VisitGeneralDetails;
-  formValues: any;
+  formValues: { [key: string]: any };
   changeFormValues: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 export default function EditContactInformation({
@@ -26,54 +26,52 @@ export default function EditContactInformation({
     }
   };
 
+  const getCurrentValue = (name: string) => {
+    if (formValues[name]) {
+      return formValues[name];
+    }
+    return (
+      apartment.contactInformation[name as keyof ContactInformation] ?? "-"
+    );
+  };
+
   return (
     <ThemeRightToLeft>
       <Grid container spacing={3}>
-        {editContactInfoLabels.map((item, index) => {
-          return (
-            <Fragment key={`EditContactInformationFragment-${index}`}>
-              {index === editContactInfoLabels.length - 1 ? (
-                <Grid
-                  item
-                  md={12}
-                  key={`EditContactInformationFragmentLabel-${index}`}
-                >
-                  <TextArea
-                    title={item.label}
-                    value={`${
-                      apartment.contactInformation[
-                        item.name as keyof ContactInformation
-                      ]
-                    }`}
-                    name={item.name}
-                    minRow={5}
-                    required={false}
-                  />
-                </Grid>
+        {editContactFields.map((item, index) => (
+          <Fragment key={`EditContactInformationFragment-${index}`}>
+            <Grid
+              item
+              sm={item.gridSize}
+              key={`EditContactInformationFragmentLabel-${index}`}
+            >
+              {item.type === "textarea" ? (
+                <TextArea
+                  title={item.label}
+                  value={`${
+                    apartment.contactInformation[
+                      item.name as keyof ContactInformation
+                    ]
+                  }`}
+                  name={item.name}
+                  minRow={5}
+                  required={false}
+                />
               ) : (
-                <Grid item md={3} key={`EditContactInformationLabel-${index}`}>
-                  <Input
-                    label={item.label}
-                    value={
-                      formValues[`${item.name}`] ??
-                      `${
-                        apartment.contactInformation[
-                          item.name as keyof ContactInformation
-                        ] ?? "-"
-                      }`
-                    }
-                    type={item.type}
-                    onChange={handleChange}
-                    variant={"outlined"}
-                    readOnly={false}
-                    name={item.name}
-                    validation={item.validation}
-                  />
-                </Grid>
+                <Input
+                  label={item.label}
+                  value={getCurrentValue(item.name)}
+                  type={item.type}
+                  onChange={handleChange}
+                  variant={"outlined"}
+                  readOnly={false}
+                  name={item.name}
+                  validation={item.validation}
+                />
               )}
-            </Fragment>
-          );
-        })}
+            </Grid>
+          </Fragment>
+        ))}
       </Grid>
     </ThemeRightToLeft>
   );

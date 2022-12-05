@@ -14,10 +14,13 @@ const nismachObjFromStringFormat = (currentNismach: string[]) => {
     return (createNismach = {
       ...createNismach,
       [key]: key.toLowerCase().includes("date")
-        ? changeHebrewMonthToEnglisMonth(currentNismach[index])
-        : currentNismach[index],
+        ? changeHebrewMonthToEnglisMonth(
+            currentNismach[index].replaceAll(" ", "")
+          )
+        : currentNismach[index] ?? "-",
     });
   });
+
   const newNismach: INismach = (createNismach = {
     ...createNismach,
     fullName: `${currentNismach[1]} ${currentNismach[2]}`,
@@ -25,8 +28,7 @@ const nismachObjFromStringFormat = (currentNismach: string[]) => {
       kindOfFamilyRelationshipOptions[
         createNismach["kindOfFamilyRelationship"] - 1
       ],
-    maritalStatus:
-      maritalStatusOptions[createNismach["kindOfFamilyRelationship"] - 1],
+    maritalStatus: maritalStatusOptions[createNismach["maritalStatus"] - 1],
   });
   return newNismach;
 };
@@ -50,7 +52,7 @@ const changeHebrewMonthToEnglisMonth = (hebrewFormatDate: string) => {
       heMonthArray.indexOf(splitDateFormat[indexMonth]) + 1;
     if (indexOfHeMonth !== 0) {
       const enDateFormat = `${splitDateFormat[0]}/${
-        indexOfHeMonth < 10 ? "0" + indexOfHeMonth : indexOfHeMonth + 1
+        indexOfHeMonth < 10 ? "0" + indexOfHeMonth : indexOfHeMonth
       }/${splitDateFormat[2]}`;
       return enDateFormat;
     }
@@ -114,7 +116,7 @@ const isIdPropper = (id: string) => {
   const arrayChars = id.split("");
   let digitsSum = 0;
   for (let i = 0; i < arrayChars.length - 1; i++) {
-    if (i % 2 !== 0) {
+    if (i % 2 === 1) {
       const temp = parseInt(arrayChars[i]) * 2;
       if (temp >= 10) {
         digitsSum += 1 + (temp - 10);
@@ -125,7 +127,11 @@ const isIdPropper = (id: string) => {
       digitsSum += parseInt(arrayChars[i]);
     }
   }
-  return 10 - (digitsSum % 10) === parseInt(arrayChars[arrayChars.length - 1]);
+  const checkDigit = 10 - (digitsSum % 10);
+  return (
+    (checkDigit === 10 ? 0 : checkDigit) ===
+    parseInt(arrayChars[arrayChars.length - 1])
+  );
 };
 
 export {

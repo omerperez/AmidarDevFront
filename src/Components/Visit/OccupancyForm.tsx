@@ -10,9 +10,12 @@ import SubPagesTitle from "./SubPageTitle";
 export default function OccupancyForm() {
   const { visitState } = useContext(contexts.Visit) as VisitContextType;
 
+  const title = "משתכן ראשי עם בן/בת זוג";
+  const subTitle = "נסמכים";
+
   return (
     <div className="section-general">
-      <SubPagesTitle title="משתכן ראשי עם בן/בת זוג" />
+      <SubPagesTitle title={title} />
       <Card className="white-box mb-20">
         <Grid container spacing={3}>
           <Grid item sm={12}>
@@ -32,7 +35,7 @@ export default function OccupancyForm() {
         </Grid>
       </Card>
       <Stack direction={"row"}>
-        <SubPagesTitle title="נסמכים" />
+        <SubPagesTitle title={subTitle} />
         <AddNismach />
       </Stack>
       {visitState.occupancyVisit.otherTenants.length > 0 && (

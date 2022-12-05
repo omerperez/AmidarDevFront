@@ -583,3 +583,7 @@ b {
 .zindex {
   z-index: 100000000000000 !important;
 }
+
+.payment-padding {
+  padding: 15px 10px;
+}

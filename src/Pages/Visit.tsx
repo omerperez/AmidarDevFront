@@ -14,7 +14,6 @@ import Stepper from "../Components/Visit/Stepper";
 import SummaryVisit from "../Components/Visit/SummaryVisit";
 import { contexts } from "../Contexts/ContextsExports";
 import { RepresentativeApartment } from "../Data/Builders/Home";
-import { VisitState } from "../Data/Builders/Visit";
 import { IRepresentativeApartment } from "../Data/Interfaces/Home";
 import { VisitContextType } from "../Data/Types/Visit";
 import idb from "../db/localforage";
@@ -28,7 +27,7 @@ import { getVisitDetails } from "../Services/Visit";
 export default function VisitPage() {
   const [searchParams] = useSearchParams();
   const { visitState, initVisit } = useContext(
-    contexts.Visit,
+    contexts.Visit
   ) as VisitContextType;
   const [loading, setLoading] = useState(true);
   const [camera, setCamera] = useState<Boolean>(false);
@@ -40,24 +39,25 @@ export default function VisitPage() {
         if (searchParams) {
           const currentApartment = Object.fromEntries([...searchParams]);
           setRepresentativeNumber(
-            `${currentApartment.blockId}-${currentApartment.buildingNumber}-${currentApartment.entrance}-${currentApartment.flatId}`,
+            `${currentApartment.blockId}-${currentApartment.buildingNumber}-${currentApartment.entrance}-${currentApartment.flatId}`
           );
-          const response = await getVisitDetails(
-            new RepresentativeApartment(currentApartment),
+          const currentVisit = await getVisitDetails(
+            new RepresentativeApartment(currentApartment)
           );
-          const [element] = await response;
-          if (element) {
-            const initVisitState = new VisitState(element);
-            initVisit({ ...initVisitState, activeStep: 0 });
+          if (currentVisit) {
+            initVisit({ ...currentVisit, activeStep: 0 });
           }
           setLoading(false);
         }
       };
+
       Http.isConnectionPropper()
         .then(() => {
+          console.log("Online Mode");
           fetchData();
         })
         .catch(async () => {
+          console.log("Offline Mode");
           const currentApartment = Object.fromEntries([...searchParams]);
           const apartment: IRepresentativeApartment = {
             blockId: currentApartment.blockId,
@@ -66,9 +66,7 @@ export default function VisitPage() {
             flatId: currentApartment.flatId,
             personId: currentApartment.personId,
           };
-
           const userdata = await idb.getFromDataDbById(apartment);
-
           if (userdata) {
             initVisit({ ...userdata, activeStep: 0 });
             setLoading(false);

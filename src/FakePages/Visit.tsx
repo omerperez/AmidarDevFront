@@ -1,8 +1,9 @@
 import { CameraAlt, Collections } from "@mui/icons-material";
 import { Fab } from "@mui/material";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { tenant_3 } from "../Assets/FakeData/Fake";
+import { fakeCodesResponse, tenant_2 } from "../Assets/FakeData/Fake";
+import { selectsLists } from "../Assets/Visit/Maintenance";
 import GenericDialog from "../Components/Global/GenericDialog";
 import AccountStatus from "../Components/Visit/AccountStatus";
 import CostumerDetails from "../Components/Visit/CostumerDetails";
@@ -15,16 +16,20 @@ import Stepper from "../Components/Visit/Stepper";
 import SummaryVisit from "../Components/Visit/SummaryVisit";
 import { contexts } from "../Contexts/ContextsExports";
 import { VisitState } from "../Data/Builders/Visit";
+import {
+  IApartmentVisitResponse,
+  IListsOfSelect,
+  ITableCodeItem,
+} from "../Data/Interfaces/Visit";
 import { VisitContextType } from "../Data/Types/Visit";
 import Camera from "../Features/Camera";
 import ExistVisitPopup from "../Layouts/ExistVisitPopup";
 import Loading from "../Layouts/Loading";
 import "../Layouts/Style/CSS/Visit.css";
-import { getTableCode } from "../Services/Visit";
 
 export default function VisitFakePage() {
   const [searchParams] = useSearchParams();
-  const { visitState, initVisit, setTableCode } = useContext(
+  const { visitState, initVisit } = useContext(
     contexts.Visit,
   ) as VisitContextType;
   const [loading, setLoading] = useState(true);
@@ -32,10 +37,30 @@ export default function VisitFakePage() {
   const [representativeNumber, setRepresentativeNumber] = useState<string>("");
 
   useMemo(() => {
+    const getFakeTablesCode = () => {
+      const map = new Map();
+      Object.keys(selectsLists).map((key) => {
+        return map.set(selectsLists[key as keyof IListsOfSelect], []);
+      });
+
+      const codesResponse = fakeCodesResponse;
+
+      for (let i = 0; i < codesResponse.length; i++) {
+        map
+          .get(selectsLists[codesResponse[i].TABLENAME as keyof IListsOfSelect])
+          .push(codesResponse[i]);
+      }
+      return map as Map<string, ITableCodeItem[]>;
+    };
+
     if (visitState.activeStep === 0) {
-      const [element] = tenant_3;
-      if (element) {
-        const initVisitState = new VisitState(element);
+      const [element] = [tenant_2];
+      const tablesCode = getFakeTablesCode();
+      if (element && tablesCode) {
+        const initVisitState = new VisitState(
+          element as IApartmentVisitResponse,
+          tablesCode,
+        );
         initVisit({ ...initVisitState, activeStep: 0 });
       }
       setLoading(false);

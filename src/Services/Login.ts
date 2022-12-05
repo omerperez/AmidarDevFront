@@ -3,8 +3,6 @@ import { JSON_CONTENT } from "../Assets/Constants/Constants";
 import HttpConstans from "../Assets/Http";
 
 const verifyToken = async (token: string) => {
-  // const baseUrl = "http://10.130.2.248:5000/verifyToken";
-
   const verificationApi = HttpConstans.authApi.concat(
     HttpConstans.verification
   );

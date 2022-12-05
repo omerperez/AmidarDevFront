@@ -1,14 +1,15 @@
 import { RefObject } from "react";
-import { fakeCodesResponse } from "../Assets/FakeData/Fake";
 import HttpConstans from "../Assets/Http";
 import {
   isExistsItemsList,
+  isTama,
   maintenanceQualityList,
   selectsLists
 } from "../Assets/Visit/Maintenance";
 import {
   MaintenanceVisit,
-  OtherMaintenanceVisit
+  OtherMaintenanceVisit,
+  VisitState
 } from "../Data/Builders/Visit";
 import { IRepresentativeApartment } from "../Data/Interfaces/Home";
 import {
@@ -144,39 +145,41 @@ const isFormDescriptionsFieldsFilled = (
   return defectTextRequired;
 };
 
-const getTableCode = async (isFake: boolean) => {
-  let codesResponse;
-  if (isFake) {
-    codesResponse = fakeCodesResponse
-  } else {
-    const response = await HttpService.postRequest(HttpConstans.tableCodeApi);
-    codesResponse =
-      response.bm_tables_codesTableArray.bm_tables_codesArrayItem;
-  }
+const getTableCode = async (cityCode: string) => {
   const map = new Map();
   Object.keys(selectsLists).map((key) => {
     return map.set(selectsLists[key as keyof IListsOfSelect], []);
   });
+  map.set("isTama", isTama)
+  const response = await HttpService.postRequest(HttpConstans.tableCodeApi, {
+    p_ishuv: cityCode,
+  });
+  const codesResponse =
+    response.bm_tables_codesTableArray.bm_tables_codesArrayItem;
+
   for (let i = 0; i < codesResponse.length; i++) {
     map
       .get(selectsLists[codesResponse[i].TABLENAME as keyof IListsOfSelect])
       .push(codesResponse[i]);
   }
+
   return map as Map<string, ITableCodeItem[]>;
 };
 
-const convertTableCodeToSelectListFormat = (tableCodeList: ITableCodeItem[] | undefined) => {
+const convertTableCodeToSelectListFormat = (
+  tableCodeList: ITableCodeItem[] | undefined
+) => {
   let selectListFormat: ISelectListItem[] = [];
   if (tableCodeList) {
     tableCodeList.map((item) => {
       selectListFormat.push({
-        label: item.FIELD2,
+        label: item.FIELD2 !== "" ? item.FIELD2 : item.FIELD1,
         value: item.FIELD1,
       });
     });
   }
   return selectListFormat;
-}
+};
 
 const getApartment = async (apartment: { [k: string]: string }) => {
   const response = await HttpService.postRequest(
@@ -202,9 +205,14 @@ const getVisitDetails = async (apartment: IRepresentativeApartment) => {
     "urlencoded"
   );
 
-  const apartmentIdResponse = response.bmn_Sel_BikurTableArray;
+  const [apartmentVisitResponse] =
+    response.bmn_Sel_BikurTableArray.bmn_Sel_BikurArrayItem;
 
-  return apartmentIdResponse.bmn_Sel_BikurArrayItem;
+  console.log(response);
+  const tablesCode = await getTableCode(apartmentVisitResponse.ISHUVCODE);
+  console.log(tablesCode);
+
+  return new VisitState(apartmentVisitResponse, tablesCode);
 };
 
 export {
@@ -214,5 +222,5 @@ export {
   getVisitDetails,
   createMaintenanceVisitObject,
   getTableCode,
-  convertTableCodeToSelectListFormat
+  convertTableCodeToSelectListFormat,
 };

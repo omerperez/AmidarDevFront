@@ -1,17 +1,11 @@
-import { IconButton } from "@mui/material";
-import {
-  Add,
-  CloudDownload,
-  Save,
-  CheckCircleOutline,
-} from "@mui/icons-material";
-import { useEffect, useMemo, useState } from "react";
-import { getVisitDetails } from "../../Services/Visit";
-import { IRepresentativeApartment } from "../../Data/Interfaces/Home";
-import { VisitState } from "../../Data/Builders/VisitHomeDemo";
+import { CheckCircleOutline, CloudDownload, Save } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import IndexDatabaseService from "../../db/localforage";
+import { IconButton } from "@mui/material";
+import { useMemo, useState } from "react";
 import ThemeRightToLeft from "../../Assets/ThemeRightToLeft";
+import { IRepresentativeApartment } from "../../Data/Interfaces/Home";
+import IndexDatabaseService from "../../db/localforage";
+import { getVisitDetails } from "../../Services/Visit";
 
 interface BackupVisitProps {
   representativeApartment: IRepresentativeApartment;
@@ -24,11 +18,9 @@ export default function BackupVisit({
 
   const handleClickBackup = async () => {
     setLoading(true);
-    const response = await getVisitDetails(representativeApartment);
-    const [element] = await response;
-    if (element) {
-      const currentData = new VisitState(element);
-      IndexDatabaseService.storeToDataDb(currentData, representativeApartment);
+    const currentVisit = await getVisitDetails(representativeApartment);
+    if (currentVisit) {
+      IndexDatabaseService.storeToDataDb(currentVisit, representativeApartment);
       setIsBackup(true);
       setLoading(false);
     }

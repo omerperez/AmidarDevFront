@@ -12,7 +12,6 @@ const takeImage = (contentRef: MutableRefObject<HTMLDivElement | null>) => {
           const imgData = img.canvas.toDataURL();
           const pdf = new jsPDF("p", "px", "a4");
           pdf.setFontSize(1);
-          //   pdf.fromHTML(contentRef.current, 10, 10, { width: 180 });
           pdf.addImage(imgData, "png", 5, 5, 0, 0);
           pdf.save("download.pdf");
         }

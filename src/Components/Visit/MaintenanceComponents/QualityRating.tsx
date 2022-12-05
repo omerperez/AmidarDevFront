@@ -1,13 +1,13 @@
 import { Add } from "@mui/icons-material";
 import { Chip, Grid } from "@mui/material";
 import { forwardRef, Ref, useContext, useEffect, useState } from "react";
-import { MaintenanceVisit } from "../../../Data/Builders/Visit";
 import { contexts } from "../../../Contexts/ContextsExports";
-import useForm from "../../../Hooks/useForm";
+import { MaintenanceVisit } from "../../../Data/Builders/Visit";
 import { IDefect, IMaintenanceItem } from "../../../Data/Interfaces/Visit";
+import { VisitContextType } from "../../../Data/Types/Visit";
+import useForm from "../../../Hooks/useForm";
 import TextArea from "../../Global/TextArea";
 import RatingInput from "./RatingInput";
-import { VisitContextType } from "../../../Data/Types/Visit";
 
 interface QualityRatingProps {
   item: IMaintenanceItem;
@@ -15,14 +15,14 @@ interface QualityRatingProps {
 }
 function QualityRating(
   { item, defaultValue }: QualityRatingProps,
-  ref: Ref<any>
+  ref: Ref<any>,
 ) {
   const [values, handleChange] = useForm();
   const { visitState, setMaintenance } = useContext(
-    contexts.Visit
+    contexts.Visit,
   ) as VisitContextType;
   const [deficienciesText, setDeficienciesText] = useState<string>(
-    defaultValue.defectDescription ?? ""
+    defaultValue.defectDescription ?? "",
   );
   const handleChangeValue = (e: any) => {
     handleChange(e);
@@ -46,12 +46,11 @@ function QualityRating(
       };
       setMaintenance(updateMaintenanceVisit);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
   return (
     <div className="qr-layout">
-      <h3 className="mb-none qr-title">{item.title}</h3>
+      <h3 className="mb-none qr-title">{item.label}</h3>
       <Grid container spacing={0} className="mt-20">
         <Grid item xs={12}>
           <RatingInput

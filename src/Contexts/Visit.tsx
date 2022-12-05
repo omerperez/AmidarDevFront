@@ -10,36 +10,19 @@ import {
 import { IVisitContext, VisitProviderProps } from "../Data/Interfaces/Visit";
 import { VisitContextType } from "../Data/Types/Visit";
 import visitReducer from "../Reducers/VisitReducer";
-import { getTableCode } from "../Services/Visit";
 
-const initialState: IVisitContext = {
-  identifyingInformation: new VisitGeneralDetails(null),
-  paymentDetails: new PaymentAccount(null),
-  maintenanceVisit: new MaintenanceVisit(null),
-  occupancyVisit: new TenantsOccupancyDetails(null),
-  formsFiles: new FormStatus(null),
-  summary: new Summary(null),
-  images: [],
-  activeStep: 0,
-  tableCode: new Map(),
-};
+const initialState: IVisitContext | null = null;
 
 export const VisitContext = createContext<VisitContextType | null>(null);
 
 export default function VisitProvider({ children }: VisitProviderProps) {
-  const [visitState, dispatch] = useReducer(visitReducer, initialState);
+  const [visitState, dispatch] = useReducer(
+    visitReducer,
+    initialState as IVisitContext,
+  );
 
   function initVisit(visit: IVisitContext) {
-    getTableCode(true)
-      .then((tb) => {
-        visit = {
-          ...visit,
-          tableCode: tb,
-        };
-      })
-      .then(() => {
-        dispatch({ type: "initializationVisit", visitState: visit });
-      });
+    dispatch({ type: "initializationVisit", visitState: visit });
   }
 
   function setIdentifyingInfo(generalDetails: VisitGeneralDetails) {
@@ -72,7 +55,6 @@ export default function VisitProvider({ children }: VisitProviderProps) {
 
   const value = {
     visitState: visitState,
-    // visitDispatch: dispatch,
     initVisit: initVisit,
     setIdentifyingInfo: setIdentifyingInfo,
     setPayment: setPayment,

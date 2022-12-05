@@ -59,7 +59,6 @@ function employeeNumberValidation(employeeId: string) {
 }
 
 function isPasswordPropper(password: string) {
-  console.log(VALIDATION.EN_LETTERS.test(password));
   return password.length > 5 && VALIDATION.EN_LETTERS.test(password);
 }
 

@@ -1,33 +1,98 @@
 import { SxProps, Theme } from "@mui/material";
 import {
-  ApartmentDetails,
-  ContactInformation,
-  FormStatus,
-  MaintenanceVisit,
-  MainTenantDetails,
-  OccupancyDetails,
-  PaymentAccount,
+  ApartmentDetails, FormStatus,
+  MaintenanceVisit, OtherMaintenanceVisit, PaymentAccount,
   Summary,
   TenantsOccupancyDetails,
-  VisitGeneralDetails,
+  VisitGeneralDetails
 } from "../Builders/Visit";
 import { variant } from "../Types/MuiTypes";
+
+interface ILabel {
+  label: string;
+  name: string;
+}
+
+interface ICardFields extends ILabel {
+  gridSize: number;
+  editGridSize: number;
+  isEdit: boolean;
+  type: "autocomplete" | "number" | "text";
+  validation?: {
+    function: (name: string) => boolean;
+    errorComment: string;
+  }
+}
+
+interface IContactFields extends ILabel {
+  gridSize: number;
+  isDynamic: boolean;
+  defaultLabel?: string;
+}
+
+interface IEditContact extends ILabel {
+  type: "text" | "number" | "mobile" | "email" | "textarea";
+  gridSize: number;
+  validation?: {
+    function: (name: string) => boolean;
+    errorComment: string;
+  }
+}
+
+interface IAccountFields extends ILabel {
+  gridSize: number;
+}
+
+interface IApartmentDetailsFields {
+  label: string;
+  name: keyof ApartmentDetails;
+  type: "select" | "number";
+  gridSize: number;
+  validation?: {
+    function: (value: number) => boolean;
+    errorComment: string;
+  }
+}
+
+interface IMaintenanceItem {
+  label: string;
+  name: keyof MaintenanceVisit;
+  areaName: string;
+  deficienciesList: string[];
+  indexLocation: number;
+}
+
+interface IAreaListItem {
+  label: string;
+  name: keyof OtherMaintenanceVisit;
+  areaName: string;
+  indexLocation: number;
+}
+
+interface IRatingOptionItem {
+  label: string;
+  value: number;
+  textActive: string;
+}
+
+interface ITenantInfoFields {
+  label: string;
+  name: keyof ITenant;
+  isShowOnlyInEdit: boolean;
+  validation?: {
+    function: (value: string) => boolean;
+    errorComment: any;
+  }
+}
 
 interface IValidation {
   function: (value: any) => Boolean;
   errorComment: string;
 }
 
-interface IPaymentAccount {
-  label: string;
-  name: keyof PaymentAccount;
-  flag: boolean;
-  gridExtra?: number;
-}
-
 interface IForm {
   title: string;
-  formName: keyof FormStatus;
+  name: keyof FormStatus;
 }
 
 interface IPhoto {
@@ -35,47 +100,9 @@ interface IPhoto {
   png: string;
 }
 
-interface IAreaListItem {
-  title: string;
-  name: string;
-  areaName: string;
-  indexLocation: number;
-}
-
 interface ISelectListItem {
   label: string;
-  value: string | number;
-}
-
-interface IMaintenanceItem {
-  title?: string;
-  label?: string;
-  name: string;
-  areaName: string;
-  deficienciesList: string[];
-  indexLocation: number;
-}
-
-interface IApartmentDetailItem {
-  label: string;
-  type: "select" | "input";
-  values: {
-    sx: SxProps<Theme>;
-    name: keyof ApartmentDetails;
-    list?: string[];
-    isShowLabel?: boolean;
-    readOnly?: boolean;
-    variant?: variant;
-    value?: number | string;
-  };
-  gridSize: number;
-  validation?: IValidation;
-}
-
-interface IRatingOptionItem {
-  label: string;
-  value: number;
-  textActive: string;
+  value: string;
 }
 
 interface IStepperProperties {
@@ -145,17 +172,6 @@ interface IApartmentGeneralDetails {
   TAR_BIKUR_ACHARON: Date;
 }
 
-interface IApartmentidentifyingInformationInputs {
-  label: string;
-  name: keyof OccupancyDetails | keyof MainTenantDetails;
-  md: number;
-  variant: variant;
-  isEdit?: Boolean;
-  readOnly: Boolean;
-  type?: string;
-  validation?: IValidation;
-}
-
 interface IDefect {
   rate: number;
   defectDescription?: string;
@@ -164,16 +180,6 @@ interface IDefect {
 interface IOtherDefect {
   rate: Boolean;
   defectDescription?: string;
-}
-
-interface IContactInformation {
-  isDynamicLabel?: Boolean;
-  label: string | keyof ContactInformation;
-  name: keyof ContactInformation;
-  defLabel?: string;
-  gridSize?: number;
-  type?: string;
-  validation?: IValidation;
 }
 
 interface ITenant {
@@ -220,6 +226,7 @@ interface IListsOfSelect {
   SHIMUSH: string;
   KIDOMET: string;
   RECHOV: string;
+  SAFOT: string;
 }
 
 interface IVisitContext extends IVisitState {
@@ -231,16 +238,150 @@ interface VisitProviderProps {
 }
 
 interface ITableCodeItem {
-  TABLENAME: string,
-  FILTER1: string,
-  FIELD1: string,
-  FIELD2: string,
-};
+  TABLENAME: string;
+  FILTER1: string;
+  FIELD1: string;
+  FIELD2: string;
+}
 
+interface IApartmentVisitResponse {
+  CHIMUMMAYIM:
+  | "חימום על גז"
+  | "הסקה מרכזית"
+  | "דוד שמש מרכזי"
+  | "דוד שמש דירתי"
+  | "דוד חשמל"
+  | "מכשיר אטמור"
+  | "הסקה מרכזית ודוד חשמל"
+  | "לא ניתן להתקין דוד שמש (סופית)"
+  | "לא ניתן להתקין דוד שמש (זמנית)"
+  | "הסקה מרכזית ודוד שמש";
+
+  CHADARBITACHON:
+  | "חדר בטחוני"
+  | "תוספת"
+  | 'ממ"ד'
+  | 'ממ"ק'
+  | "מקלט עילי לבניין"
+  | "מקלט תת קרקעי לבניין"
+  | "מקלט אזורי"
+  | "מחסה בלבד - לא תקני";
+
+  SHETACH: number;
+  CHADARIM: number;
+  CATZAEICHADARIM: number;
+  MADREGOT: number;
+  TAR_BIKUR: string;
+  MIS_DIRA: string;
+  TZIYUNRITZUF: number;
+  HEAROTRITZUF: string;
+  TZIYUNKNISA: number;
+  HEAROTKNISA: string;
+  TZIYUNITUM: number;
+  HEAROTITUM: string;
+  TZIYUNSORAGIM: number;
+  HEAROTSORAGIM: string;
+  TZIYUNHASHMAL: number;
+  HEAROTHASHMAL: string;
+  TZIYUNNEZILOT: number;
+  HEAROTNEZILOT: string;
+  TZIYUNPNIM: number;
+  HEAROTPNIM: string;
+  TZIYUNDLATOT: number;
+  HEAROTDLATOT: string;
+  TZIYUNCHALONOT: number;
+  HEAROTCHALONOT: string;
+  TZIYUNTRISIM: number;
+  HEAROTTRISIM: string;
+  TZIYUNMITBACH: number;
+  HEAROTMITBACH: string;
+  TZIYUNSHERUTIM: number;
+  HEAROTSHERUTIM: string;
+  TZIYUNMIKLACHAT: number;
+  HEAROTMIKLACHAT: string;
+  TZIYUNKLALI: number;
+  HEAROTKLALI: string;
+  TZIYUNPCHAT: "0" | "1" | "";
+  HEAROTPCHAT: string;
+  TZIYUNBNIYA: "0" | "1" | "";
+  HEAROTBNIYA: string;
+  TZIYUNCHIMUM: "0" | "1" | "";
+  HEAROTCHIMUM: string;
+  TZIYUNASBEST: "0" | "1" | "";
+  HEAROTASBEST: string;
+  TZIYUNGALAY: "0" | "1" | "";
+  HEAROTGALAY: string;
+  SHEMPRATI: string;
+  SHEMMISHPACHA: string;
+  RECHOV: string;
+  BAIT: number;
+  ISHUV: string;
+  MIKUD: number;
+  MISPARCESHBON: string;
+  EMGVIYA:
+  | "הוראת קבע"
+  | "ניכוי בשכר"
+  | "שובר"
+  | "הודעת חיוב"
+  | "שיקים דחויים"
+  | "שיקים"
+  | "ממסר"
+  | "קיזוז עם ארנונה";
+  MATZAVICHLUS: string;
+  TARICHLUS: string;
+  TARBIKURACHARON: string;
+  MISNEFASHOT: number;
+  YELADIMAD21: number;
+  TELNAYAD: string;
+  TELDIRA: string;
+  TELAVODA: string;
+  DOARELECTRONI: string;
+  TITLENOSAF: string;
+  TELNOSAF: string;
+  TITLENOSAF2: string;
+  TELNOSAF2: string;
+  TELHEAROT: string;
+  DRZIHUY: string;
+  DRPRATI: string;
+  DRMISHPACHA: string;
+  DRSEX: 1 | 2;
+  DRTARLEDA: string;
+  DRMATZAV: 1 | 2 | 3 | 4 | 5;
+  BZZIHUY: string;
+  BZPRATI: string;
+  BZMISHPACHA: string;
+  BZSEX: 1 | 2;
+  BZTARLEDA: string;
+  BZMATZAV: 1 | 2 | 3 | 4 | 5;
+  NISMACHIM: string;
+  TZIHUY: string;
+  HEAROT: string;
+  SCHDNETO: string;
+  SCHDBRUTO: string;
+  SUGSCHD: string;
+  SUGHANACH: string;
+  TARSIYUM: string;
+  CHOVTVIAA: string;
+  KOMA: number;
+  ITRATCHOV: string;
+  CHOV: string;
+  STATUSCHOZE: string;
+  ISEXISTSBIKUR: "0" | "1";
+  ISTAZHIRDAYAR: "0" | "1";
+  ISGARBEGAPO: "0" | "1";
+  ISBIKURKASHISH: "0" | "1";
+  ISTAMA: "0" | "1";
+  ISTAZHIRDAYARBZ: "0" | "1";
+  ISTROMI: "0" | "1";
+  ISSCHIRM: "0" | "1";
+  ISHUVCODE: string;
+  ISEXISTSBIKURACHZAKA: "0" | "1";
+  SHIMUSHBEFOAL: string;
+}
 
 export type {
   IPhoto,
-  IApartmentDetailItem,
+  IApartmentDetailsFields,
   ISelectListItem,
   IMaintenanceItem,
   IAreaListItem,
@@ -249,17 +390,22 @@ export type {
   IRating,
   IMainTenantTableDetails,
   IApartmentGeneralDetails,
-  IApartmentidentifyingInformationInputs,
   IDefect,
   IOtherDefect,
-  IContactInformation,
   IVisitState,
   ITenant,
   INismach,
-  IPaymentAccount,
   IForm,
   IListsOfSelect,
   IVisitContext,
   VisitProviderProps,
-  ITableCodeItem
+  ITableCodeItem,
+  IApartmentVisitResponse,
+
+  ILabel,
+  ICardFields,
+  IContactFields,
+  IEditContact,
+  IAccountFields,
+  ITenantInfoFields
 };

@@ -1,18 +1,21 @@
 import { Card, Grid } from "@mui/material";
 import { useContext, useEffect } from "react";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { apartmentDetailsLabels } from "../../../Assets/Visit/Maintenance";
-import { MaintenanceVisit } from "../../../Data/Builders/VisitHomeDemo";
+import { apartmentDetailsFields } from "../../../Assets/Visit/Maintenance";
 import { contexts } from "../../../Contexts/ContextsExports";
+import { MaintenanceVisit } from "../../../Data/Builders/Visit";
+import { IApartmentDetailsFields } from "../../../Data/Interfaces/Visit";
+import { VisitContextType } from "../../../Data/Types/Visit";
 import useForm from "../../../Hooks/useForm";
+import { ApartmentDetailsInputMui } from "../../../Layouts/Style/MUI/VisitStyle";
+import { convertTableCodeToSelectListFormat } from "../../../Services/Visit";
 import Input from "../../Global/Input";
 import Select from "../../Global/Select";
-import { VisitContextType } from "../../../Data/Types/Visit";
-import { convertTableCodeToSelectListFormat } from "../../../Services/Visit";
 
 interface ApartmentDetailsProps {
   maintenanceVisit: MaintenanceVisit;
 }
+
 export default function ApartmentDetail({
   maintenanceVisit,
 }: ApartmentDetailsProps) {
@@ -21,14 +24,15 @@ export default function ApartmentDetail({
   ) as VisitContextType;
   const [formValues, handleChange] = useForm();
   const apartmentMaintenanceDetails = maintenanceVisit.apartmentDetails;
+
   useEffect(() => {
     if (formValues) {
       let apartmentDetails = apartmentMaintenanceDetails;
-      apartmentDetailsLabels.map((item) => {
-        if (formValues[item.values.name]) {
+      apartmentDetailsFields.map((item) => {
+        if (formValues[item.name]) {
           return (apartmentDetails = {
             ...apartmentDetails,
-            [item.values.name]: formValues[item.values.name],
+            [item.name]: formValues[item.name],
           });
         }
       });
@@ -41,9 +45,28 @@ export default function ApartmentDetail({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
-  // const autocompleteStreetList = convertTableCodeToSelectListFormat(
-  //   visitState.tableCode.get("streets"),
-  // );
+  const getDefaultValue = (value: string, name: string) => {
+    console.log(visitState.tableCode.get(name));
+    const list = convertTableCodeToSelectListFormat(
+      visitState.tableCode.get(name),
+    );
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].label === value) {
+        return list[i].value;
+      }
+    }
+    return value;
+  };
+
+  const getTableCode = (item: IApartmentDetailsFields) => {
+    const table = convertTableCodeToSelectListFormat(
+      visitState.tableCode.get(item.name),
+    );
+    if (table.length > 0) {
+      return table;
+    }
+    return [];
+  };
 
   return (
     <ThemeRightToLeft>
@@ -51,7 +74,7 @@ export default function ApartmentDetail({
         <div className="pl-20">
           <h3 className="mb-none qr-title">פרטי הנכס</h3>
           <Grid container spacing={2} className="mtb-10">
-            {apartmentDetailsLabels.map((item, index) => (
+            {apartmentDetailsFields.map((item, index) => (
               <Grid
                 item
                 sm={item.gridSize}
@@ -62,29 +85,29 @@ export default function ApartmentDetail({
                 <span className="card-body-text-value">
                   {item.type === "select" ? (
                     <Select
-                      list={
-                        convertTableCodeToSelectListFormat(
-                          visitState.tableCode.get(item.values.name),
-                        ) ?? []
-                      }
-                      name={item.values.name}
-                      value={`${apartmentMaintenanceDetails[item.values.name]}`}
+                      list={getTableCode(item)}
+                      name={item.name}
+                      value={getDefaultValue(
+                        `${apartmentMaintenanceDetails[item.name]}`,
+                        item.name,
+                      )}
                       onChange={handleChange}
+                      disabled={getTableCode(item).length === 0}
                     />
                   ) : (
                     <Input
                       onChange={handleChange}
-                      isShowLabel={item.values.isShowLabel}
-                      readOnly={item.values.readOnly}
-                      sx={item.values.sx}
-                      name={item.values.name}
-                      variant={item.values.variant}
+                      isShowLabel={false}
+                      readOnly={false}
+                      sx={ApartmentDetailsInputMui}
+                      name={item.name}
+                      variant={"outlined"}
                       value={
-                        formValues[item.values.name] ??
-                        apartmentMaintenanceDetails[item.values.name]
+                        formValues[item.name] ??
+                        apartmentMaintenanceDetails[item.name]
                       }
                       validation={item.validation}
-                      type="number"
+                      type={item.type}
                     />
                   )}
                 </span>

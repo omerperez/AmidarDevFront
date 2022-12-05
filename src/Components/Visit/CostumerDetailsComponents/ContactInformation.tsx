@@ -3,18 +3,20 @@ import { Card, Fab, Grid } from "@mui/material";
 import { Fragment, useContext } from "react";
 import { TITLES } from "../../../Assets/Constants/VisitConstants";
 import ThemeRightToLeft from "../../../Assets/ThemeRightToLeft";
-import { contactInfoLabels } from "../../../Assets/Visit";
+import { contactFields } from "../../../Assets/Visit/CostumerDetails";
+import { contexts } from "../../../Contexts/ContextsExports";
 import {
   ContactInformation,
   VisitGeneralDetails,
 } from "../../../Data/Builders/Visit";
-import { contexts } from "../../../Contexts/ContextsExports";
+import { IContactFields } from "../../../Data/Interfaces/Visit";
+import { VisitContextType } from "../../../Data/Types/Visit";
 import useForm from "../../../Hooks/useForm";
 import "../../../Layouts/Style/CSS/Visit.css";
 import GenericDialog from "../../Global/GenericDialog";
+import FieldValue from "../FiledValue";
 import SubPagesTitle from "../SubPageTitle";
 import EditContactInformation from "./EditContactInformation";
-import { VisitContextType } from "../../../Data/Types/Visit";
 
 interface ContactInformationProps {
   apartment: VisitGeneralDetails;
@@ -25,22 +27,19 @@ export default function ContactInformations({
 }: ContactInformationProps) {
   const [formValues, changeFormValues, changeState] = useForm();
   const { visitState, setIdentifyingInfo } = useContext(
-    contexts.Visit
+    contexts.Visit,
   ) as VisitContextType;
 
   const handleCancelChanges = () => {
-    Object.keys(formValues).map((key) => {
-      return changeState(key);
+    Object.keys(formValues).forEach((key) => {
+      changeState(key);
     });
   };
 
   const handleSaveChanges = () => {
     let update = apartment.contactInformation;
-    Object.keys(formValues).map((key) => {
-      return (update = {
-        ...update,
-        [key]: formValues[key],
-      });
+    Object.keys(formValues).forEach((key) => {
+      update[key as keyof ContactInformation] = formValues[key];
     });
     const updateProp = {
       ...visitState.identifyingInformation,
@@ -49,39 +48,36 @@ export default function ContactInformations({
     setIdentifyingInfo(updateProp);
   };
 
+  const getCurrentLabel = (item: IContactFields) => {
+    if (item.isDynamic) {
+      return (apartment.contactInformation[
+        item.label as keyof ContactInformation
+      ] ?? item.defaultLabel) as string;
+    }
+    return item.label;
+  };
+
   return (
     <ThemeRightToLeft>
       <div className="section-general">
         <SubPagesTitle title={`פרטי התקשרות`} />
         <Card className="white-box">
-          <Grid container spacing={2.5}>
-            {contactInfoLabels.map((occupancyItem, index) => (
+          <Grid container spacing={2}>
+            {contactFields.map((item, index) => (
               <Fragment key={`ContactInformationFragment-${index}`}>
                 <Grid
                   item
-                  sm={occupancyItem.gridSize ?? 4}
+                  sm={item.gridSize}
                   key={`ContactInformationGrid-${index}`}
                 >
-                  <div className="label-pos">
-                    <span className="card-body-text-label">
-                      {occupancyItem.isDynamicLabel
-                        ? `${
-                            apartment.contactInformation[
-                              occupancyItem.label as keyof ContactInformation
-                            ] ?? occupancyItem.defLabel
-                          }`
-                        : occupancyItem.label}
-                    </span>
-                  </div>
-                  <span
-                    className={
-                      occupancyItem.gridSize === 9
-                        ? "contact-details-text-value"
-                        : "card-body-text-value"
+                  <FieldValue
+                    label={getCurrentLabel(item)}
+                    value={
+                      apartment.contactInformation[
+                        item.name as keyof ContactInformation
+                      ] as string
                     }
-                  >
-                    {`${apartment.contactInformation[occupancyItem.name]}`}
-                  </span>
+                  />
                 </Grid>
                 {index === 2 && (
                   <Grid

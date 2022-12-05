@@ -31,6 +31,8 @@ async function isConnectionPropper() {
     { timeout: 2000 }
   );
   return baseResponse.status;
+  // throw "error";
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { postRequest, isConnectionPropper };

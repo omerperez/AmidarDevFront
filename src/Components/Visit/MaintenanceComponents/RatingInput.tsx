@@ -22,7 +22,6 @@ export default function RatingInput({
     if (rate) {
       onChange(rate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rate]);
 
   const handleClick = (value: number, name: string) => {
